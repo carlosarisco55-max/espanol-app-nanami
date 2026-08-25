@@ -66,10 +66,14 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
 1. **Comprobar si TRAE ya tiene créditos de nuevo** (versión gratuita, se reseteaba por
    horas). Si sí, retomar esa conversación con TRAE — no crear una nueva desde cero.
 2. **Antes de que TRAE toque nada: decirle explícitamente que el repo cambió mientras no
-   tenía cuota.** Su propio `tools/parse-curriculo/parser.ts` fue completado y corregido
-   por Claude Code (bug real: parseaba las 16 unidades siempre y fallaba si faltaba el
-   bloque de Categoría B; corregido para filtrar antes de parsear). Que lea el estado
-   actual del repo (este archivo + `git log`) antes de asumir que sigue donde lo dejó.
+   tenía cuota.** TRAE llevaba un plan de 5 tareas que mezclaba Fase 0 y Fase 1 en una
+   sola lista continua (base técnica → parser → JSON → Fase 1 editorial → pruebas) y solo
+   completó la primera (los archivos base: `package.json`, `tsconfig`, `parser.ts`,
+   `types.ts`) antes de quedarse sin créditos — no llegó a escribir ni una línea de UI.
+   Su `tools/parse-curriculo/parser.ts` fue completado y corregido por Claude Code (bug
+   real: parseaba las 16 unidades siempre y fallaba si faltaba el bloque de Categoría B;
+   corregido para filtrar antes de parsear). Que TRAE lea el estado actual del repo (este
+   archivo + `git log`) antes de asumir que sigue donde lo dejó.
 3. **Auditoría cruzada, mismo patrón que usamos con la arquitectura de TRAE:** pedirle a
    TRAE que revise lo que construyó Claude Code (Fase 0 + Fase 1, ya en `master`) con
    ojo crítico — igual que Claude revisó la propuesta de TRAE en su momento. Buscar

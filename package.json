@@ -1,0 +1,26 @@
+{
+  "name": "espanol-app-nanami",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.24.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "parse": "tsx tools/parse-curriculo/index.ts --unit B1-B2-U01",
+    "test": "node --import tsx --test \"tests/**/*.test.ts\""
+  },
+  "dependencies": {
+    "next": "^15.5.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}

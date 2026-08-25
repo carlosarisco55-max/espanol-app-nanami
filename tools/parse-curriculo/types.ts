@@ -1,0 +1,89 @@
+export type SessionNumber = 1 | 2 | 3 | 4 | 5;
+export type OpeningSource = "category_a" | "category_b";
+
+export interface UnitFrontmatter {
+  unidad_id: string;
+  titulo: string;
+  subtitulo?: string;
+  cita?: string;
+  bloque?: number;
+  nivel_mcer_entrada?: string;
+  nivel_mcer_salida?: string;
+  duracion?: string;
+  lexico_nucleo?: number;
+  palabras_texto?: number;
+  focos_contraste?: string[];
+  huecos_personalizables?: string[];
+  huecos_sabor?: string[];
+  depende_de?: string[];
+}
+
+export interface CanDoItem {
+  index: number;
+  label: string;
+  text: string;
+}
+
+export interface ContentRow {
+  component: string;
+  content: string;
+}
+
+export interface SessionOpening {
+  sessionNumber: SessionNumber;
+  source: OpeningSource;
+  headline: string;
+  cards?: string[];
+}
+
+export interface SessionOutlineStep {
+  label: string;
+  icon: string;
+}
+
+export interface SessionData {
+  number: SessionNumber;
+  slug: `s${SessionNumber}`;
+  title: string;
+  titleShort: string;
+  rawMarkdown: string;
+  exerciseIds: string[];
+  opening: SessionOpening;
+  outline: SessionOutlineStep[];
+}
+
+export interface ContinuityNotes {
+  datoCuriosoEspana: string | null;
+  elencoRecurrente: string | null;
+}
+
+export interface CurriculumUnit {
+  unitId: string;
+  title: string;
+  subtitle?: string;
+  quote?: string;
+  block?: number;
+  levelIn?: string;
+  levelOut?: string;
+  duration?: string;
+  lexiconCore?: number;
+  focusCodes: string[];
+  canDos: CanDoItem[];
+  contents: ContentRow[];
+  continuity: ContinuityNotes;
+  sessions: SessionData[];
+  stats: {
+    exerciseCount: number;
+  };
+}
+
+export interface ParseOptions {
+  unitFilter?: string;
+}
+
+export interface CurriculumIndexEntry {
+  unitId: string;
+  title: string;
+  sessionCount: number;
+  exerciseCount: number;
+}

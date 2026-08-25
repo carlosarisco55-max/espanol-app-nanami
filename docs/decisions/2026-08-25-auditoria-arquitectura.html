@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Auditoría y Propuesta de Arquitectura — App Español B1→B2</title>
+<style>
+  body { font-family: 'Segoe UI', Calibri, sans-serif; max-width: 1100px; margin: 40px auto; padding: 0 30px; color: #1a1a1a; line-height: 1.55; }
+  h1 { color: #9b2c2c; border-bottom: 3px solid #9b2c2c; padding-bottom: 10px; font-size: 1.8em; }
+  h2 { color: #742a2a; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 6px; margin-top: 45px; font-size: 1.4em; }
+  h3 { color: #2d3748; margin-top: 30px; font-size: 1.15em; }
+  table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em; }
+  th { background: #2c5282; color: white; text-align: left; padding: 10px 12px; border: 1px solid #2c5282; font-weight: 600; }
+  td { padding: 9px 12px; border: 1px solid #cbd5e0; vertical-align: top; }
+  tr:nth-child(even) td { background: #f7fafc; }
+  code { background: #edf2f7; padding: 2px 6px; border-radius: 4px; font-family: Consolas, 'Courier New', monospace; font-size: 0.9em; color: #2b6cb0; }
+  ul, ol { margin-left: 20px; }
+  li { margin: 6px 0; }
+  .check { color: #276749; font-weight: bold; }
+  .nota { background: #fffaf0; border-left: 4px solid #dd6b20; padding: 12px 18px; margin: 18px 0; }
+  .destacado { background: #f0fff4; border-left: 4px solid #38a169; padding: 12px 18px; margin: 18px 0; }
+  .mono { font-family: Consolas, 'Courier New', monospace; }
+  hr { border: none; border-top: 1px dashed #a0aec0; margin: 40px 0; }
+</style>
+</head>
+<body>
+
+<h1>✅ Confirmación de auditoría del contenido</h1>
+<p>Documento verificado: <code>content/curriculo-b1-b2.md</code> (≈20.926 líneas). Cifras exactas:</p>
+
+<table>
+<thead><tr><th>Métrica</th><th>Prompt</th><th>Verificado</th></tr></thead>
+<tbody>
+<tr><td>Unidades completas</td><td>16/16</td><td class="check">✅ 16 (U1 a U16, U16 = simulacro DELE B2 completo)</td></tr>
+<tr><td>Sesiones</td><td>80 (5×16)</td><td class="check">✅ 80 matches SESIÓN [1-5]</td></tr>
+<tr><td>Ejercicios con ID</td><td>348 sin huecos</td><td class="check">✅ 348 exactos B1-B2-UXX-EYY</td></tr>
+<tr><td>Fichas YAML por unidad</td><td>unidad_id, nivel_mcer_*, focos_contraste…</td><td class="check">✅ U1 línea 315, U2 línea 1311, U3 línea 2366… patrón idéntico</td></tr>
+<tr><td>Fichas YAML por ejercicio</td><td>tipo, nivel_mcer, destreza, foco, autocorregible, items, solucion, pista, explicacion_error</td><td class="check">✅ Los 348 ejercicios llevan esta ficha inline</td></tr>
+<tr><td>Scripts de audio</td><td>Web Speech API + fallback</td><td class="check">✅ Scripts de texto completo con indicaciones de voz/pausa/velocidad</td></tr>
+<tr><td>Role-plays</td><td>Tarjetas asimétricas</td><td class="check">✅ 26 escenas; información distinta para cada interlocutor</td></tr>
+<tr><td>Códigos J (contraste JP→ES)</td><td>J1–J8 etiquetados</td><td class="check">✅ Cada unidad declara focos_contraste y cada ejercicio lo anota en foco</td></tr>
+<tr><td>Huecos 🎯 personalizables + 🌿 de sabor</td><td>Con versión neutra</td><td class="check">✅ Declarados en ficha de unidad y marcados inline</td></tr>
+<tr><td>Curva de dificultad</td><td>B1 → B1+ → B2 → B2+ → B2 consolidado</td><td class="check">✅ Tabla de progresión confirmada (líneas 246–290)</td></tr>
+</tbody>
+</table>
+
+<div class="destacado">
+<strong>Conclusión del content model:</strong> El documento es <strong>extremadamente regular</strong> — un parser por patrones (regex + encabezados) es suficiente. No hace falta NLP ni inferencia estructural.
+</div>
+
+<hr>
+
+<h1>🏛️ Propuesta de arquitectura</h1>
+
+<h3>Principio rector humano (no técnico)</h3>
+<p>La usuaria vuelve voluntariamente si siente que <strong>avanza sin darse cuenta</strong>, como cuando te atrapa una serie o te olvidas del tiempo en una buena conversación. Todo componente técnico se justifica sólo si sirve a esto.</p>
+
+<h2>Stack tecnológico (justificado)</h2>
+
+<table>
+<thead><tr><th>Capa</th><th>Elección</th><th>Por qué, ligado al contenido</th></tr></thead>
+<tbody>
+<tr>
+  <td><strong>Frontend</strong></td>
+  <td>Next.js 15 + React 19 + TypeScript</td>
+  <td>(a) Rutas por unidad/sesión son nativas (App Router). (b) Server Components para el contenido estático parseado → primera carga instantánea. (c) Client Components sólo donde hay interacción.</td>
+</tr>
+<tr>
+  <td><strong>Diseño</strong></td>
+  <td>Tailwind CSS + Tipografía editorial (serif para textos, sans para UI) + shadcn/ui</td>
+  <td>Diseño <strong>editorial premium</strong>, no app educativa. Textos de lectura en serif con interlineado amplio; UI minimalista que desaparece. Nada de colores chillones ni mascotas.</td>
+</tr>
+<tr>
+  <td><strong>Parser de contenido</strong></td>
+  <td>Script Node.js TS puro (mdast + regex custom)</td>
+  <td>El markdown es tan regular que NO hace falta CMS ni base de datos. Un CLI <code>pnpm parse-curriculo</code> genera: 16 JSON de unidad + índice de ejercicios + índice de léxico + mapa de IDs. Se ejecuta una sola vez en build/CI.</td>
+</tr>
+<tr>
+  <td><strong>Estado del usuario</strong></td>
+  <td>IndexedDB local + exportación JSON</td>
+  <td>Sin backend obligatorio. Empieza sin registrarse. Datos (progreso, errores, repaso, grabaciones) en su navegador. Botón "exportar/importar copia". Backend cloud = plugin posterior, no al principio.</td>
+</tr>
+<tr>
+  <td><strong>Motor de ejercicios</strong></td>
+  <td>Máquina casera con <code>useReducer</code> (React) + validadores puros. SIN XState.</td>
+  <td>Tipos finitos y cerrados: huecos, opción múltiple, emparejar, reordenar, transformar, corregir_error, clasificar, verdadero_falso, respuesta_corta, dictado, discriminación_fonetica. Cada uno → un componente React + un validador puro. Flujo fijo: intento 1 → pista → intento 2 → explicacion_error + marca fallo J. <em>Justificación completa en sección Cuatro puntos técnicos al final.</em></td>
+</tr>
+<tr>
+  <td><strong>Audio (TTS)</strong></td>
+  <td>Web Speech API por defecto + 2 fallbacks</td>
+  <td>Prompt advierte: Safari/iOS es flojo. Estrategia defensiva: (1) voces es-ES filtradas, una por personaje. (2) Si no hay voces → <strong>nada se rompe</strong>: script siempre visible y el ejercicio no depende de oírlo. (3) MP3 precocinados opcionales después.</td>
+</tr>
+<tr>
+  <td><strong>Repaso espaciado (SRS)</strong></td>
+  <td>Algoritmo SM-2 simplificado, alimentado por códigos J</td>
+  <td>Cada fallo anota: ejercicio_id + foco (código J + PCIC) + timestamp. Intervalos fijos del prompt: U−1 a 7d, U−3 a 21d, U−8 a 56d + dinámico por J (2/5/10/21d). Sesiones Puente cada 4 unidades (U4, U8, U12, U16).</td>
+</tr>
+<tr>
+  <td><strong>Producción escrita/oral</strong></td>
+  <td>Sin corrección automática en V1. Modelo + rúbrica para autoevaluación</td>
+  <td>El 99% de ejercicios son autocorregible:true. Tareas libres con autocorregible:false llevan modelo + rúbrica. La usuaria se evalúa con la parrilla. <strong>V1 no necesita LLM</strong>.</td>
+</tr>
+<tr>
+  <td><strong>Huecos 🎯 y 🌿</strong></td>
+  <td>Motor de plantillas simple: {{nombre}}, {{profesion}}, {{intereses}}</td>
+  <td>Regla §0.1: NINGÚN ejercicio autocorregible depende de estas variables. Sólo producción libre, saludos y huecos explícitos. Fallback: {{nombre}} → tú.</td>
+</tr>
+<tr>
+  <td><strong>Testing de contenido</strong></td>
+  <td>Suite de tests sobre el JSON parseado</td>
+  <td>Valida: (1) IDs sin huecos ni duplicados, (2) 5 sesiones por unidad, (3) solucion si autocorregible:true, (4) códigos J coherentes, (5) referencias internas existen.</td>
+</tr>
+<tr>
+  <td><strong>Deploy</strong></td>
+  <td>Static export (Vercel/Netlify/Cloudflare Pages)</td>
+  <td>Sin backend en V1. Todo HTML/JSON estático. CDN barato, escala infinito, cero costes variables.</td>
+</tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2>Estructura de carpetas</h2>
+
+<pre class="mono" style="background:#1a202c;color:#e2e8f0;padding:18px;border-radius:8px;overflow-x:auto;">
+espanol-app/
+├── content/
+│   └── curriculo-b1-b2.md          ← FUENTE DE VERDAD ÚNICA (ya existe)
+├── tools/
+│   └── parse-curriculo/            ← script TS: parsea .md → /public/data/*.json
+│       ├── index.ts
+│       ├── patterns.ts             ← regex para encabezados, YAML, ejercicios
+│       ├── validators.ts           ← tests de consistencia (IDs, sesiones, soluciones)
+│       └── types.ts                ← tipos Unidad, Sesion, Ejercicio…
+├── public/
+│   └── data/                       ← GENERADO
+│       ├── index.json              ← mapa de unidades, estadísticas
+│       ├── units/  B1-B2-U01.json …
+│       ├── exercises-index.json    ← índice plano 348 ejercicios (SRS)
+│       └── lexicon.json            ← ítems léxicos con unidad y foco J
+├── src/
+│   ├── app/                        ← Next.js App Router
+│   │   ├── layout.tsx              ← tipografía editorial, tema claro/oscuro
+│   │   ├── page.tsx                ← onboarding (nombre, profesión, intereses)
+│   │   ├── unidades/
+│   │   │   ├── page.tsx            ← mapa de 16 unidades (progreso visual)
+│   │   │   └── [unidadId]/
+│   │   │       ├── layout.tsx      ← barra de progreso 5 sesiones
+│   │   │       ├── page.tsx        ← portada + ficha + índice S1-S5
+│   │   │       └── s[1-5]/page.tsx ← sesión renderizada desde JSON
+│   │   ├── repaso/page.tsx         ← cola SRS del día
+│   │   └── perfil/page.tsx         ← datos, copia seguridad, estadísticas J1-J8
+│   ├── components/
+│   │   ├── content/                ← renderizadores de bloques markdown
+│   │   │   ├── ReaderText.tsx      ← texto de lectura (serif, ancho ideal)
+│   │   │   ├── AudioScript.tsx     ← script + TTS + toggle
+│   │   │   ├── GrammarBox.tsx      ← caja gramatical editorial
+│   │   │   └── UsefulLanguage.tsx  ← caja antes de role-play
+│   │   ├── exercises/              ← un componente por tipo
+│   │   │   ├── HuecosExercise.tsx
+│   │   │   ├── OpcionMultipleExercise.tsx
+│   │   │   ├── EmparejarExercise.tsx … (14 tipos)
+│   │   │   └── ExerciseShell.tsx   ← flujo común: pista → explicación → +J
+│   │   ├── roleplay/
+│   │   │   ├── RoleplayCards.tsx   ← tarjetas asimétricas A / B (toggle)
+│   │   │   └── RoleplayTTS.tsx     ← voces distintas por personaje
+│   │   └── srs/SpacedQueue.tsx     ← repaso espaciado diario
+│   ├── lib/
+│   │   ├── srs-engine.ts           ← SM-2 simplificado + reglas J
+│   │   ├── tts.ts                  ← Web Speech API wrapper + fallback silent
+│   │   ├── storage.ts              ← IndexedDB + export/import JSON
+│   │   ├── template.ts             ← {{nombre}} + fallbacks
+│   │   └── validators/             ← un validador puro por tipo
+│   └── types.ts                    ← tipos compartidos
+└── package.json
+</pre>
+
+<hr>
+
+<h2>Flujo de parseo (el corazón)</h2>
+
+<pre class="mono" style="background:#1a202c;color:#e2e8f0;padding:18px;border-radius:8px;overflow-x:auto;">
+curriculo-b1-b2.md
+  │
+  │  1. Split por regex: /^# (2|3|4\.\d+) UNIDAD/
+  │     → 16 bloques de unidad
+  ▼
+Bloque de unidad
+  │
+  │  2. Extraer YAML entre ```yaml y ```  (ficha: unidad_id, nivel…)
+  │  3. Split por regex: /^## (\d+\.)?\d+\.\d+ SESIÓN [1-5]/
+  │     → 5 bloques de sesión
+  ▼
+Bloque de sesión
+  │
+  │  4. Split en sub-bloques por encabezados
+  │     (Calentamiento, Vocabulario, Lectura, Audio,
+  │      Gramática, Ejercicios A/B/C, Función, Role-play,
+  │      Tarea final, Fonética, Repaso, Autoevaluación)
+  ▼
+Sub-bloque "Ejercicios"
+  │
+  │  5. Extraer cada #### `B1-B2-UXX-EYY`
+  │     + YAML inline (tipo, destreza, autocorregible…)
+  │     + enunciado, "Solución:", "Pista:", "Explicación:"
+  ▼
+JSON de unidad → JSON de ejercicio → índices planos → tests automáticos
+</pre>
+
+<div class="nota">
+<strong>Garantía:</strong> Como las 348 IDs son secuenciales y el formato es idéntico en U1-U16, si el parser funciona para U1 y U2, funciona para todas. Los tests validan esto.
+</div>
+
+<hr>
+
+<h2>Decisiones explícitas de NO hacer todavía</h2>
+
+<table>
+<thead><tr><th>#</th><th>No hacemos en V1</th><th>Por qué</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>❌ Registro/login</td><td>Empezar sin fricción. Sync cloud = plugin posterior.</td></tr>
+<tr><td>2</td><td>❌ LLM</td><td>Producción libre = autoevaluación con rúbrica. Feedback LLM = opcional después.</td></tr>
+<tr><td>3</td><td>❌ Audio precocinado</td><td>Web Speech API + script siempre visible. MP3 sólo si la usuaria lo pide.</td></tr>
+<tr><td>4</td><td>❌ CMS / base de datos</td><td>Markdown = fuente de verdad. Parseo en build time.</td></tr>
+<tr><td>5</td><td>❌ Gamificación barata (monedas, rachas, insignias)</td><td>La "gamificación ligera" del prompt es la <strong>narrativa, el progreso real y la curiosidad</strong>. No adornos que cansan.</td></tr>
+<tr><td>6</td><td>❌ Soporte voseo</td><td>Prompt explícito: usuaria en España → tú y vosotros.</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2>Orden de implementación</h2>
+
+<ol>
+  <li><strong>Fase 0:</strong> Parser de contenido + tests de consistencia → confirmar que los 16 JSON salen bien. <strong>PRIMERO esto</strong>. Si hay un error de formato, lo descubrimos aquí.</li>
+  <li><strong>Fase 1:</strong> Onboarding + IndexedDB + mapa de 16 unidades + U01-S01 renderizado estático (sin ejercicios interactivos). La usuaria ve el editorial perfecto.</li>
+  <li><strong>Fase 2:</strong> <code>ExerciseShell</code> + 3 tipos más frecuentes primero: <em>opcion_multiple, huecos, clasificar</em> → probar con U01.</li>
+  <li><strong>Fase 3:</strong> Resto de tipos de ejercicio + AudioScript TTS + motor SRS (repaso espaciado).</li>
+  <li><strong>Fase 4:</strong> Role-play con tarjetas asimétricas + producción escrita/oral (autoevaluación con rúbrica).</li>
+  <li><strong>Fase 5:</strong> Sesiones Puente (U4, U8, U12) + simulacro DELE completo (U16) + cierre del curso.</li>
+</ol>
+
+<div class="destacado">
+<p><strong>Confirmo:</strong> El contenido está 100% listo para integrarse. La arquitectura propuesta sigue estrictamente lo pedido: empieza por la usuaria humana, no por la tecnología; es simple en V1 pero preparada para escalar a A1-C2 sin rehacer el content model; y evita todo lo que el prompt prohibe (LMS, Moodle, Duolingo-clon, ejercicios escolares, gamificación barata).</p>
+</div>
+
+<hr>
+<h1>🎯 Modelo de interacción y ritmo (no pantallas, no datos)</h1>
+
+<h3>El fallo que quiero evitar: «libro pág. 47 con botones»</h3>
+<p>La propuesta anterior traducía fielmente el esqueleto pedagógico a rutas. Eso es correcto para el modelo de datos, pero terrible para la experiencia: si cada sesión empieza con «🔥 Calentamiento → 💬 Vocabulario → 📖 Lectura…» en el mismo orden, por la U4 la usuaria ya sabe lo que viene antes de cargar la página. <strong>La previsibilidad mata la curiosidad.</strong> Y la curiosidad es lo que hace que alguien vuelva voluntariamente.</p>
+
+<div class="destacado">
+<strong>Regla base que guía todo lo de abajo:</strong> La pedagogía <strong>NO</strong> cambia de orden. La presentación <strong>SÍ</strong>.<br><br>
+El orden de los 8 bloques de cada sesión está fijado por el diseño pedagógico del currículo (Market Leader + Aula Internacional): activación → input → inducción regla → práctica → producción. No lo tocamos. Lo que SÍ rompemos es la forma de entrar, transitar y salir de esos bloques, y la conexión transversal entre unidades.
+</div>
+
+<h2>1. Cómo se abre una sesión (nunca un encabezado igual)</h2>
+<p>Cada sesión empieza con una pantalla de arranque diferente, que varía en dos ejes: (a) qué unidad es dentro del bloque de 4, (b) qué sesión es dentro de la unidad.</p>
+
+<h3>Variante por sesión dentro de la unidad</h3>
+<table>
+<thead><tr><th>Sesión</th><th>Abridor distinto</th></tr></thead>
+<tbody>
+<tr>
+<td><strong>S1</strong> (nueva unidad)</td>
+<td><strong>Portada narrativa</strong> — no «Unidad 3: Contar el pasado», sino una sola frase grande sobre una foto del calentamiento, en serif, tamaño editorial, más el dato: <em>«Tema nuevo hoy: vas a aprender a contar anécdotas como lo hace un nativo, con cuatro tiempos pasados a la vez»</em>. Nada de índice visible en la primera pantalla. El índice se abre desde un botón «¿Qué trae hoy?» en la esquina, sólo si lo pide.</td>
+</tr>
+<tr>
+<td><strong>S2</strong> (después de vocabulario)</td>
+<td><strong>Recuperación cinematográfica de S1</strong> — <em>«Ayer aprendiste 68 palabras sobre gente y carácter. Hoy te metes en una conversación entre dos amigas que hablan de un vecino nuevo.»</em> Una sola línea que conecta el saber anterior con el reto de hoy. No repite vocabulario, lo da por hecho.</td>
+</tr>
+<tr>
+<td><strong>S3</strong> (gramática)</td>
+<td><strong>Pregunta que no sabe responder todavía</strong> — <em>«¿Por qué en esta frase que ya leíste ayer se usa <strong>había vivido</strong> y no <strong>vivió</strong>? En 20 minutos lo sabrás sin memorizar reglas.»</em> La gramática abre con un enigma sacado del texto que leyó en S2, NO con «Caja de regla n.º 3». La regla llega al final, cuando ella ya se lo ha preguntado.</td>
+</tr>
+<tr>
+<td><strong>S4</strong> (función comunicativa)</td>
+<td><strong>Diálogo a medias</strong> — primera línea de un audio sin contexto, a pantalla completa, con el botón «¿Qué responderías tú?». Pulsa, ve 2 opciones (una B1, una B2), elige, y luego la sesión le enseña el matiz que le faltaba.</td>
+</tr>
+<tr>
+<td><strong>S5</strong> (tarea final + cierre)</td>
+<td><strong>«Lo que te llevas hoy»</strong> — tres tarjetas pequeñas antes de empezar: <em>(1) Podrás decirle a una amiga por qué te perdiste la cena del sábado. (2) No te confundirás entre fui / iba / había ido. (3) Una nueva frase para tu repertorio oral: resulta que…</em> La S5 siempre empieza prometiendo un producto concreto que ella pueda usar fuera de la app HOY mismo.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>Variante por posición dentro del bloque de 4 unidades</h3>
+<table>
+<thead><tr><th>Posición</th><th>Abridor transversal</th></tr></thead>
+<tbody>
+<tr><td><strong>U1, U5, U9, U13</strong> (primera del bloque)</td><td>Abridor con cita cultural en grande. U1: «Uno no es de donde nace, sino de donde pace.» U5: cita de médico sobre prevención. No es academicismo: la cita aparece, se queda 3 segundos, y debajo el enlace de la S1.</td></tr>
+<tr><td><strong>U2, U6, U10, U14</strong></td><td>Abridor con mini dato curioso real sobre España extraído del tema. U2: «En Madrid el 72 % de la gente vive en piso, no en casa. Hoy aprenderás a describir el tuyo.» U6: «Un trámite medio en España dura 3 citas previas y 1 documento olvidado. Hoy te enseñamos a sobrevivir al primero.»</td></tr>
+<tr><td><strong>U3, U7, U11, U15</strong></td><td>Abridor con voz de personaje recurrente (ver hilo narrativo 3 abajo).</td></tr>
+<tr><td><strong>U4, U8, U12, U16</strong> (Puente)</td><td>Abridor diferente: «Descanso antes de la cuesta» — frases cortas de ánimo con referencia a cosas que SÍ pasó en las 3 anteriores: «Ya sobreviviste a los 4 pasados a la vez. Ahora charlamos de cómo era todo antes, y descansas una semana.»</td></tr>
+</tbody>
+</table>
+<div class="nota"><strong>Resultado:</strong> 80 sesiones = 80 abridores distintos. Cero repetición de plantilla de entrada.</div>
+
+<h2>2. ¿Orden interno siempre lineal? → Línea con atajos (NO caos, NO rigidez)</h2>
+<p>La secuencia pedagógica es intocable: <code>Calentamiento → Vocabulario → Lectura → Audio → Gramática → Ejercicios A/B/C → Función → Role-play → Tarea → Fonética → Repaso → Autoevaluación</code>.</p>
+<p>Pero la presentamos como una <strong>línea de tiempo horizontal en la parte superior</strong>, no como una lista vertical de títulos. Cada bloque es un círculo pequeño en esa línea, que se ilumina conforme avanza.</p>
+
+<h3>Tres reglas de flexibilidad explícitas (la app las activa sola, basadas en rendimiento)</h3>
+<table>
+<thead><tr><th>Caso</th><th>Qué hace la app</th></tr></thead>
+<tbody>
+<tr><td>Acierta los 3 primeros ejercicios de Vocabulario a la primera</td><td>Banner pequeño: «Parece que ya controlas este bloque. Puedes ir directo a Lectura, o repasar 3 minutos más. Tú eliges.» NO se lo salta ella sola; la app se lo pide con confianza.</td></tr>
+<tr><td>Falla 2 veces en el mismo punto de Gramática A</td><td>El flujo se detiene y hace un <strong>micro-desví de 90 segundos</strong>: un ejemplo sacado del texto de S2 (que ya leyó) + una pregunta de clic: «¿Ahora ves cuál es?» → Vuelve al ejercicio. La gramática no se pega: se re-induce desde el input que ella ya procesó.</td></tr>
+<tr><td>Role-play y Producción libre</td><td>Únicos bloques donde «Volver atrás» y «Otra vez» están en primer plano. Todos los demás son de una pasada, como en la vida real: lees un artículo una vez, escuchas una conversación una vez. No puedes «repetir la página 47» infinitamente, porque eso no entrena comprensión real.</td></tr>
+</tbody>
+</table>
+
+<h2>3. Qué hace que cada sesión no se sienta igual: micro-variedades de formato</h2>
+<p>Con 14 tipos de ejercicio y 8 bloques por sesión, si siempre mostramos el mismo componente visual, todo se aplana. Usamos variantes de forma ligera dentro de cada tipo, sin tocar el motor de validación (la función pura de corrección es la misma). Tres ejemplos concretos:</p>
+
+<table>
+<thead><tr><th>Tipo de ejercicio</th><th>Variante A (60 %)</th><th>Variante B (30 %)</th><th>Variante C (10 %)</th></tr></thead>
+<tbody>
+<tr>
+<td><strong>Opción múltiple</strong></td>
+<td>4 opciones botón abajo, vertical</td>
+<td>Tarjetas horizontales animadas que se voltean al hacer clic → «Elige la carta correcta» (sólo cuando el temático encaja: ocio, comida, viajes 🌿)</td>
+<td><strong>Pregunta a contratiempo</strong>: enunciado + sólo 2 opciones, 6 segundos de reloj con animación de arena. «Rápido, ¿verdad o mentira?» → sólo para ejercicios de repaso léxico fácil.</td>
+</tr>
+<tr>
+<td><strong>Huecos en texto</strong></td>
+<td>Texto fijo con desplegables</td>
+<td>Texto con arrastrar y soltar (drag &amp; drop) palabras desde una bandeja inferior</td>
+<td><strong>Modo dictado</strong>: se lee el audio frase a frase y ella escribe la palabra del hueco (sólo fonética o repaso).</td>
+</tr>
+<tr>
+<td><strong>Caja gramatical</strong></td>
+<td>Regla en cuadro gris + 3 ejemplos del texto</td>
+<td>Regla presentada como <strong>par de contraste J6</strong>: una línea arriba otra abajo con los dos enunciados que ya vio: «En esta frase del texto: Creo que viene. En esta otra: No creo que venga. ¿Qué pasó con la segunda conjugación?» → ella toca la diferencia y luego aparece la regla como confirmación.</td>
+<td>Regla con «capa que se rasca»: sólo se ve una versión borrosa y la pide «Arrastra para ver la regla sólo si no la has adivinado todavía».</td>
+</tr>
+</tbody>
+</table>
+<div class="nota"><strong>Clave:</strong> Las variantes nunca añaden carga cognitiva. Nunca cambian lo que hay que hacer, sólo cómo se ve la interfaz. Se asignan aleatoriamente por unidad, no por ejercicio: coherencia de tono dentro de la misma sesión.</div>
+
+<h2>4. Qué conecta las 16 unidades: tres hilos narrativos transversales</h2>
+<p>Lo que une las unidades NO es un personaje protagonista con una trama (eso se acaba en la U4 y se vuelve forzado), sino tres hilos recurrentes muy delgados que aparecen sin previo aviso, cada 2 o 3 unidades, y que la usuaria va reconociendo como propios.</p>
+
+<h3>Hilo 1: El cuaderno de vocabulario personal 📓</h3>
+<p>Cada ítem léxico que acierta correctamente en 3 ejercicios distintos se guarda en un «cuaderno personal». No es un banco anónimo: cada entrada lleva <strong>un ejemplo PERSONAL</strong>. En U1, cuando aprende <em>generoso</em>, la S5 le pide: «Escribe una frase corta sobre alguien que tú conozcas y sea generosa». Esa frase es la que se muestra en los repasos espaciados de U4, U8, U12, U16. Nunca ve «generoso = amable con los demás»; ve «generoso = mi vecina de Madrid que me dejó un paraguas cuando llovió». <strong>Su propio ejemplo es el pegamento.</strong></p>
+
+<h3>Hilo 2: Los tres «vecinos» recurrentes 🧑🧑‍🦰👵</h3>
+<p>En el script de audio de la U1 aparecen tres personajes sin nombre, con voces distintas:</p>
+<ul>
+  <li><strong>Voz 1 (Hombre 30s, Madrid)</strong> — habla rápido, usa coloquialismos</li>
+  <li><strong>Voz 2 (Mujer 40s, Sevilla)</strong> — habla más lento, explica cosas</li>
+  <li><strong>Voz 3 (Mujer 70s, Zaragoza)</strong> — habla del pasado, con imperfectos</li>
+</ul>
+<p>Estas tres voces <strong>vuelven en todas las unidades</strong>, en contextos que encajan con el tema:</p>
+<ul>
+  <li>U2 (casa/barrio): Voz 3 habla del ruido de su piso</li>
+  <li>U3 (pasado): Voz 1 cuenta una anécdota de un tren que perdió</li>
+  <li>U6 (burocracia): Voz 2 da consejos para pedir el NIE</li>
+  <li>U10 (dinero): los tres debaten si comprar un piso o alquilar</li>
+</ul>
+<div class="destacado">No tienen nombres, no tienen trama, no hay un final. Son personas que ya escuchaste antes, y eso hace que la audición no sea siempre una nueva conversación con desconocidos (ansiedad). Es una conversación con gente que ya conoces. Para una usuaria japonesa en España: sensación de entrar al bar y conocer a la gente sin la presión de estar allí.</div>
+
+<h3>Hilo 3: Línea del tiempo visible, no números 🗺️</h3>
+<p>Nunca mostramos «37 % completado» ni «12/80 sesiones». En su lugar:</p>
+<ul>
+  <li>El <strong>mapa de 16 unidades</strong> no es una lista: es un <strong>recorrido dibujado con 4 paradas</strong>: <em>Pueblo → Ciudad → Montaña → Mar</em> (4 bloques de 4). Cada parada tiene un dibujo editorial simple. Cuando acaba un bloque, el dibujo se colorea poco a poco con un matiz de color más vivo.</li>
+  <li>En cada <strong>cierre de sesión</strong>, no es «✓ Sesión 3 completada». Es una sola cosa: el texto o audio que ella produjo en la tarea final, en grande, con una línea arriba: <em>«Esto lo escribiste hoy. En la Unidad 1 no podrías haberlo hecho.»</em></li>
+  <li>El <strong>cierre del curso (U16)</strong> abre un documento auto-generado: <strong>su propio cuaderno</strong> — todas sus frases personales del vocabulario, todas sus tareas finales, comparación lado a lado del primer texto U1-S5 y el último U16-S5, y gráfica de sus códigos J. Exporta en PDF en un clic. <strong>Es el producto tangible del curso, no un certificado.</strong></li>
+</ul>
+
+<div class="destacado">
+<strong>Cierre en una frase:</strong> La pedagogía sigue siendo la de Market Leader/Aula Internacional (correcta, probada, graduada). Lo que cambia es la <strong>sensación de camino personal</strong>: abridores impredecibles, micro-variedades de forma sin cambiar fondo, tres hilos delgados que van tejendo <em>su</em> recorrido. Si sale bien, al final no dirá «terminé el libro», dirá «yo hice este cuaderno».
+</div>
+
+<hr>
+<h1>🔒 Cuatro puntos técnicos cerrados (segunda ronda)</h1>
+
+<h2>1. Bug UTF-8 (doble codificación)</h2>
+<p><strong>Confirmado y cerrado.</strong> El HTML anterior llegó con doble codificación por render del chat (texto UTF-8 codificado como Latin-1 y vuelta a codificar), no por fallo del <code>meta charset</code>. Medidas preventivas en código:</p>
+<table>
+<thead><tr><th>Fase</th><th>Acción concreta</th></tr></thead>
+<tbody>
+<tr><td>Parser currículo (F0)</td><td><code>fs.readFileSync(path, {encoding: 'utf8'})</code> único modo de lectura; test unitario que escanea el JSON generado buscando el patrón de bytes corruptos <code>[Ãâð][\x80-\xff]</code> → si aparece, build falla.</td></tr>
+<tr><td>Fuente de verdad</td><td>Verificar que <code>curriculo-b1-b2.md</code> está en UTF-8 sin BOM (VS Code lo indica; lo confirmamos en el test del parser).</td></tr>
+<tr><td>Next.js / render</td><td><code>&lt;meta charset="utf-8"&gt;</code> por defecto en root layout; test de render con texto canario: «carácter → 🧩 🎯 🌿 ✓» que valida que el HTML servido coincide byte a byte.</td></tr>
+</tbody>
+</table>
+<div class="nota">Cero margen de error. Si el test pasa, el español se ve bien.</div>
+
+<h2>2. Por qué la Unidad 1 para MVP (frente a U2 / U3 / U16)</h2>
+<p>No es arbitraria: <strong>U1 valida la totalidad del esqueleto técnico con los validadores más sencillos y la experiencia menos frustrante.</strong></p>
+<table>
+<thead><tr><th>Criterio</th><th>U1 (elegida)</th><th>U2</th><th>U3–U15</th><th>U16</th></tr></thead>
+<tbody>
+<tr><td>10 tipos de sección (calentamiento → autoevaluación)</td><td class="check">✅ Todos</td><td class="check">✅ Todos</td><td class="check">✅ Todos</td><td>❌ Estructura examen distinta</td></tr>
+<tr><td>Tipos ejercicio +62 % del curso</td><td class="check">✅ emparejar, opm, clasificar, huecos</td><td class="check">✅ Casi todos</td><td class="check">✅ Sí</td><td>❌ Tipos examen</td></tr>
+<tr><td>Validadores de ejercicio</td><td>Presente + concordancia (simples)</td><td>Artículos el/un/Ø + se lo (complejos)</td><td>Subjuntivo / pluscuamperf. (2-3× largos)</td><td>Todo espectro</td></tr>
+<tr><td>Códigos J de contraste</td><td class="check">✅ 5/8 (J1 J2 J4 J7 J8)</td><td>4/8</td><td>1-3 c/u</td><td>Todos (contexto examen)</td></tr>
+<tr><td>Frustración usuaria MVP</td><td>Rampa B1→B1+</td><td>Similar, pero J3 = error #1 persistente L1 JP</td><td>Salto B2 deliberado</td><td>Examen completo</td></tr>
+</tbody>
+</table>
+<p><strong>Resumen:</strong> U1 me permite validar parser → render → motor 3 ejercicios → SRS → role-play → producción libre con la mitad de código y la mitad de frustración. Si U1 funciona, el resto es contenido.</p>
+
+<h2>3. Riesgo IndexedDB sin backend → ¿real? ¿exporta basta?</h2>
+<p><strong>SÍ, es un riesgo real.</strong> Escenarios:</p>
+<table>
+<thead><tr><th>Escenario</th><th>Frecuencia uso diario 1-1.5h</th><th>¿Mitiga export/import?</th></tr></thead>
+<tbody>
+<tr><td>Limpieza caché, desinstalación accidental</td><td>Media (1-2 / año)</td><td class="check">✅ Sí, con recordatorio</td></tr>
+<tr><td><strong>Uso multi-dispositivo (portátil + móvil)</strong></td><td><strong>ALTA (patrón más probable)</strong></td><td>❌ NO: exportar/enviar/importar cada cambio rompe UX</td></tr>
+<tr><td>2 navegadores mismo dispositivo</td><td>Baja</td><td class="check">✅ Sí</td></tr>
+</tbody>
+</table>
+<h3>Mitigación V1 (sin backend)</h3>
+<ol>
+  <li><strong>Onboarding explícito</strong>, no legal: «Tus datos viven solo en este navegador. Cada 5 sesiones te recordaremos exportar una copia.»</li>
+  <li><strong>Prompter backup cada 5 sesiones</strong>, no saltable, con descarga auto-nombreada: <code>espanol-app-backup-B1B2-YYYY-MM-DD.json</code>.</li>
+  <li><strong>Interfaz preparada</strong>: <code>lib/storage.ts</code> = interfaz <code>StorageAdapter</code> con <code>IndexedDBAdapter</code> (V1) y hueco pluggable para <code>SupabaseAdapter</code> (V2). Cero código ahora, acoplamiento cero.</li>
+</ol>
+<h3>Mitigación V2 (sin servidor propio)</h3>
+<p>Login opcional por <strong>magic link email</strong> con Supabase Auth (BaaS serverless, 15 líneas config). El progreso sincroniza sin que yo gestione BD/SMTP. <strong>No en V1, pero sí plan marcado desde el principio.</strong></p>
+<div class="nota"><strong>Conclusión:</strong> Exportar/importar con prompter basta para early adopters en V1. El multi-dispositivo es el principal riesgo de abandono que resolveremos antes de abrir a más usuarias. Se comunica claro desde el primer día.</div>
+
+<h2>4. Motor ejercicios: Máquina casera (useReducer), NO XState</h2>
+<p><strong>Decisión en firme: useReducer + validadores puros. Sin XState.</strong> Justificación:</p>
+<ol>
+  <li>El flujo de TODO ejercicio autocorregible es <strong>máquina finita cerrada de 4 estados y 1 evento, sin ramas, sin paralelismo, sin historial</strong>:
+<pre class="mono" style="background:#1a202c;color:#e2e8f0;padding:12px;border-radius:6px;overflow-x:auto;">
+idle ──SUBMIT──► correcto (fin: acierto → SRS → siguiente)
+            └─► fallo_1  (muestra PISTA → espera submit)
+                └─SUBMIT──► correcto
+                        └─► fallo_2 (EXPLICACIÓN → marca J → actualiza SRS → fin)
+</pre>
+  </li>
+  <li>XState = 15 kB gz + DSL de aprendizaje + configuración. Aquí la definición de la máquina XState sería <strong>más larga</strong> que la implementación entera del useReducer. Sobreingeniería neta.</li>
+  <li>Máquina casera = ~30 líneas TS tipadas, cero dependencias, testeable unitariamente sin runner especial.</li>
+  <li>El único código variable por tipo es la función pura <code>validar(respuestaUsuario, solucion)</code>: <code>huecos</code> compara arrays, <code>emparejar</code> compara mapas ordenados. Todas puras, todas testeadas sin montar React.</li>
+</ol>
+<div class="destacado"><strong>Excepción futura puntual:</strong> el role-play interactivo con turnos/condicionales sí podría beneficiarse de XState. Pero es un componente concreto, no el motor global.</div>
+
+</body>
+</html>

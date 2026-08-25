@@ -348,6 +348,21 @@ Al terminar la unidad, la alumna puede:
 | **Fonética** | /r/ simple vs /rr/ múltiple vs /l/ **(J7)**. *b* y *v*: mismo sonido, dos realizaciones **(J8)**. |
 | **Cultura** | El tuteo en España. Los dos apellidos. La distancia física y el contacto en el saludo. |
 
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Una comida de domingo que dura horas: alguien sirve de pie, dos personas se ríen demasiado fuerte y un niño se ha escondido debajo de la mesa. Antes de aprender una sola palabra nueva, mira la foto veinte segundos y decide: ¿quién manda en esta familia? |
+| S2 | Ya sabes decir si alguien es hablador, generoso o insoportablemente cabezota. Hoy averiguas por qué, en España, la amistad de verdad casi nunca nace en la oficina — y escuchas a dos amigas cotilleando sobre la vecina nueva del edificio. |
+| S4 | «Pues a mí me cae fenomenal, la verdad. ¿Tú qué opinas?» Antes de seguir, decide: ¿estás de acuerdo, o no tanto? |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, «Es que es muy habladora» / «Ella se lo toma bien», y S5 interpola los tres primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — U1 pertenece al patrón "cita cultural" (primera unidad del bloque), ya cubierto por el campo `cita` de la ficha, Categoría A.
+- Elenco recurrente: ninguno todavía. Los personajes del audio A1 (Lucía y Paco) son propios de esta unidad, sin continuidad posterior. El hilo de elenco recurrente (Keiko; Bea, Nacho y Silvia) empieza en la Unidad 2 y la Unidad 3 respectivamente — aquí no se menciona ningún personaje recurrente.
+
 ---
 
 ## 2.1 SESIÓN 1 — 🔥 Calentamiento y 💬 vocabulario

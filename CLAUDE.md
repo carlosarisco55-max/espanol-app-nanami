@@ -54,11 +54,35 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
   quedó sin créditos (versión gratuita) a media Fase 0. Verificado con capturas reales en
   navegador, no solo `next build`. Stack real: Next.js 15 + React 19 + TypeScript, CSS Modules
   (Tailwind/shadcn previsto por TRAE no se instaló — anotado para que lo valore al retomar).
-- ⏳ Siguiente: Fase 2 (motor de ejercicios interactivo — `useReducer`, sin XState) para la
-  Unidad 1, cuando TRAE retome o se pida a Claude Code que continúe.
-- ⏸️ `ARCHITECTURE.md`: sigue pendiente de crear — hay código real ya, pero conviene esperar
-  a que TRAE confirme si adopta esta base o ajusta algo al retomar, para no describir un
-  estado que cambie enseguida.
+- ✅ Feedback de uso real del usuario (probó la app en su navegador): 3 bugs reales de
+  claridad/accesibilidad corregidos con números (contraste WCAG calculado, no a ojo), más
+  el interruptor "🌐 In English" (orientación por sesión, oculta por defecto, sin traducir
+  el contenido — esquema ya preparado para `ja` cuando haya revisión nativa).
+- ⏸️ `ARCHITECTURE.md`: sigue pendiente de crear — mejor esperar a que se resuelva el plan
+  de mañana (ver abajo) para no describir un estado que cambie enseguida.
+
+## Plan concreto para la próxima sesión (dejado 2026-08-25, noche)
+
+1. **Comprobar si TRAE ya tiene créditos de nuevo** (versión gratuita, se reseteaba por
+   horas). Si sí, retomar esa conversación con TRAE — no crear una nueva desde cero.
+2. **Antes de que TRAE toque nada: decirle explícitamente que el repo cambió mientras no
+   tenía cuota.** Su propio `tools/parse-curriculo/parser.ts` fue completado y corregido
+   por Claude Code (bug real: parseaba las 16 unidades siempre y fallaba si faltaba el
+   bloque de Categoría B; corregido para filtrar antes de parsear). Que lea el estado
+   actual del repo (este archivo + `git log`) antes de asumir que sigue donde lo dejó.
+3. **Auditoría cruzada, mismo patrón que usamos con la arquitectura de TRAE:** pedirle a
+   TRAE que revise lo que construyó Claude Code (Fase 0 + Fase 1, ya en `master`) con
+   ojo crítico — igual que Claude revisó la propuesta de TRAE en su momento. Buscar
+   huecos, no solo aprobar.
+4. **Decisión a tomar juntos, no asumida:** ¿TRAE sigue construyendo ENCIMA de lo que ya
+   hay (Fase 2: motor de ejercicios), o prefiere rehacer su propia versión de Fase 0/1
+   desde cero para comparar de verdad las dos aproximaciones? Las dos son válidas — no
+   decidir esto sin el usuario.
+5. Si hay divergencias de criterio entre lo que hizo Claude y lo que TRAE habría hecho
+   (CSS Modules vs Tailwind/shadcn, estructura del JSON, etc.), resolverlas antes de
+   seguir — no dejar que se acumulen sin decidir.
+6. Con eso resuelto: **Fase 2**, el motor de ejercicios interactivo (`useReducer` + validadores
+   puros, sin XState — decisión ya cerrada) para la Unidad 1. Ahí sí crear `ARCHITECTURE.md`.
 
 ## Qué falta por hacer
 

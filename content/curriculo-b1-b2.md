@@ -19732,7 +19732,7 @@ depende_de: "todas las unidades anteriores"
 
 ---
 
-### `B1-B2-U16-E01` — Diagnóstico integral (bloque A: EL MODO)
+#### `B1-B2-U16-E01` — Diagnóstico integral (bloque A: EL MODO)
 
 ```yaml
 tipo: opcion_multiple
@@ -19779,7 +19779,7 @@ items: 20
 
 ---
 
-### `B1-B2-U16-E02` — Diagnóstico integral (bloque B: EL TIEMPO)
+#### `B1-B2-U16-E02` — Diagnóstico integral (bloque B: EL TIEMPO)
 
 ```yaml
 tipo: opcion_multiple
@@ -19825,7 +19825,7 @@ items: 20
 
 ---
 
-### `B1-B2-U16-E03` — Diagnóstico integral (bloque C: ARTÍCULO, CONCORDANCIA Y *SER/ESTAR*)
+#### `B1-B2-U16-E03` — Diagnóstico integral (bloque C: ARTÍCULO, CONCORDANCIA Y *SER/ESTAR*)
 
 ```yaml
 tipo: opcion_multiple
@@ -19870,7 +19870,7 @@ items: 20
 
 ---
 
-### `B1-B2-U16-E04` — Prueba final de fonética (cierre de J7 y J8)
+#### `B1-B2-U16-E04` — Prueba final de fonética (cierre de J7 y J8)
 
 ```yaml
 tipo: discriminacion_fonetica
@@ -19908,7 +19908,7 @@ items: 12
 
 ---
 
-### `B1-B2-U16-E05` — Autodiagnóstico y plan de las 48 horas
+#### `B1-B2-U16-E05` — Autodiagnóstico y plan de las 48 horas
 
 ```yaml
 tipo: produccion_escrita
@@ -20779,7 +20779,7 @@ autocorregible: false
 
 ## 🏁 CIERRE DEL CURSO
 
-### `B1-B2-U16-E15` — Informe de nivel
+#### `B1-B2-U16-E15` — Informe de nivel
 
 **Resultado global del simulacro:**
 
@@ -20818,7 +20818,7 @@ autocorregible: false
 
 ---
 
-### `B1-B2-U16-E16` — 🎯 Proyecto final
+#### `B1-B2-U16-E16` — 🎯 Proyecto final
 
 ```yaml
 tipo: produccion_escrita + produccion_oral
@@ -20850,7 +20850,7 @@ duracion: "1-2 semanas, fuera del cronograma de sesiones"
 
 ---
 
-### `B1-B2-U16-E17` — Plan de continuación: hacia el C1
+#### `B1-B2-U16-E17` — Plan de continuación: hacia el C1
 
 **Lo que ya está instalado y no hay que volver a estudiar:**
 

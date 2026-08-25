@@ -49,8 +49,16 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
 - ✅ Repo Git + GitHub privado.
 - ✅ Auditoría de arquitectura y modelo de interacción acordados con TRAE (ver `docs/decisions/`).
 - ✅ Capa de Categoría B de la Unidad 1 añadida al currículo.
-- ⏳ TRAE construyendo Fase 0 (parser de contenido + tests de consistencia) para la Unidad 1.
-- ⏸️ `ARCHITECTURE.md`: pendiente de crear cuando exista código real que describir (no antes).
+- ✅ **Fase 0** (parser + tests de consistencia) y **Fase 1** (onboarding + camino + Unidad 1
+  Sesión 1 renderizada como lectura editorial) completadas por Claude Code, porque TRAE se
+  quedó sin créditos (versión gratuita) a media Fase 0. Verificado con capturas reales en
+  navegador, no solo `next build`. Stack real: Next.js 15 + React 19 + TypeScript, CSS Modules
+  (Tailwind/shadcn previsto por TRAE no se instaló — anotado para que lo valore al retomar).
+- ⏳ Siguiente: Fase 2 (motor de ejercicios interactivo — `useReducer`, sin XState) para la
+  Unidad 1, cuando TRAE retome o se pida a Claude Code que continúe.
+- ⏸️ `ARCHITECTURE.md`: sigue pendiente de crear — hay código real ya, pero conviene esperar
+  a que TRAE confirme si adopta esta base o ajusta algo al retomar, para no describir un
+  estado que cambie enseguida.
 
 ## Qué falta por hacer
 

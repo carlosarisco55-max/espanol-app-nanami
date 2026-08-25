@@ -37,7 +37,7 @@ export default async function SessionPage({
         <p className={styles.heroEyebrow}>
           Sesión {session.number} de 5 · {unit.title}
         </p>
-        <p className={styles.heroHeadline}>{session.opening.headline}</p>
+        <h1 className={styles.heroHeadline}>{session.opening.headline}</h1>
         {session.opening.cards && session.opening.cards.length > 0 && (
           <div className={styles.heroCards}>
             {session.opening.cards.map((card, i) => (

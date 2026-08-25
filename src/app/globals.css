@@ -7,7 +7,7 @@
   --bg-sunken: #e2ddcc;
   --ink: #1c1a1f;
   --ink-soft: #514d52;
-  --ink-faint: #837e78;
+  --ink-faint: #64605a; /* contraste 5.3:1 sobre --bg, cumple AA para texto pequeño (antes: 3.4:1, no cumplía) */
   --line: #d8d2bf;
   --line-soft: #e5e0cf;
 
@@ -27,6 +27,14 @@
 
   --shadow: 0 1px 2px rgba(28, 26, 31, 0.06), 0 12px 32px -14px rgba(28, 26, 31, 0.28);
   --focus: #223059;
+
+  /* Panel del masthead (onboarding): siempre añil oscuro, con o sin tema oscuro del
+     sistema — es una elección visual fija, no un color de contenido que deba invertirse.
+     --warm/--warm-strong están pensados para texto sobre fondos claros y fallan aquí
+     (2.34:1 medido sobre --accent-strong, insuficiente). Estos tokens dan contraste real. */
+  --on-dark-warm: #e8935f;
+  --on-dark-ink: #f8f6ee;
+  --on-dark-ink-soft: rgba(248, 246, 238, 0.82);
 
   --font-display: "Instrument Serif", "Times New Roman", serif;
   --font-reading: "Literata", ui-serif, Georgia, serif;

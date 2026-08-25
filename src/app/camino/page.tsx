@@ -46,7 +46,7 @@ export default function CaminoPage() {
       <div className={styles.blocks}>
         {blocks.map((block, blockIndex) => (
           <section key={blockIndex}>
-            <p className={styles.blockLabel}>{BLOCK_LABELS[blockIndex]}</p>
+            <h2 className={styles.blockLabel}>{BLOCK_LABELS[blockIndex]}</h2>
             <div className={styles.grid}>
               {block.map((unit, i) => {
                 const globalIndex = blockIndex * 4 + i;

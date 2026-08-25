@@ -48,11 +48,10 @@ export default function OnboardingPage() {
         </span>
         <div className={styles.mastheadTop}>
           <p className={styles.wordmark}>Nanami</p>
-          <h1 className={styles.headline}>El español empieza hoy, no en la unidad ideal.</h1>
+          <h1 className={styles.headline}>Empieza tu español hoy.</h1>
         </div>
         <p className={styles.mastheadFoot}>
-          Dieciséis unidades, de B1 a B2. Sin prisa, sin clase — un camino que se recorre a tu
-          ritmo, con lo que ya has vivido.
+          16 unidades, de B1 a B2. Sin clases, sin prisa — a tu ritmo.
         </p>
       </section>
 

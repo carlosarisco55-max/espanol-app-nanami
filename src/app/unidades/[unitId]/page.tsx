@@ -29,9 +29,9 @@ export default async function UnitPage({ params }: { params: Promise<{ unitId: s
 
       {unit.canDos.length > 0 && (
         <>
-          <p className={styles.sectionTitle} style={{ textAlign: "center" }}>
+          <h2 className={styles.sectionTitle} style={{ textAlign: "center" }}>
             Al terminar esta unidad, vas a poder…
-          </p>
+          </h2>
           <ul className={styles.canDoList}>
             {unit.canDos.map((item) => (
               <li key={item.index} className={styles.canDoItem}>
@@ -43,9 +43,9 @@ export default async function UnitPage({ params }: { params: Promise<{ unitId: s
         </>
       )}
 
-      <p className={styles.sectionTitle} style={{ textAlign: "center" }}>
+      <h2 className={styles.sectionTitle} style={{ textAlign: "center" }}>
         Las 5 sesiones
-      </p>
+      </h2>
       <nav className={styles.sessionNav}>
         {unit.sessions.map((session) => {
           const ready = session.number === 1;

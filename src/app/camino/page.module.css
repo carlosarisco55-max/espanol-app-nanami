@@ -85,7 +85,11 @@
 }
 
 .cardLocked {
-  opacity: 0.55;
+  /* Antes: opacity 0.55 sobre toda la tarjeta, lo que hundía el contraste del texto a
+     ~2:1 (ilegible, por debajo del mínimo de 3:1 de WCAG). El estado "bloqueado" se
+     comunica con color, no con transparencia — el texto se queda leíble. */
+  background: var(--bg-sunken);
+  border-style: dashed;
   cursor: default;
 }
 
@@ -106,6 +110,10 @@
   font-weight: 600;
   line-height: 1.3;
   color: var(--ink);
+}
+
+.cardLocked .cardTitle {
+  color: var(--ink-soft);
 }
 
 .cardMeta {

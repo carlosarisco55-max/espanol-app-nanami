@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
+
+:root {
+  /* Washi: papel japonés sin blanquear — no blanco puro, no crema-plantilla */
+  --bg: #eeece2;
+  --bg-raised: #f8f6ee;
+  --bg-sunken: #e2ddcc;
+  --ink: #1c1a1f;
+  --ink-soft: #514d52;
+  --ink-faint: #837e78;
+  --line: #d8d2bf;
+  --line-soft: #e5e0cf;
+
+  /* Aizome — añil japonés, comprometido, no un azul corporativo tímido */
+  --accent: #223059;
+  --accent-ink: #1a2445;
+  --accent-soft: #dfe2ee;
+  --accent-strong: #16204a;
+
+  /* Kaki — persimón, tinte japonés tradicional; cálido sin ser terracota de plantilla */
+  --warm: #c1531f;
+  --warm-soft: #f4ddc9;
+  --warm-strong: #9c3f16;
+
+  --sage: #47654a;
+  --sage-soft: #dde8dc;
+
+  --shadow: 0 1px 2px rgba(28, 26, 31, 0.06), 0 12px 32px -14px rgba(28, 26, 31, 0.28);
+  --focus: #223059;
+
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-reading: "Literata", ui-serif, Georgia, serif;
+  --font-ui: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17151c;
+    --bg-raised: #201d26;
+    --bg-sunken: #100e14;
+    --ink: #eae7e1;
+    --ink-soft: #b3ada8;
+    --ink-faint: #766f7a;
+    --line: #332f3a;
+    --line-soft: #26232b;
+
+    --accent: #97a6d6;
+    --accent-ink: #b5c1e6;
+    --accent-soft: #262c47;
+    --accent-strong: #c2cdec;
+
+    --warm: #e8935f;
+    --warm-soft: #3c2517;
+    --warm-strong: #f2b088;
+
+    --sage: #94b393;
+    --sage-soft: #202b20;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 36px -14px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #17151c;
+  --bg-raised: #201d26;
+  --bg-sunken: #100e14;
+  --ink: #eae7e1;
+  --ink-soft: #b3ada8;
+  --ink-faint: #766f7a;
+  --line: #332f3a;
+  --line-soft: #26232b;
+
+  --accent: #97a6d6;
+  --accent-ink: #b5c1e6;
+  --accent-soft: #262c47;
+  --accent-strong: #c2cdec;
+
+  --warm: #e8935f;
+  --warm-soft: #3c2517;
+  --warm-strong: #f2b088;
+
+  --sage: #94b393;
+  --sage-soft: #202b20;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 36px -14px rgba(0, 0, 0, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+a {
+  color: var(--accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+button {
+  font-family: inherit;
+}
+
+.grain {
+  position: relative;
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

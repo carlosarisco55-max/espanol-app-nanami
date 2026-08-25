@@ -247,7 +247,7 @@ function parseCanDos(section: string): CanDoItem[] {
       return {
         index: Number(match[1]),
         label: match[2],
-        text: match[3]
+        text: simplifyInlineMarkdown(match[3])
       } satisfies CanDoItem;
     })
     .filter((item): item is CanDoItem => item !== null);

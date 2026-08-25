@@ -1,0 +1,145 @@
+.page {
+  min-height: 100dvh;
+  padding: 3rem 1.5rem 6rem;
+}
+
+.back {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+}
+
+.back:hover {
+  color: var(--accent-ink);
+}
+
+.header {
+  max-width: 40rem;
+  margin: 0 auto 2.5rem;
+}
+
+.levels {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.levelPill {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  text-wrap: balance;
+}
+
+.subtitle {
+  font-family: var(--font-reading);
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  margin: 0 0 1.4rem;
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--warm);
+  border-left: 3px solid var(--warm);
+  padding-left: 1rem;
+  margin: 0 0 2rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.9rem;
+}
+
+.canDoList {
+  list-style: none;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.canDoItem {
+  display: flex;
+  gap: 0.7rem;
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.canDoMark {
+  color: var(--sage);
+  flex-shrink: 0;
+}
+
+.sessionNav {
+  max-width: 40rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sessionLink {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--line);
+  background: var(--bg-raised);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.sessionLink:hover {
+  border-color: var(--accent);
+  transform: translateX(2px);
+}
+
+.sessionLinkDisabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.sessionNumber {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--accent-ink);
+  width: 1.6rem;
+}
+
+.sessionTitle {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.95rem;
+}

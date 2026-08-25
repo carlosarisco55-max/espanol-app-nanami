@@ -74,6 +74,41 @@
   text-align: left;
 }
 
+.orientation {
+  margin-top: 1.4rem;
+  display: inline-block;
+  text-align: left;
+}
+
+.orientationToggle {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+}
+
+.orientationToggle:hover {
+  background: color-mix(in srgb, var(--accent-soft) 70%, var(--accent) 30%);
+}
+
+.orientationText {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  padding: 0.8rem 1rem;
+  max-width: 34ch;
+}
+
 .heroCard {
   font-family: var(--font-reading);
   font-size: 0.95rem;

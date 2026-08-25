@@ -107,6 +107,23 @@ function parseCategoriaBAperturas(section) {
   return out;
 }
 
+function parseOrientacion(section) {
+  // tabla | Sesión | English | 日本語 | — "—" se normaliza a null, no es texto real
+  if (!section) return {};
+  const out = {};
+  const rowRe = /^\|\s*S([1-5])\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm;
+  let m;
+  while ((m = rowRe.exec(section))) {
+    const en = m[2].trim();
+    const ja = m[3].trim();
+    out[`S${m[1]}`] = {
+      en: en && en !== "—" ? inlinePlain(en) : null,
+      ja: ja && ja !== "—" ? inlinePlain(ja) : null
+    };
+  }
+  return out;
+}
+
 function parseContinuidad(section) {
   if (!section) return { datoCuriosoEspana: null, elencoRecurrente: null };
   const dato = section.match(/-\s*Dato curioso España:\s*(.+)/)?.[1]?.trim() ?? null;
@@ -142,7 +159,7 @@ function parseExercisesInBlock(block) {
   });
 }
 
-function parseSessions(unitBlock, aperturas, canDos) {
+function parseSessions(unitBlock, aperturas, orientaciones, canDos) {
   const sessionBlocks = splitByHeader(unitBlock, SESSION_HEADER_RE);
   return sessionBlocks.map(({ header, body }) => {
     const number = Number(header[1]);
@@ -173,6 +190,7 @@ function parseSessions(unitBlock, aperturas, canDos) {
       slug: `s${number}`,
       titulo,
       opening,
+      orientacion: orientaciones[key] ?? null,
       ejercicios: exercises,
       numEjercicios: exercises.length
     };
@@ -191,15 +209,22 @@ function parseUnitBlock(block) {
   const canDos = parseCanDos(canDosSection);
 
   const aperturasSection = extractSection(block, "### Aperturas de sesión (Categoría B)", [
+    "### Orientación multiidioma (Categoría B)",
     "### Continuidad narrativa (Categoría B)",
     "\n---"
   ]);
   const aperturas = parseCategoriaBAperturas(aperturasSection);
 
+  const orientacionSection = extractSection(block, "### Orientación multiidioma (Categoría B)", [
+    "### Continuidad narrativa (Categoría B)",
+    "\n---"
+  ]);
+  const orientaciones = parseOrientacion(orientacionSection);
+
   const continuidadSection = extractSection(block, "### Continuidad narrativa (Categoría B)", ["\n---"]);
   const continuidad = parseContinuidad(continuidadSection);
 
-  const sessions = parseSessions(block, aperturas, canDos);
+  const sessions = parseSessions(block, aperturas, orientaciones, canDos);
   const totalEjercicios = sessions.reduce((sum, s) => sum + s.numEjercicios, 0);
 
   return {

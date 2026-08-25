@@ -358,6 +358,16 @@ Al terminar la unidad, la alumna puede:
 
 *(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, «Es que es muy habladora» / «Ella se lo toma bien», y S5 interpola los tres primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
 
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: describe people — character, family, relationships — using photos and real vocabulary. No grammar theory yet, just get comfortable talking about people. | — |
+| S2 | Today: read a real magazine article about adult friendship in Spain, and listen to two friends gossiping about a new neighbour. Same topic as yesterday, now through reading and listening. | — |
+| S4 | Today: practise agreeing and disagreeing about someone's character in a real conversation. You'll get the useful phrases before you need them. | — |
+
 ### Continuidad narrativa (Categoría B)
 
 - Dato curioso España: no aplica en esta unidad — U1 pertenece al patrón "cita cultural" (primera unidad del bloque), ya cubierto por el campo `cita` de la ficha, Categoría A.

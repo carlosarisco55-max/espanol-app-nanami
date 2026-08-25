@@ -50,6 +50,14 @@ export interface SessionData {
   exerciseIds: string[];
   opening: SessionOpening;
   outline: SessionOutlineStep[];
+  /** Una sola frase de orientación, oculta tras un interruptor — no traduce el contenido,
+   * solo reduce el miedo de "no sé por dónde va esto" al empezar. Estructurado por idioma
+   * desde ahora (no como campo plano) para que añadir japonés más adelante sea llenar
+   * `ja`, no rediseñar el esquema. */
+  orientation?: {
+    en?: string;
+    ja?: string;
+  };
 }
 
 export interface ContinuityNotes {

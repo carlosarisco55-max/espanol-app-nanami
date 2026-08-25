@@ -53,10 +53,13 @@ function parseUnitBlock(block: string): CurriculumUnit {
   const canDos = parseCanDos(extractSection(block, "### Objetivos «puede hacer» (MCER)", "### Contenidos (referencia PCIC)"));
   const contents = parseContentsTable(extractSection(block, "### Contenidos (referencia PCIC)", "\n---", true));
   const openingsManual = parseOpeningsTable(
-    extractSection(block, "### Aperturas de sesión (Categoría B)", "### Continuidad narrativa (Categoría B)", true)
+    extractSection(block, "### Aperturas de sesión (Categoría B)", "### Orientación multiidioma (Categoría B)", true)
+  );
+  const orientations = parseOrientationTable(
+    extractSection(block, "### Orientación multiidioma (Categoría B)", "### Continuidad narrativa (Categoría B)", true)
   );
   const continuity = parseContinuity(extractSection(block, "### Continuidad narrativa (Categoría B)", "\n---", true));
-  const sessions = parseSessions(block, openingsManual, canDos);
+  const sessions = parseSessions(block, openingsManual, orientations, canDos);
   const exerciseCount = sessions.reduce((sum, session) => sum + session.exerciseIds.length, 0);
 
   return {
@@ -83,6 +86,7 @@ function parseUnitBlock(block: string): CurriculumUnit {
 function parseSessions(
   block: string,
   openingsManual: Partial<Record<SessionNumber, string>>,
+  orientations: Partial<Record<SessionNumber, { en?: string; ja?: string }>>,
   canDos: CanDoItem[]
 ): SessionData[] {
   const matches = [...block.matchAll(new RegExp(SESSION_HEADER_REGEX))];
@@ -103,9 +107,30 @@ function parseSessions(
       rawMarkdown,
       exerciseIds,
       opening: resolveOpening(number, rawMarkdown, canDos, openingsManual[number]),
-      outline: sessionOutline(number)
+      outline: sessionOutline(number),
+      orientation: orientations[number]
     };
   });
+}
+
+// Tabla | Sesión | English | 日本語 | — la columna de japonés puede venir vacía ("—")
+// mientras no haya revisión nativa; se normaliza a undefined, nunca a la cadena "—" literal.
+function parseOrientationTable(section: string): Partial<Record<SessionNumber, { en?: string; ja?: string }>> {
+  const result: Partial<Record<SessionNumber, { en?: string; ja?: string }>> = {};
+  if (!section) return result;
+
+  const rowRe = /^\|\s*S([1-5])\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm;
+  let match;
+  while ((match = rowRe.exec(section))) {
+    const number = Number(match[1]) as SessionNumber;
+    const en = match[2].trim();
+    const ja = match[3].trim();
+    result[number] = {
+      en: en && en !== "—" ? en : undefined,
+      ja: ja && ja !== "—" ? ja : undefined
+    };
+  }
+  return result;
 }
 
 function resolveOpening(

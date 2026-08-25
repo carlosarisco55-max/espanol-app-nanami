@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import styles from "./page.module.css";
 import { getUnit } from "@/lib/curriculum";
 import PersonalizedMarkdown from "@/components/PersonalizedMarkdown";
+import OrientationToggle from "@/components/OrientationToggle";
 
 export default async function SessionPage({
   params
@@ -38,6 +39,7 @@ export default async function SessionPage({
           Sesión {session.number} de 5 · {unit.title}
         </p>
         <h1 className={styles.heroHeadline}>{session.opening.headline}</h1>
+        <OrientationToggle en={session.orientation?.en} ja={session.orientation?.ja} />
         {session.opening.cards && session.opening.cards.length > 0 && (
           <div className={styles.heroCards}>
             {session.opening.cards.map((card, i) => (

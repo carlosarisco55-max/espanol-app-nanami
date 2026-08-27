@@ -98,6 +98,13 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
 
 ## Qué falta por hacer
 
-- Fases 1-5 del plan de TRAE (onboarding, motor de ejercicios, audio/SRS, role-play, sesiones puente + simulacro DELE) — ver el detalle en `docs/decisions/2026-08-25-auditoria-arquitectura.html`.
+- Fases 3-5 del plan de TRAE (resto de tipos de ejercicio + audio/SRS, role-play, sesiones puente + simulacro DELE) — ver el detalle en `docs/decisions/2026-08-25-auditoria-arquitectura.html`.
 - Bloques de Categoría B para las unidades 2-16 (se añaden a medida que TRAE las vaya necesitando, no todas de golpe).
 - Escalar el currículo a otros niveles MCER (A1, A2, C1, C2) — arquitectura ya preparada para ello, contenido pendiente.
+
+## Mejoras post-MVP (2026-08-27, feedback de uso real de la Fase 2) — deliberadamente NO hacer ahora
+
+El usuario probó el motor de ejercicios y confirmó que funciona, pero señaló dos huecos reales. Se deja pendiente A PROPÓSITO hasta cerrar el MVP completo (Fases 3-5 de la Unidad 1) — no se pierde de vista, no se hace ahora. Orden de prioridad, no da igual cuál primero:
+
+1. **(Prioridad alta) Pista/explicación de cada ejercicio solo en español, sin apoyo bilingüe.** El interruptor "🌐 In English" hoy solo cubre la frase de orientación de la sesión, no el feedback de los ejercicios — que es justo el momento más vulnerable (acaba de fallar). Va primero porque es una cuestión de seguridad emocional (el mismo miedo de "no entender nada" ya identificado), no solo de pulido.
+2. **(Prioridad baja) La explicación se muestra completa, no filtrada al ítem que falló.** El feedback visual por ítem (verde/rojo en cada pregunta) ya funciona bien; lo que falta es que el TEXTO de la explicación se recorte a la parte relevante cuando el currículo ya la trae troceada por número de ítem (algunos ejercicios sí la traen así, otros son un párrafo único y ahí no se puede trocear sin reescribir contenido). Es mejora de calidad, no de seguridad — puede esperar más que el punto 1.

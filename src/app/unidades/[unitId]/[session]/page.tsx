@@ -4,6 +4,8 @@ import styles from "./page.module.css";
 import { getUnit } from "@/lib/curriculum";
 import PersonalizedMarkdown from "@/components/PersonalizedMarkdown";
 import OrientationToggle from "@/components/OrientationToggle";
+import ExerciseRenderer from "@/components/exercises/ExerciseRenderer";
+import { splitSessionIntoSegments } from "@/lib/session-segments";
 
 export default async function SessionPage({
   params
@@ -52,7 +54,13 @@ export default async function SessionPage({
       </section>
 
       <article className={styles.content}>
-        <PersonalizedMarkdown content={session.rawMarkdown} />
+        {splitSessionIntoSegments(session.rawMarkdown, session.exercises).map((segment, i) =>
+          segment.kind === "markdown" ? (
+            <PersonalizedMarkdown key={i} content={segment.text} />
+          ) : (
+            <ExerciseRenderer key={segment.block.id} block={segment.block} />
+          )
+        )}
       </article>
 
       <footer className={styles.footerNav}>

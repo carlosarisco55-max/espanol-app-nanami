@@ -12,6 +12,7 @@ import type {
   SessionNumber,
   UnitFrontmatter
 } from "./types";
+import { splitExerciseBlocks, parseExerciseBlock } from "./exercises";
 
 const UNIT_HEADER_REGEX = /^#\s+\d+(?:\.\d+)?\.?\s+UNIDAD\s+\d+\s+—\s+.+$/gm;
 const SESSION_HEADER_REGEX = /^##\s+.*SESIÓN\s+([1-5])\s+—\s+(.+)$/gm;
@@ -98,6 +99,7 @@ function parseSessions(
     const contentEnd = index + 1 < matches.length ? matches[index + 1].index! : block.length;
     const rawMarkdown = block.slice(contentStart, contentEnd).trim();
     const exerciseIds = [...rawMarkdown.matchAll(new RegExp(EXERCISE_REGEX))].map((exerciseMatch) => exerciseMatch[1]);
+    const exercises = splitExerciseBlocks(rawMarkdown).map(({ id, raw }) => parseExerciseBlock(id, raw));
 
     return {
       number,
@@ -106,6 +108,7 @@ function parseSessions(
       titleShort: title.replace(/^[^\p{L}\p{N}]+/gu, "").trim(),
       rawMarkdown,
       exerciseIds,
+      exercises,
       opening: resolveOpening(number, rawMarkdown, canDos, openingsManual[number]),
       outline: sessionOutline(number),
       orientation: orientations[number]

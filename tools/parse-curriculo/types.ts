@@ -48,6 +48,9 @@ export interface SessionData {
   titleShort: string;
   rawMarkdown: string;
   exerciseIds: string[];
+  /** Ejercicios con contenido estructurado (Fase 2) — solo para los tipos que ya tienen
+   * motor interactivo. Los demás siguen viviendo solo dentro de `rawMarkdown` (Fase 1). */
+  exercises: import("./exercise-types").ExerciseBlock[];
   opening: SessionOpening;
   outline: SessionOutlineStep[];
   /** Una sola frase de orientación, oculta tras un interruptor — no traduce el contenido,

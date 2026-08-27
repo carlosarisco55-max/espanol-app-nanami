@@ -1,0 +1,246 @@
+.card {
+  margin: 1.6rem 0;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: var(--bg-raised);
+}
+
+.idPill {
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  background: var(--bg-sunken);
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.3rem;
+  margin-bottom: 0.7rem;
+}
+
+.enunciado {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+}
+
+.itemRow {
+  margin-bottom: 1rem;
+}
+
+.itemText {
+  font-family: var(--font-reading);
+  font-size: 0.98rem;
+  color: var(--ink);
+  margin: 0 0 0.5rem;
+}
+
+.optionsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.optionBtn {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.optionBtn:hover {
+  border-color: var(--accent);
+}
+
+.optionBtnSelected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.optionBtn:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.optionCorrect {
+  border-color: var(--sage) !important;
+  background: var(--sage-soft) !important;
+  color: var(--sage) !important;
+}
+
+.optionIncorrect {
+  border-color: var(--clay) !important;
+  background: var(--clay-soft) !important;
+  color: var(--clay) !important;
+}
+
+.matchGrid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.6rem 1rem;
+  align-items: center;
+}
+
+.matchLeft {
+  font-family: var(--font-reading);
+  font-size: 0.94rem;
+}
+
+.matchArrow {
+  color: var(--ink-faint);
+}
+
+.matchSelect {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.matchSelectCorrect {
+  border-color: var(--sage);
+  background: var(--sage-soft);
+}
+
+.matchSelectIncorrect {
+  border-color: var(--clay);
+  background: var(--clay-soft);
+}
+
+.bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  padding: 0.9rem;
+  background: var(--bg-sunken);
+  border-radius: 0.6rem;
+}
+
+.bankWord {
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--bg-raised);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.bankWord:hover {
+  border-color: var(--accent);
+}
+
+.bankWordUsed {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.column {
+  padding: 0.9rem;
+  border: 1.5px dashed var(--line);
+  border-radius: 0.6rem;
+  min-height: 6rem;
+}
+
+.columnTitle {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-ink);
+  margin: 0 0 0.6rem;
+}
+
+.columnWords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.placedWord {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  cursor: pointer;
+  border: none;
+}
+
+.actions {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.checkBtn {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: var(--bg-raised);
+  cursor: pointer;
+}
+
+.checkBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.checkBtn:not(:disabled):hover {
+  background: var(--accent-ink);
+}
+
+.feedback {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.feedbackCorrecto {
+  background: var(--sage-soft);
+  color: var(--sage);
+}
+
+.feedbackPista {
+  background: var(--warm-soft);
+  color: var(--warm-strong);
+}
+
+.feedbackExplicacion {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+}
+
+.feedbackLabel {
+  font-weight: 700;
+  margin-right: 0.3rem;
+}

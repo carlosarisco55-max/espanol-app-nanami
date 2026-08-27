@@ -82,3 +82,55 @@ test("todos los can-do de la Unidad 1 se parsean con índice, destreza y texto",
     assert.ok(item.text.length > 0);
   }
 });
+
+test("Fase 2 — la Sesión 1 de la Unidad 1 tiene 3 ejercicios con contenido estructurado", () => {
+  const [unit] = parseCurriculum(content, { unitFilter: "B1-B2-U01" });
+  const s1 = unit.sessions[0];
+  assert.equal(s1.exercises.length, 3);
+  assert.ok(s1.exercises.every((e) => e.content !== null), "los 3 ejercicios de S1 deben tener content parseado");
+});
+
+test("Fase 2 — E01 (emparejar) tiene 8 pares y la solución completa", () => {
+  const [unit] = parseCurriculum(content, { unitFilter: "B1-B2-U01" });
+  const e01 = unit.sessions[0].exercises.find((e) => e.id === "B1-B2-U01-E01")!;
+  assert.equal(e01.content?.kind, "emparejar");
+  if (e01.content?.kind === "emparejar") {
+    assert.equal(e01.content.izquierda.length, 8);
+    assert.equal(e01.content.derecha.length, 8);
+    assert.equal(Object.keys(e01.content.solucion).length, 8);
+    assert.equal(e01.content.solucion["1"], "b");
+    assert.ok(e01.content.pista);
+    assert.ok(e01.content.explicacion);
+  }
+});
+
+test("Fase 2 — E02 (opción múltiple) tiene 8 ítems y la explicación completa (4 puntos, no solo el primero)", () => {
+  const [unit] = parseCurriculum(content, { unitFilter: "B1-B2-U01" });
+  const e02 = unit.sessions[0].exercises.find((e) => e.id === "B1-B2-U01-E02")!;
+  assert.equal(e02.content?.kind, "opcion_multiple");
+  if (e02.content?.kind === "opcion_multiple") {
+    assert.equal(e02.content.items.length, 8);
+    assert.equal(e02.content.items[0].opciones.length, 3);
+    assert.equal(e02.content.solucion["1"], "a");
+    // regresión: antes solo capturaba el primer punto de la explicación ("4 y 5"),
+    // perdiendo 6, 7 y 8
+    assert.match(e02.content.explicacion ?? "", /4 y 5/);
+    assert.match(e02.content.explicacion ?? "", /\b6:/);
+    assert.match(e02.content.explicacion ?? "", /\b7:/);
+    assert.match(e02.content.explicacion ?? "", /\b8:/);
+  }
+});
+
+test("Fase 2 — E03 (clasificar) tiene el banco completo y las dos columnas resueltas", () => {
+  const [unit] = parseCurriculum(content, { unitFilter: "B1-B2-U01" });
+  const e03 = unit.sessions[0].exercises.find((e) => e.id === "B1-B2-U01-E03")!;
+  assert.equal(e03.content?.kind, "clasificar");
+  if (e03.content?.kind === "clasificar") {
+    assert.equal(e03.content.banco.length, 12);
+    assert.deepEqual(e03.content.columnas, ["SER", "ESTAR"]);
+    assert.equal(e03.content.solucion["SER"].length, 6);
+    assert.equal(e03.content.solucion["ESTAR"].length, 6);
+    assert.ok(e03.content.solucion["SER"].includes("trabajador"));
+    assert.ok(e03.content.solucion["ESTAR"].includes("cansado"));
+  }
+});

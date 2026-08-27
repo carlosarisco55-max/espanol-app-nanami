@@ -58,10 +58,18 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
   claridad/accesibilidad corregidos con números (contraste WCAG calculado, no a ojo), más
   el interruptor "🌐 In English" (orientación por sesión, oculta por defecto, sin traducir
   el contenido — esquema ya preparado para `ja` cuando haya revisión nativa).
-- ⏸️ `ARCHITECTURE.md`: sigue pendiente de crear — mejor esperar a que se resuelva el plan
-  de mañana (ver abajo) para no describir un estado que cambie enseguida.
+- ✅ **Fase 2 — motor de ejercicios interactivo (2026-08-27):** los 3 tipos de ejercicio
+  de la Sesión 1 (emparejar, opción múltiple, clasificar) ya son interactivos de verdad
+  — máquina de estados `useReducer` (idle → fallo_1 con pista → fallo_2 con explicación,
+  o correcto), con validación real contra la solución del currículo. Verificado
+  interactuando de verdad en navegador (Playwright), no solo con capturas: los 3 tipos,
+  los 3 caminos (correcto/primer fallo/segundo fallo). 13/13 tests en verde. TRAE seguía
+  sin créditos (límite mensual, no por horas — confirmar fecha real en su panel de
+  facturación) así que esta fase también la hizo Claude Code.
+- ⏸️ `ARCHITECTURE.md`: sigue pendiente de crear — mejor esperar a que TRAE audite todo
+  lo construido (Fase 0, 1 y 2) para no describir un estado que cambie enseguida.
 
-## Plan concreto para la próxima sesión (dejado 2026-08-25, noche)
+## Plan concreto para la próxima sesión (dejado 2026-08-25, noche — sigue vigente)
 
 1. **Comprobar si TRAE ya tiene créditos de nuevo** (versión gratuita, se reseteaba por
    horas). Si sí, retomar esa conversación con TRAE — no crear una nueva desde cero.
@@ -75,13 +83,13 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
    corregido para filtrar antes de parsear). Que TRAE lea el estado actual del repo (este
    archivo + `git log`) antes de asumir que sigue donde lo dejó.
 3. **Auditoría cruzada, mismo patrón que usamos con la arquitectura de TRAE:** pedirle a
-   TRAE que revise lo que construyó Claude Code (Fase 0 + Fase 1, ya en `master`) con
-   ojo crítico — igual que Claude revisó la propuesta de TRAE en su momento. Buscar
-   huecos, no solo aprobar.
+   TRAE que revise lo que construyó Claude Code (Fase 0 + Fase 1 + **Fase 2, las tres ya
+   en `master`**) con ojo crítico — igual que Claude revisó la propuesta de TRAE en su
+   momento. Buscar huecos, no solo aprobar.
 4. **Decisión a tomar juntos, no asumida:** ¿TRAE sigue construyendo ENCIMA de lo que ya
-   hay (Fase 2: motor de ejercicios), o prefiere rehacer su propia versión de Fase 0/1
-   desde cero para comparar de verdad las dos aproximaciones? Las dos son válidas — no
-   decidir esto sin el usuario.
+   hay (Fase 3: resto de tipos de ejercicio + audio + SRS), o prefiere rehacer su propia
+   versión desde cero para comparar de verdad las dos aproximaciones? Las dos son
+   válidas — no decidir esto sin el usuario.
 5. Si hay divergencias de criterio entre lo que hizo Claude y lo que TRAE habría hecho
    (CSS Modules vs Tailwind/shadcn, estructura del JSON, etc.), resolverlas antes de
    seguir — no dejar que se acumulen sin decidir.

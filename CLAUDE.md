@@ -32,9 +32,10 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
 
 ## Elenco recurrente de los audios (ya existe, no inventar personajes nuevos)
 
-- **Keiko**: hilo emocional principal, aparece en U2, U5, U6, U8, U10, U16 (llega a España → busca piso → médico → trámite NIE → entrevista de trabajo → compra → reaparece en el simulacro final).
-- **Bea, Nacho y Silvia**: se reencuentran — aparecen juntos en U3 y de nuevo en el cierre, U16.
+- **Keiko**: hilo emocional principal, aparece en U2, U5, U6, U8, U10, U11, U15 (busca piso → médico → homologar su título universitario → entrevista de trabajo → compra de coche → discusión con Nacho → se reencuentra con todo el grupo en una cena, ya reconciliada). Notas de precisión: en U2 el audio no dice que acabe de llegar a España — el correo modelo de la tarea final de esa unidad la sitúa ya con dos años viviendo en la ciudad. En U6 el trámite real es la homologación de un título universitario (llamada al 060), no el NIE. En U11, escondido en un ejercicio de gramática y un role-play (no en el texto ni el audio principal de la unidad), Keiko y Nacho tienen una discusión — él reveló algo suyo delante de todos en una cena y estuvieron ocho meses distanciados — que ya está resuelta para cuando llegan a la cena conjunta de la U15.
+- **Bea, Nacho y Silvia**: se reencuentran — aparecen juntos en U3, y de nuevo en U15 (esta vez con Keiko integrada al grupo, en la cena de amigos del audio `B1-B2-U15-A1`). No reaparecen en la U16: esa unidad es el simulacro DELE B2 y no incluye elenco recurrente, son todo personajes propios del examen — verificado leyendo su contenido completo.
 - U1 no tiene elenco recurrente todavía (personajes propios: Lucía y Paco).
+- Cuidado con nombres repetidos sin relación entre personajes distintos: "Beatriz" (contertulia de U7, y también un personaje de U12) no es "Bea" de U3/U15. La "Silvia" entrevistadora de U8 (probablemente Silvia Arana, la reclutadora citada en el texto de esa unidad) no es la "Silvia" de U3/U15. El "Álvaro" del audio de U11 no es el "Álvaro" contertulio de U7. Son coincidencias de nombre, no continuidad — no asumir relación entre personajes que comparten nombre sin verificarlo en el propio texto.
 
 ## Restricciones técnicas ya decididas (no reabrir sin motivo nuevo)
 
@@ -48,7 +49,13 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
 - ✅ Currículo B1→B2 completo (16/16 unidades).
 - ✅ Repo Git + GitHub privado.
 - ✅ Auditoría de arquitectura y modelo de interacción acordados con TRAE (ver `docs/decisions/`).
-- ✅ Capa de Categoría B de la Unidad 1 añadida al currículo.
+- ✅ **Categoría B completa para las 16/16 unidades** (2026-08-31): aperturas de sesión,
+  orientación multiidioma y continuidad narrativa del elenco recurrente ya están en
+  `curriculo-b1-b2.md` para todas las unidades, no solo la U1. Verificado unidad por unidad
+  con el parser real (`tools/parse-curriculo`) y dos rondas de auditoría con subagentes —
+  se corrigieron varias sobreafirmaciones y errores de continuidad narrativa por el camino
+  (detalle en la sección "Elenco recurrente de los audios" de arriba). Contenido de la fase
+  MVP (B1→B2, las 16 unidades) ya no tiene huecos pendientes por parte de Claude Code.
 - ✅ **Fase 0** (parser + tests de consistencia) y **Fase 1** (onboarding + camino + Unidad 1
   Sesión 1 renderizada como lectura editorial) completadas por Claude Code, porque TRAE se
   quedó sin créditos (versión gratuita) a media Fase 0. Verificado con capturas reales en
@@ -98,9 +105,10 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
 
 ## Qué falta por hacer
 
-- Fases 3-5 del plan de TRAE (resto de tipos de ejercicio + audio/SRS, role-play, sesiones puente + simulacro DELE) — ver el detalle en `docs/decisions/2026-08-25-auditoria-arquitectura.html`.
-- Bloques de Categoría B para las unidades 2-16 (se añaden a medida que TRAE las vaya necesitando, no todas de golpe).
-- Escalar el currículo a otros niveles MCER (A1, A2, C1, C2) — arquitectura ya preparada para ello, contenido pendiente.
+- Fases 3-5 del plan de TRAE (resto de tipos de ejercicio + audio/SRS, role-play, sesiones puente + simulacro DELE) — trabajo de PRODUCTO, no de contenido; ver el detalle en `docs/decisions/2026-08-25-auditoria-arquitectura.html`. El contenido que estas fases necesitan (audios, role-plays, sesiones puente, simulacro DELE completo) ya existe íntegro en el currículo desde el principio — lo que falta es implementarlo en la app.
+- Escalar el currículo a otros niveles MCER (A1, A2, C1, C2) — arquitectura ya preparada para ello, contenido pendiente. Explícitamente fuera del alcance del MVP actual (B1→B2).
+
+**Contenido de la fase MVP (B1→B2, currículo + Categoría A/B de las 16 unidades): completo.** No queda ningún hueco de contenido pendiente por parte de Claude Code para el MVP — lo que sigue ahora es trabajo de producto.
 
 ## Mejoras post-MVP (2026-08-27, feedback de uso real de la Fase 2) — deliberadamente NO hacer ahora
 

@@ -1373,6 +1373,31 @@ depende_de: [B1-B2-U01]
 | **Fonética** | Grupos consonánticos y sílaba trabada **(J8)**. Entonación de la pregunta absoluta vs parcial. |
 | **Cultura** | Alquilar en España: fianza, aval, gastos, comunidad. Los horarios españoles. La relación con los vecinos. |
 
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Un plano de 65 m² con las habitaciones sin nombre, y al lado tres fotos reales: un salón pequeño con balcón, una cocina antigua, un dormitorio interior sin ventana. Antes de aprender una palabra nueva, mira las tres fotos veinte segundos: ¿cuál es el problema real de este piso, el que no se ve en el plano? |
+| S2 | Cinco cosas que nadie te cuenta cuando buscas piso en España — hoy las lees en una guía real, con datos que sorprenden. Luego escuchas la primera llamada de Keiko, que anda buscando piso: es la primera vez que oyes su voz en este curso, y no será la última. |
+| S4 | Te vas cinco días de viaje y tienes que pedirle tres favores a tu vecino, uno detrás de otro, sin soltarlos todos de golpe. Y hoy aprendes a decir que no sin decir «no»: como se justifica de verdad la gente en español, con un «es que» y una alternativa. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, «Busco Ø piso» / «Puede tener un bar debajo» / «el bar abre a las nueve», y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: housing vocabulary — rooms, renting, the neighbourhood — starting from real photos of a flat with a problem you'll learn to spot. | — |
+| S2 | Today: read a real guide about renting in Spain, and meet Keiko for the first time — she's calling about a flat. Same topic as the reading, now through listening. | — |
+| S4 | Today: ask a neighbour for favours one at a time, negotiate a flat viewing over the phone, and learn how Spanish speakers say no without really saying it. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — la información cultural verificable sobre alquiler (fianza legal de un mes, honorarios de agencia a cargo del propietario desde 2023) ya está entregada dentro del propio texto de lectura `B1-B2-U02-T1`, Categoría A; añadir un dato curioso aparte sería repetir el mismo contenido con otras palabras, no aportar nada nuevo.
+- Elenco recurrente: aquí aparece **Keiko** por primera vez en el curso. El audio `B1-B2-U02-A1` («El piso de la calle Olivar») es su primera escena: llama para ver un piso. *(Nota de continuidad: el audio no dice que acabe de llegar a España, y el correo modelo de la tarea final de esta misma unidad, `B1-B2-U02-E15`, la sitúa llevando ya dos años en la ciudad — así que esta unidad no fija su llegada, sólo la búsqueda de piso.)* Su historia continúa en la Unidad 5 (médico), Unidad 6 (una gestión administrativa), Unidad 8 (entrevista de trabajo), Unidad 10 (compra) y en la Unidad 11 tiene una discusión con Nacho (ver nota de esa unidad) que ya está resuelta para cuando se reencuentra con todo el grupo —Bea, Nacho y Silvia incluidos— en la cena de la Unidad 15. *(Corrección: no reaparece en la Unidad 16 — esa unidad es el simulacro DELE y no incluye elenco recurrente; verificado revisando su contenido completo.)*
+
 ---
 
 ## 3.1 SESIÓN 1 — 🔥 Calentamiento y 💬 vocabulario
@@ -2425,6 +2450,31 @@ depende_de: [B1-B2-U01, B1-B2-U02]
 | **Léxico** | Etapas y sucesos vitales. Conectores y marcadores del relato oral. Sucesos, incidentes y prensa. Verbos de narración y de reacción. |
 | **Fonética** | Contraste acentual `hablo / habló` **(J8 + acento léxico)**. Grupos consonánticos en formas verbales (*construí, trajeron, condujo*). |
 | **Cultura** | Cómo se cuenta una anécdota en España: la exageración amable, el *«resulta que»*, la interrupción como señal de interés. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Un andén de estación, visto desde atrás. Alguien corre con una maleta hacia un tren que ya está cerrando las puertas. En el banco, una bolsa de la compra olvidada, y el reloj marca las 7:58. Antes de aprender nada nuevo: ¿qué acaba de pasar aquí, y qué había pasado justo antes? |
+| S2 | Un tren perdido puede convertirse en el mejor día del año — hoy lees una crónica real de cómo pasó. Luego reaparecen tres viejos conocidos: Bea, Nacho y Silvia discuten sobre lo que ocurrió en una cena de cumpleaños, y cada uno la cuenta a su manera. Prepárate para escuchar tres versiones del mismo hecho. |
+| S4 | Un golpe leve en un aparcamiento, dos testigos, dos versiones que no coinciden — y un seguro que necesita una sola historia. Hoy aprendes a contar una anécdota como se cuenta de verdad en España: con quien escucha interrumpiendo todo el rato, porque callarse del todo se interpreta como aburrimiento. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, «ya se había arreglado todo» / «habíamos reservado para las nueve», y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: the past-tense system starts here — begin from a photo of someone missing a train, and work out what must have happened just before. | — |
+| S2 | Today: read a real personal story about a missed train, then listen to three old friends — Bea, Nacho and Silvia — arguing over what really happened at a birthday dinner. | — |
+| S4 | Today: two witnesses, one accident, two different versions — and you have to agree on a shared account. You'll also learn why Spanish listeners never stay silent while someone tells a story. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — la clave cultural de esta unidad (la interrupción como señal de interés al contar una historia) ya está entregada dentro del propio contenido de la sesión 4, Categoría A (nota cultural sobre los *あいづち*), no en una entrada aparte; repetirla como dato curioso sería duplicar el mismo contenido con otras palabras.
+- Elenco recurrente: aquí se reencuentran **Bea, Nacho y Silvia** (audio `B1-B2-U03-A1`, «¿Y tú qué hiciste?»), discutiendo entre risas sobre una cena de cumpleaños con versiones contradictorias del mismo suceso — cada uno defiende su punto de vista, tal y como se practica en el role-play de la S4. Vuelven a aparecer juntos —esta vez con Keiko incluida— en la Unidad 15, en una cena de amigos (ver nota de esa unidad).
 
 ---
 
@@ -3553,6 +3603,31 @@ depende_de: [B1-B2-U01, B1-B2-U02, B1-B2-U03]
 | **Léxico** | Infancia y educación. Expresiones para describir el pasado. Cambio social, urbano y tecnológico. Verbos de dicción y de atribución. |
 | **Fonética** | Grupos fónicos y pausas en el enunciado largo. Entonación de la cita. |
 | **Cultura** | La transformación de los barrios españoles: gentrificación, turistificación, comercio de proximidad. La España vaciada. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Dos fotos de la misma esquina, treinta años de diferencia: en 1994, una mercería con toldo y una cabina de teléfono; en 2024, una cafetería para llevar y un cartel de «apartamento turístico». Antes de la primera palabra nueva: nombra cinco cosas que ha ganado esta calle, y cinco que ha perdido. |
+| S2 | Una columna de opinión real sobre un barrio que ya no reconoce ni quien se crió en él — y cuatro mensajes de voz esperándote en el móvil: la casera, el centro de salud, y una cara ya conocida, Nacho, con el lío de siempre para quedar el sábado con Silvia. |
+| S4 | Una fuga de agua en el edificio, dos versiones distintas —la del casero y la de la administradora— y tú en medio, teniendo que transmitir lo que te dijo cada uno sin perder ningún matiz. Hoy aprendes a decir «según parece» sin comprometerte, y a discrepar con firmeza sin pelearte. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: talk about how a place used to be and how it's changed, starting from two real photos of the same street corner thirty years apart. | — |
+| S2 | Today: read a real opinion column about a neighbourhood that's changed beyond recognition, then listen to four realistic voicemails — including one from Nacho, catching up on Saturday plans with Silvia. | — |
+| S4 | Today: report what two different people told you about the same problem, when their versions don't match — and learn how to disagree firmly without being rude. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el propio texto de lectura `B1-B2-U04-T1` ya desarrolla en profundidad la transformación del barrio (gentrificación, comercio de proximidad, la España vaciada), Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: **Nacho** reaparece brevemente (mensaje 3 del audio `B1-B2-U04-A1`, «Cuatro mensajes de voz») coordinando un plan de sábado con Silvia — la misma pareja de amigos de la Unidad 3, aunque aquí ella no llega a hablar y no comparten escena. Es un cameo, no un capítulo nuevo de su historia.
 
 ---
 
@@ -4837,6 +4912,31 @@ depende_de: [B1-B2-U01, B1-B2-U04]
 | **Léxico** | El cuerpo. Síntomas y dolencias. Atención sanitaria en España. Hábitos, sueño y bienestar. Alimentación. |
 | **Fonética** | Contraste acentual `hablo / hablé / hable`. Los tres tiempos que sólo se distinguen por el acento. |
 | **Cultura** | Cómo funciona la sanidad pública española: centro de salud, médico de cabecera, cita previa, urgencias, farmacia. La costumbre de dar consejos de salud no pedidos. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Una sala de espera de centro de salud: seis personas, seis síntomas distintos —un brazo en cabestrillo, una tos que no para, un niño dormido, una espalda que duele. Antes de aprender nada nuevo, inventa qué le pasa a cada una y decide a quién atenderían primero. |
+| S2 | Ocho creencias sobre el sueño que casi todo el mundo da por ciertas —y que una especialista desmonta una a una. Luego entras en la consulta con Keiko: lleva dos meses durmiendo mal, y hoy averiguas qué le recomienda la médica, palabra por palabra. |
+| S4 | En España te van a aconsejar cosas que no has pedido, y con una fuerza que puede sonar a orden sin serlo. Hoy aprendes a graduar un consejo —del más suave al más directo— y por qué «tienes que ir al médico» dicho por una amiga no es más que cariño. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: describe symptoms and guess who's waiting for what, starting from a busy health-centre waiting room. | — |
+| S2 | Today: read eight common myths about sleep, debunked by a real specialist, then sit in on Keiko's doctor's appointment — she's been sleeping badly for two months. | — |
+| S4 | Today: learn to give advice at different levels of strength, and why Spanish speakers hand out health advice nobody asked for — it's not rudeness, it's how they show they care. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el propio audio de la consulta y la nota cultural de la S4 sobre los consejos de salud no pedidos ya desarrollan en profundidad las dos claves culturales de esta unidad, Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: **Keiko** continúa su hilo narrativo — después de instalarse en la Unidad 2, aquí acude al médico por problemas de sueño (audio `B1-B2-U05-A1`, «En la consulta»). Seguirá en la Unidad 6 con una gestión administrativa (homologar su título universitario).
 
 ---
 
@@ -6284,6 +6384,31 @@ depende_de: [B1-B2-U05]
 | **Fonética** | **Deletrear** (el alfabeto español, nombres extranjeros). Decir números largos: documentos, IBAN, teléfonos, códigos. |
 | **Cultura** | El NIE, el empadronamiento, la cita previa, el certificado digital y la Cl@ve. La sensación de indefensión ante la ventanilla y cómo defenderse: hoja de reclamaciones, registro de entrada, OMIC. |
 
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Un mostrador de oficina de extranjería. El panel marca A-247; en tu mano, un ticket que dice A-312. Encima, un cartel: «SIN CITA PREVIA NO SE ATIENDE». Antes de la primera palabra nueva: ¿cuánta gente hay por delante, y qué llevan todos en esas carpetas de plástico? |
+| S2 | Empadronarse sin morir en el intento: el trámite que va antes que todos los demás cuando acabas de llegar, explicado paso a paso. Luego escuchas a Keiko al teléfono con el 060, intentando homologar su título universitario — y descubriendo que el plazo legal y el plazo real no son lo mismo. |
+| S4 | En una ventanilla española hay una escalada en cuatro pasos, y hay que recorrerla en orden: cortesía, insistencia, protesta, exigencia formal. Hoy aprendes las frases de cada paso — y la más poderosa de todas, la que pide la hoja de reclamaciones. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: bureaucracy vocabulary starts here — a ticket number, a waiting line, and a sign that says no appointment, no service. | — |
+| S2 | Today: read a step-by-step guide to registering your address in Spain, then listen to Keiko on the phone with a government helpline, trying to get her university degree recognised. | — |
+| S4 | Today: learn the four-step escalation for complaining at a government counter — starting polite, and ending with the most powerful sentence in Spanish bureaucracy. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el gancho cultural ya lo entrega la propia cita de la ficha (Larra, «Vuelva usted mañana», 1833), Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: **Keiko** continúa su hilo — aquí llama al 060 para informarse sobre cómo homologar su título universitario (audio `B1-B2-U06-A1`, «Llamada al 060»). Seguirá en la Unidad 8 con la entrevista de trabajo.
+
 ---
 
 ## 4.4.1 SESIÓN 1 — 🔥 Calentamiento y 💬 vocabulario
@@ -7597,6 +7722,31 @@ depende_de: [B1-B2-U05]
 | **Fonética** | **Entonación enfática y contrastiva**: el foco de la frase. |
 | **Cultura** | La tertulia como género español. Discrepar en voz alta no es maleducado. La prensa española y su marcada línea editorial. |
 
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Cuatro portadas de periódico del mismo día, sobre el mismo hecho: una habla de «éxito histórico», otra de «fracaso anunciado». Antes de la primera palabra nueva, decide: ¿de qué crees que hablan, y cuál te parece más fiable? |
+| S2 | Alguien decidió dejar de leer las noticias por la mañana, y hoy lees por qué —con sus argumentos y también con lo que reconoce que no tiene razón. Luego entras en una tertulia de radio real: tres personas discuten a la vez, se interrumpen y acaban de acuerdo sin darse cuenta. |
+| S4 | En español, discrepar en voz alta no es de mala educación —y quedarse callada tampoco es de buena educación: hay que aprender a entrar en la conversación. Hoy practicas las fórmulas para interrumpir sin ser grosera, y para dar la razón a medias sin rendirte del todo. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: four newspapers, one event, four completely different headlines — decide for yourself which one you'd trust. | — |
+| S2 | Today: read a real opinion column about quitting the morning news, then listen to a real-style radio debate where three people talk over each other and somehow end up agreeing. | — |
+| S4 | Today: learn how to disagree out loud without being rude, how to concede a point without giving up your position, and how to jump into a conversation politely — staying silent doesn't work here. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — la clave cultural (discrepar en voz alta no es de mala educación) ya está entregada en profundidad por la propia nota de la S4, Categoría A, y demostrada por el formato mismo del audio de la tertulia; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: ninguno. Los tres contertulios del audio (Álvaro, Beatriz, Carmen) son propios de esta unidad, sin relación con el elenco recurrente de Bea/Nacho/Silvia ni con Keiko — ojo, «Beatriz» no es «Bea»: son personajes distintos, sin continuidad entre ellos.
+
 ---
 
 ## 4.5.1 SESIÓN 1 — 🔥 Calentamiento y 💬 vocabulario
@@ -8833,6 +8983,31 @@ depende_de: [B1-B2-U05, B1-B2-U07]
 | **Léxico** | Empleo y contratación. El CV y la entrevista. Condiciones y ambiente laboral. Sectores y oficios. |
 | **Fonética** | **Ritmo y fluidez**: reducir las pausas de duda; muletillas de relleno útiles. |
 | **Cultura** | Cómo se busca trabajo en España: portales, contactos, autocandidatura. El CV español (sin foto obligatoria, sin edad). Qué se puede y qué no se puede preguntar en una entrevista. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Un tablón de anuncios de verdad: una oferta impresa de empresa grande, un papel escrito a mano buscando quien cuide a una señora mayor, un cartel con tiras de teléfono para dar clases particulares. Antes de la primera palabra nueva: ¿de cuál te fiarías más, y de cuál menos? |
+| S2 | Tres personas que seleccionan personal cuentan, sin ponerse de acuerdo del todo entre sí, qué miran de verdad en una entrevista. Una de ellas, Silvia Arana, tiene una pregunta favorita — y hoy la escuchas en directo: es la que le hace a Keiko en su entrevista para coordinadora. |
+| S4 | En una entrevista de trabajo en España se espera que hables bien de ti misma: decir «tampoco es que sea muy buena en eso» no suena a modestia, suena a falta de criterio. Hoy aprendes a reconocer un punto débil sin hundirte, con una fórmula de tres piezas: reconocer, puente, compensar. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: job-hunting vocabulary starts here, from a real noticeboard with six very different job ads pinned to it. | — |
+| S2 | Today: read what three real recruiters say they actually look for in an interview, then listen to one of them, Silvia, interviewing Keiko for a coordinator role. | — |
+| S4 | Today: learn how to own your strengths and admit a weakness without sinking — Spanish interviews expect confident self-description, not false modesty. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: el CV español no lleva foto ni fecha de nacimiento — es una práctica pensada para reducir la discriminación por edad o aspecto en la primera criba, distinta de la costumbre del 履歴書 japonés, que sí las incluye. Ya se apunta en el campo Cultura de esta ficha; se explicita aquí porque es un choque cultural real y directamente útil para cuando busque trabajo en España.
+- Elenco recurrente: **Keiko** continúa su hilo — aquí tiene la entrevista de trabajo para el puesto de coordinadora (audio `B1-B2-U08-A1`, «Entrevista para el puesto de coordinadora»). Su entrevistadora se llama Silvia, y todo apunta a que es Silvia Arana, la reclutadora citada en el texto de lectura de esta misma sesión (misma técnica de entrevista, palabra por palabra). *Atención: no es la misma Silvia de la Unidad 3 (la del grupo Bea/Nacho/Silvia) — coincidencia de nombre entre dos personajes sin relación entre sí.* La historia de Keiko continúa en la Unidad 10 (compra) y en la Unidad 15 (cena de amigos con el grupo de Bea/Nacho/Silvia).
 
 ---
 
@@ -10143,6 +10318,31 @@ depende_de: [B1-B2-U05, B1-B2-U07]
 | **Fonética** | Contraste `hablará / hablara / hablar`: acento y vocal final. Reducción vocálica en el habla rápida. |
 | **Cultura** | Cómo se leen los titulares científicos en la prensa española. La distancia entre el estudio y el titular. |
 
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Una foto en blanco y negro de 1965: la maqueta de «la casa del año 2000», con cocina automática, coche volador en el tejado y un robot mayordomo sirviendo la cena. Antes de la primera palabra nueva: ¿cuántas de estas predicciones se cumplieron, y por qué crees que acertaron con unas y no con otras? |
+| S2 | Cinco predicciones sobre 2050 que probablemente no se cumplan —analizadas una por una, con lo que sí es probable y lo que es puro titular. Luego escuchas a una economista optimista y a un sociólogo escéptico discutiendo en un pódcast sobre ese mismo año: la jornada de cuatro días, el clima, el carné de conducir. Casi no se ponen de acuerdo en nada, salvo en una cosa —y esa coincidencia es la parte más reveladora del audio. |
+| S4 | Hoy aprendes a graduar tu propia incertidumbre: hay una diferencia real entre «seguro que sí», «no me extrañaría que» y «vete a saber». Y una estructura para advertir de un riesgo sin sonar alarmista: «como sigamos así…». |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: talk about the future and how well past predictions held up, starting from a 1965 photo of "the house of the year 2000." | — |
+| S2 | Today: read five predictions about 2050 that probably won't come true, then listen to an optimist and a sceptic arguing about the same year on a podcast. | — |
+| S4 | Today: learn to grade your own certainty — there's a real difference between "definitely", "I wouldn't be surprised if" and "who knows" — plus how to warn about a risk without sounding alarmist. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el propio texto de lectura `B1-B2-U09-T1` ya desarrolla en profundidad la distancia entre el estudio y el titular (es literalmente su tesis final, "una previsión que no incluye su propio margen de error… es un titular"), Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: ninguno. Nuria y Diego, del audio `B1-B2-U09-A1`, son propios de esta unidad, sin relación con el elenco recurrente de Bea/Nacho/Silvia ni con Keiko.
+
 ---
 
 ## 4.7.1 SESIÓN 1 — 🔥 Calentamiento y 💬 vocabulario
@@ -11430,6 +11630,31 @@ depende_de: [B1-B2-U03, B1-B2-U05, B1-B2-U09]
 | **Léxico** | Dinero y economía doméstica. Decisiones y dilemas. Negociar y regatear. Ética y valores. |
 | **Fonética** | Tilde y acento en *habláramos*; par mínimo crítico *hablara / hablará*. |
 | **Cultura** | El regateo en España: dónde sí y dónde no. Hablar de dinero: qué se pregunta y qué no. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Un billete de lotería de Navidad partido en dos mitades, dos tazas de café, y una lista escrita a mano: «1. quitar la hipoteca · 2. el coche de mi madre · 3. …». La tercera línea está en blanco. Antes de la primera palabra nueva: ¿qué escribirías tú ahí? |
+| S2 | Un estudio real de la Universidad de Granada revela que casi nadie hace con el dinero lo que dice que haría. Luego escuchas a Keiko negociando la compra de un coche de segunda mano —y descubres por qué mencionar la correa de distribución en el momento justo vale setecientos euros. |
+| S4 | Negociar en español tiene sus reglas: cuanto más irreal es el verbo que usas, más suave suena lo que pides. Hoy aprendes a aconsejar con delicadeza y a contraofertar sin quemar el trato, con las mismas frases que acabas de escuchar en la negociación del coche. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: hypothetical language starts here — a torn lottery ticket, a wish list, and a blank third line for you to fill in. | — |
+| S2 | Today: read a real study on what people say they'd do with a windfall versus what they actually do, then listen to Keiko negotiating to buy a used car. | — |
+| S4 | Today: learn how the verb form itself makes a request sound softer, and practise negotiating and giving gentle advice using the same phrases from the car sale. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — dónde se regatea y dónde no ya está explicado con detalle en el vocabulario de la propia sesión 1 (mercadillos, compraventa entre particulares, alquiler, presupuestos, negociación salarial sí; comercios, restaurantes y supermercados no), Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: **Keiko** continúa su hilo — aquí negocia la compra de un coche de segunda mano (audio `B1-B2-U10-A1`, «La compraventa del coche»). Su historia sigue en la Unidad 11 (una discusión con Nacho, ver nota de esa unidad) y llega a la Unidad 15, donde se reencuentra con todo el grupo en una cena de amigos.
 
 ---
 
@@ -12814,6 +13039,31 @@ depende_de: [B1-B2-U03, B1-B2-U10]
 | **Fonética** | **Entonación del reproche frente a la del lamento**: la misma frase, dos melodías. Pausa expresiva en el relato. |
 | **Cultura** | Cómo se pide perdón en España y cómo se acepta. El «no pasa nada» y lo que significa realmente. |
 
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Un cajón abierto, visto desde arriba: un sobre cerrado con un nombre escrito y sin sello, unas llaves antiguas, una foto de dos personas doblada por la mitad, una entrada de tren sin usar. Antes de la primera palabra nueva, imagina de quién es cada cosa y por qué sigue ahí guardada. |
+| S2 | Una carta escrita en un tren, en 2009, que nunca llegó a enviarse —porque la persona a la que iba dirigida murió antes. Hoy la lees entera. Luego escuchas a Álvaro, que dejó un trabajo estable a los 44 años para montar un taller: no se arrepiente de haberlo intentado, pero sí de cómo lo hizo. |
+| S4 | Reprochar sin herir, disculparse sin excusarse, reconciliarse sin fingir que no ha pasado nada. Hoy aprendes las fórmulas de cada paso, con la misma estructura de cuatro pasos que de verdad funciona en una reconciliación real. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today's unit is about regret — start from a photo of a drawer holding an unsent letter, old keys, and an unused train ticket. | — |
+| S2 | Today: read a real story about a letter written on a train in 2009 that was never sent, then listen to Álvaro talk about the risk he took at 44 and what he actually regrets about it. | — |
+| S4 | Today: learn how to reproach someone without hurting them, apologise without making excuses, and reconcile for real — using the four-step structure that actually works. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el matiz de *«no pasa nada»* ya está explicado con detalle en la nota cultural de la propia sesión 2 (línea con la nota ⚠️ sobre esta fórmula) y reforzado en el audio y su ejercicio de comprensión, Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: el texto de lectura (autora anónima) y el audio de la entrevista (Álvaro, sin relación con el contertulio de la Unidad 7) son propios de esta unidad, sin elenco recurrente. **Pero ojo: sí hay un hilo de continuidad, escondido en los ejercicios de gramática y función, no en el texto ni el audio principal.** El hueco `B1-B2-U11-E14` es una carta de reconciliación escrita por **Keiko** a **Nacho**, tras una discusión en la que él reveló algo personal suyo delante de todo el mundo en una cena; y el role-play `B1-B2-U11-E17` hace que la propia alumna practique la conversación pendiente **en el papel de Keiko**, con la app haciendo de Nacho. Encaja con el hilo ya visto: el «sacarlo delante de todos en una cena» recuerda al patrón de la Unidad 3 y de la Unidad 15, y para la Unidad 15 («Cena entre amigos») Keiko y Nacho ya se tratan con normalidad — esta unidad parece situarse cronológicamente antes de esa reconciliación.
+
 ---
 
 ## 4.9.1 SESIÓN 1 — 🔥 Calentamiento y 💬 vocabulario
@@ -14155,6 +14405,31 @@ depende_de: [B1-B2-U04, B1-B2-U10, B1-B2-U11]
 | **Léxico** | Prensa y fuentes. Bulos y desinformación. Transmitir y mediar. Malentendidos y aclaraciones. |
 | **Fonética** | **Entonación de la cita y del inciso**: marcar con la voz lo que es palabra ajena. |
 | **Cultura** | Cómo circulan los bulos por WhatsApp en España. El papel de los verificadores. La cadena de reenvíos familiar. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Una captura de un grupo de WhatsApp familiar: un audio reenviado muchas veces, una foto borrosa con letras amarillas encima, y tres respuestas debajo —una que se lo cree, otra que dice que ya lo había oído, y una que avisa de que es mentira. Antes de la primera palabra nueva: ¿qué crees que dice el audio, y por qué crees que la gente lo reenvía? |
+| S2 | Un bulo real sobre un supermercado sin aceite, reconstruido hora a hora: cómo empieza, por qué se cree, y por qué el desmentido casi nunca lo alcanza. Luego escuchas dos versiones de la misma reunión de trabajo —la de Beatriz y la de Andrés— contadas por separado a personas distintas. Ninguna de las dos miente del todo, y tampoco coinciden. |
+| S4 | Cuando dos personas te cuentan versiones distintas del mismo hecho, hoy aprendes a mediar entre ellas sin tomar partido: comprobar que has entendido bien, defenderte si alguien tergiversa lo que dijiste, y dejar claro qué sostiene cada uno sin dar la razón a ninguno. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: media-literacy vocabulary starts here — a realistic WhatsApp family group with a viral forwarded audio and three very different reactions to it. | — |
+| S2 | Today: read how a real hoax about an oil shortage spread hour by hour, then listen to two contradictory accounts of the same work meeting, told separately by the two people involved. | — |
+| S4 | Today: learn to mediate between two people who each tell a different version of events — checking you understood right, defending yourself if you're misquoted, and staying neutral. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el propio texto de lectura `B1-B2-U12-T1` ya reconstruye en profundidad, fase a fase, cómo circula un bulo por WhatsApp en España, Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: ninguno. Beatriz y Andrés, del audio `B1-B2-U12-A1`, son propios de esta unidad — atención: esta Beatriz no es la misma que la contertulia de la Unidad 7 ni, por supuesto, Bea de la Unidad 3; son personajes sin relación entre sí que sólo comparten (o casi) el nombre.
 
 ---
 
@@ -15516,6 +15791,31 @@ depende_de: [B1-B2-U07, B1-B2-U12]
 | **Fonética** | Entonación del inciso y de la enumeración. **Énfasis en el conector contraargumentativo.** |
 | **Cultura** | El debate público en España: la sequía, la vivienda, el turismo. El uso de datos en la discusión cotidiana. |
 
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Un pantano fotografiado dos veces desde el mismo punto: arriba, hace ocho años, con el agua hasta arriba; abajo, este agosto, con el nivel bajísimo y las ruinas de un pueblo que quedó sumergido en los años sesenta volviendo a verse —un campanario, unos muros, un puente. Antes de la primera palabra nueva: ¿de quién es la culpa de que haya menos agua? Da tres responsables posibles. |
+| S2 | Un vídeo de una tortuga con una pajita clavada en la nariz cambió media Europa —y hoy lees por qué el autor de este ensayo cree que fue, a la vez, un éxito y una distracción. Luego entras en un pleno vecinal real: se debate si dejar de regar un parque en plena sequía, y una vecina cambia el rumbo de toda la reunión con un solo dato que nadie había mirado. |
+| S4 | Argumentar de verdad no es imponerte: es conceder lo que es cierto, refutar lo que no lo es, y a veces darte cuenta de que estáis discutiendo el punto equivocado. Hoy practicas las cuatro piezas —aportar evidencia, conceder, refutar, reencuadrar— con las mismas frases que acabas de escuchar en el pleno del parque. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: argue about a real environmental issue, starting from two photos of the same reservoir eight years apart, with a drowned village re-emerging as the water disappears. | — |
+| S2 | Today: read why the viral turtle-and-straw video may have been a well-meaning distraction, then listen to a real neighbourhood meeting where one resident's data changes the whole debate. | — |
+| S4 | Today: learn to argue for real — conceding what's true, refuting what isn't, and sometimes noticing you're arguing about the wrong thing entirely. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el propio texto de lectura `B1-B2-U13-T1` y el audio del pleno vecinal ya desarrollan en profundidad el uso de datos en el debate público español (sequía, riego, consumo), Categoría A; un dato curioso aparte repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: ninguno. Rosa, Julián y Nadia, del audio `B1-B2-U13-A1`, son propios de esta unidad, sin relación con el elenco recurrente de Bea/Nacho/Silvia ni con Keiko.
+
 ---
 
 ## 4.11.1 SESIÓN 1 — 🔥 Calentamiento y 💬 vocabulario
@@ -16857,6 +17157,31 @@ depende_de: [B1-B2-U01, B1-B2-U03]
 | **Léxico** | Procesos y elaboración. Artesanía y oficios. Gastronomía y producción de alimentos. Cambio y transformación. |
 | **Fonética** | Ritmo de la enumeración larga; entonación suspendida entre fases de un proceso. |
 | **Cultura** | Los oficios que desaparecen en España. La denominación de origen. El producto de temporada. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Seis fotos sin texto, en fila: un vellón de lana sucia, la lana secándose al sol, unas manos cardándola, un huso hilando, madejas teñidas de tres colores, y un jersey doblado sobre una silla. Antes de la primera palabra nueva: ordénalas, y calcula cuánto tiempo crees que pasa entre la primera y la última. |
+| S2 | En 1962 había once telares en este pueblo; hoy queda uno, y lo lleva María, que aprendió el oficio a los cuarenta años reconstruyendo el cuaderno de su abuela. Hoy lees su historia completa, y luego la escuchas explicando el proceso entero, paso a paso, a una visitante del taller: de la oveja al jersey, sin saltarse ni un detalle. |
+| S4 | Explicar cómo se hace algo, paso a paso, con las advertencias justas en el momento justo: hoy practicas la misma estructura que usa María cuando enseña su taller —abrir el proceso, secuenciarlo, avisar del riesgo, y explicar el porqué de cada paso. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: describe a process step by step, starting from six wordless photos showing raw wool becoming a finished sweater. | — |
+| S2 | Today: read the real story of a weaving workshop that nearly disappeared and was revived by the weaver's granddaughter, then listen to her explaining the whole process to a visitor. | — |
+| S4 | Today: learn to explain how something is made — sequencing steps, warning of risks, and explaining the reason behind each one — the same way María does in her workshop. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: la Denominación de Origen (D.O.) es un sello oficial que protege legalmente productos ligados a una zona geográfica concreta —el jamón de Guijuelo, el queso manchego, el vino de Rioja son ejemplos conocidos— y es un argumento de venta habitual, mencionado en conversación cotidiana sobre comida, no solo una etiqueta técnica. La ficha de esta unidad ya lo apunta como vocabulario (bloque de léxico de la S1); se explicita aquí porque es un dato cultural verificable y útil para leer una etiqueta o una carta de restaurante en España.
+- Elenco recurrente: ninguno. María, su abuela Amelia Torres y la visitante del taller son propias de esta unidad, sin relación con el elenco recurrente de Bea/Nacho/Silvia ni con Keiko.
 
 ---
 
@@ -18245,6 +18570,31 @@ depende_de: [B1-B2-U07, B1-B2-U10, B1-B2-U13]
 | **Léxico** | Convivencia intercultural. Registros y lengua. Viajes y experiencia. **Expresiones idiomáticas de alta frecuencia.** |
 | **Fonética** | **El habla rápida**: sinalefa, pérdida de *-d-* intervocálica, elisiones. Ritmo conversacional. **Cierre del programa de fonética.** |
 | **Cultura** | El choque cultural en los dos sentidos. Lo que en España se dice y no se hace, y al revés. La ironía como forma de cortesía. |
+
+### Aperturas de sesión (Categoría B)
+
+| Sesión | Apertura |
+|---|---|
+| S1 | Una viñeta muda en cuatro cuadros: dos personas se despiden en un portal con la mano levantada. Veinte minutos después, siguen ahí. Cuarenta minutos después, uno tiene ya las llaves en la mano y el otro sigue contando algo. Una hora después, están sentados en el bordillo. Antes de la primera palabra nueva: ¿cuántas veces crees que han dicho «bueno, te dejo» sin irse? |
+| S2 | Diez años viviendo en España y todavía metiendo la pata: hoy lees la crónica de alguien que tardó años en entender el diminutivo, la ironía, y por qué nadie te dice a la cara que algo no ha sentado bien. Luego escuchas una cena de verdad, hablada rápido y sin filtro —y en ella se reúnen cuatro voces que ya conoces: Bea, Nacho, Silvia y Keiko. |
+| S4 | «Bueno, te dejo» y no te vas: hoy aprendes por qué cerrar una conversación en español tiene sus propias fórmulas, y las mismas herramientas para atenuar, rechazar con cortesía y matizar una generalización sin sonar tajante. |
+
+*(S3 y S5 usan la plantilla de Categoría A: S3 interpola el par de contraste de la propia caja gramatical, y S5 interpola los seis primeros can-do de la ficha de unidad. No necesitan texto nuevo.)*
+
+### Orientación multiidioma (Categoría B)
+
+No es traducción del contenido — es una sola frase de orientación antes de que empiece el material en español, pensada para reducir el miedo de "no sé ni por dónde va esto" al principio de cada sesión. Se muestra oculta tras un interruptor, nunca abierta por defecto. Columna `Japonés` deliberadamente vacía por ahora — se rellenará cuando haya revisión nativa, no se inventa contenido en un idioma que no se domina con precisión nativa.
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: the never-ending Spanish goodbye — four wordless panels showing the same two people still saying bye an hour later. | — |
+| S2 | Today: read a real account of ten years of small missteps living in Spain, then listen in on a dinner where four familiar voices — Bea, Nacho, Silvia and Keiko — talk fast, unfiltered, and interrupt each other constantly. | — |
+| S4 | Today: learn why "I should get going" doesn't always mean leaving, plus how to soften a criticism, decline politely, and qualify a generalisation without sounding blunt. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — el propio texto de lectura `B1-B2-U15-T1` ya desarrolla en profundidad el choque cultural en los dos sentidos (el diminutivo, la ironía como cariño, cambiar de tema en vez de decir que algo ha sentado mal), y el propio audio resuelve en directo la nota sobre «el chino» sin necesidad de un comentario aparte, Categoría A; un dato curioso adicional repetiría el mismo contenido con otras palabras.
+- Elenco recurrente: reunión completa — **Bea, Nacho y Silvia** (Unidad 3) se juntan con **Keiko** (Unidades 2, 5, 6, 8, 10) en una cena de amigos (audio `B1-B2-U15-A1`, «Cena entre amigos»). Rubén, el amigo despistado con las reservas que ya causó el desastre de cumpleaños de la Unidad 3, vuelve a las andadas: otra vez sin mesa reservada. Dato de continuidad: Keiko dice explícitamente *«algo habré aprendido en diez años, ¿no?»* — confirma que, en el momento de esta unidad, lleva ya una década en España, coherente con el "llevo dos años" del correo modelo de la Unidad 2 (mucho más temprano en su hilo) y sin contradecir nada de lo establecido hasta ahora.
 
 ---
 
@@ -19730,6 +20080,23 @@ depende_de: "todas las unidades anteriores"
 > ⭐ **Consecuencia estratégica para ella:** el grupo 2 (auditiva + orales) es el que suele decidir el resultado de un candidato con buena base gramatical y menos exposición oral. **Es donde hay que poner las horas.**
 
 > **Nota sobre este simulacro.** Los textos, audios y tareas son **originales**, escritos para este curso siguiendo el formato oficial. El número de ítems se ha ajustado ligeramente por sesión (se indica en cada tarea el número real del examen). El formato, los tiempos y los criterios de corrección sí son los oficiales.
+
+### Aperturas de sesión (Categoría B)
+
+Esta unidad no sigue el patrón de calentamiento/lectura+audio/función de las Unidades 1-15: es un diagnóstico (S1) más el simulacro completo del examen DELE B2 (S2-S5), cronometrado y sin interrupciones por diseño explícito de la ficha. Forzar una apertura narrativa en cada prueba iría en contra de la propia instrucción de la unidad ("no pares", "cronometrados y sin interrupciones"). La S1 ya trae su propia apertura, escrita como Categoría A dentro de la sesión misma (la línea de tiempo de las 16 unidades y el mensaje *«Hace cuatro meses no sabías qué era el subjuntivo…»*); no se sustituye ni se duplica aquí.
+
+### Orientación multiidioma (Categoría B)
+
+Solo para la S1 (el diagnóstico, antes de que empiece el simulacro cronometrado) tiene sentido una frase de orientación — es el único momento de esta unidad donde bajar el miedo ayuda sin romper las condiciones de examen real que pide la ficha. Las S2-S5 son el simulacro en sí: interrumpirlas con una orientación adicional contradiría la instrucción de la propia unidad de hacerlas "de una sentada y cronometradas".
+
+| Sesión | English | 日本語 |
+|---|---|---|
+| S1 | Today: a full diagnostic review of everything the course has covered, then a complete timed DELE B2 mock exam — reading, listening, writing and speaking, done properly, under real conditions. | — |
+
+### Continuidad narrativa (Categoría B)
+
+- Dato curioso España: no aplica en esta unidad — es un simulacro de examen oficial, no un espacio para contenido cultural nuevo.
+- Elenco recurrente: **ninguno**. Verificado leyendo el contenido completo de las cinco sesiones (repaso, las cuatro pruebas y el cierre): ni Keiko ni Bea/Nacho/Silvia aparecen en esta unidad. *(Corrección importante: varias notas de continuidad de unidades anteriores — U2, U3, U8, U10 — afirmaban que el elenco "reaparece en el simulacro final de la Unidad 16". Eso era incorrecto y ya se ha corregido en esas unidades: el reencuentro real de todo el grupo, Keiko incluida, ocurre en la Unidad 15, no aquí. Esta unidad usa personajes propios y sin nombre para cada tarea del examen — Alicia Bermejo, Begoña, Ramiro, Nuria, Tomás, Clara, Álvaro del mensaje de voz — todos ellos exclusivos del simulacro, sin relación con el elenco recurrente del curso.)*
 
 ---
 

@@ -29,10 +29,9 @@ export function collectUnitHeaders(content: string): string[] {
 export function parseCurriculum(content: string, options: ParseOptions = {}): CurriculumUnit[] {
   const unitBlocks = splitBlocks(content, new RegExp(UNIT_HEADER_REGEX));
 
-  // Filtra por bloque ANTES de parsear (no después): así, cuando se pide una sola
-  // unidad, no falla por unidades que aún no tienen bloque de Categoría B (solo la U1
-  // lo tiene por ahora). El parser sigue siendo genérico para las 16 — este filtro solo
-  // evita procesar de más cuando no hace falta.
+  // Filtra por bloque ANTES de parsear (no después): así `pnpm parse --unit B1-B2-U01`
+  // no recorre las 16 unidades si solo hace falta una. El parser es genérico; Categoría B
+  // es opcional en cada unidad (si falta, hay fallback de Categoría A).
   const targetBlocks = options.unitFilter
     ? unitBlocks.filter((block) => block.includes(`unidad_id: ${options.unitFilter}`))
     : unitBlocks;

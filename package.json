@@ -5,8 +5,10 @@
   "packageManager": "pnpm@11.24.0",
   "scripts": {
     "dev": "next dev",
+    "predev": "pnpm parse",
     "build": "next build",
-    "parse": "tsx tools/parse-curriculo/index.ts --unit B1-B2-U01",
+    "prebuild": "pnpm parse",
+    "parse": "tsx tools/parse-curriculo/index.ts",
     "test": "node --import tsx --test \"tests/**/*.test.ts\""
   },
   "dependencies": {

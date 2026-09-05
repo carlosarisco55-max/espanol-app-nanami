@@ -37,20 +37,22 @@ function main() {
   // para no pisar entradas de otras unidades ya generadas en corridas anteriores.
   const index = buildIndex(units);
   const indexPath = resolve(outDir, "index.json");
-  let existingIndex: ReturnType<typeof buildIndex> = [];
 
-  try {
-    const raw = require("node:fs").readFileSync(indexPath, "utf8");
-    existingIndex = JSON.parse(raw);
-  } catch {
-    existingIndex = [];
+  if (options.unitFilter) {
+    let existingIndex: ReturnType<typeof buildIndex> = [];
+    try {
+      const raw = require("node:fs").readFileSync(indexPath, "utf8");
+      existingIndex = JSON.parse(raw);
+    } catch {
+      existingIndex = [];
+    }
+    const merged = [...existingIndex.filter((entry) => !index.some((n) => n.unitId === entry.unitId)), ...index].sort(
+      (a, b) => a.unitId.localeCompare(b.unitId)
+    );
+    writeFileSync(indexPath, JSON.stringify(merged, null, 2), "utf8");
+  } else {
+    writeFileSync(indexPath, JSON.stringify(index, null, 2), "utf8");
   }
-
-  const merged = [...existingIndex.filter((entry) => !index.some((n) => n.unitId === entry.unitId)), ...index].sort(
-    (a, b) => a.unitId.localeCompare(b.unitId)
-  );
-
-  writeFileSync(indexPath, JSON.stringify(merged, null, 2), "utf8");
 
   console.log(`Parseadas ${units.length} unidad(es): ${units.map((u) => u.unitId).join(", ")}`);
   console.log(`Sesiones totales: ${units.reduce((sum, u) => sum + u.sessions.length, 0)}`);

@@ -4,6 +4,7 @@ import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
 import type { ClasificarContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { validarClasificar } from "@/lib/validators";
 
 export default function ClasificarExercise({ id, content }: { id: string; content: ClasificarContent }) {
   const { respuestas: asignadas, setRespuestas: setAsignadas, initialState, persist } = usePersistedAnswers(id);
@@ -21,9 +22,7 @@ export default function ClasificarExercise({ id, content }: { id: string; conten
         const pendientes = content.banco.filter((w) => !asignadas[w]);
 
         function comprobar() {
-          const correcto = content.columnas.every((col) =>
-            content.solucion[col].every((w) => asignadas[w] === col)
-          );
+          const correcto = validarClasificar(asignadas, content.solucion);
           persist(submit(correcto), asignadas);
         }
 

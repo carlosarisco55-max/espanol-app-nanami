@@ -4,6 +4,7 @@ import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
 import type { EmparejarContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { validarEmparejar } from "@/lib/validators";
 
 export default function EmparejarExercise({ id, content }: { id: string; content: EmparejarContent }) {
   const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
@@ -20,7 +21,7 @@ export default function EmparejarExercise({ id, content }: { id: string; content
         const completo = content.izquierda.every((item) => respuestas[item.numero]);
 
         function comprobar() {
-          const correcto = content.izquierda.every((item) => respuestas[item.numero] === content.solucion[item.numero]);
+          const correcto = validarEmparejar(respuestas, content.solucion);
           persist(submit(correcto), respuestas);
         }
 

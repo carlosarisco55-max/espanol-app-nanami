@@ -4,6 +4,7 @@ import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
 import type { OpcionMultipleContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { validarOpcionMultiple } from "@/lib/validators";
 
 export default function OpcionMultipleExercise({ id, content }: { id: string; content: OpcionMultipleContent }) {
   const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
@@ -20,7 +21,7 @@ export default function OpcionMultipleExercise({ id, content }: { id: string; co
         const completo = content.items.every((item) => respuestas[item.numero]);
 
         function comprobar() {
-          const correcto = content.items.every((item) => respuestas[item.numero] === content.solucion[item.numero]);
+          const correcto = validarOpcionMultiple(respuestas, content.solucion);
           persist(submit(correcto), respuestas);
         }
 

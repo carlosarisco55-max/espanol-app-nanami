@@ -41,6 +41,25 @@ export interface SessionOutlineStep {
   icon: string;
 }
 
+export interface AudioLine {
+  speaker?: string;
+  text: string;
+  stageDirections: string[];
+  segment?: string;
+}
+
+export interface AudioScript {
+  id: string;
+  title: string;
+  tipoAudio?: string;
+  level?: string;
+  duration?: string;
+  speakers?: string;
+  speed?: string;
+  productionNote?: string;
+  lines: AudioLine[];
+}
+
 export interface SessionData {
   number: SessionNumber;
   slug: `s${SessionNumber}`;
@@ -51,6 +70,8 @@ export interface SessionData {
   /** Ejercicios con contenido estructurado (Fase 2) — solo para los tipos que ya tienen
    * motor interactivo. Los demás siguen viviendo solo dentro de `rawMarkdown` (Fase 1). */
   exercises: import("./exercise-types").ExerciseBlock[];
+  /** Audios canónicos de U1-U15, extraídos del markdown y reproducibles por Web Speech API. */
+  audios: AudioScript[];
   opening: SessionOpening;
   outline: SessionOutlineStep[];
   /** Una sola frase de orientación, oculta tras un interruptor — no traduce el contenido,

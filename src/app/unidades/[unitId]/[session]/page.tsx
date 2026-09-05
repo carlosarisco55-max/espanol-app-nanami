@@ -7,6 +7,7 @@ import OrientationToggle from "@/components/OrientationToggle";
 import ExerciseRenderer from "@/components/exercises/ExerciseRenderer";
 import SessionProgressProvider from "@/components/SessionProgressProvider";
 import BackupReminder from "@/components/BackupReminder";
+import AudioScript from "@/components/content/AudioScript";
 import { splitSessionIntoSegments } from "@/lib/session-segments";
 
 export default async function SessionPage({
@@ -58,9 +59,11 @@ export default async function SessionPage({
       </section>
 
       <article className={styles.content}>
-        {splitSessionIntoSegments(session.rawMarkdown, session.exercises).map((segment, i) =>
+        {splitSessionIntoSegments(session.rawMarkdown, session.exercises, session.audios ?? []).map((segment, i) =>
           segment.kind === "markdown" ? (
             <PersonalizedMarkdown key={i} content={segment.text} />
+          ) : segment.kind === "audio" ? (
+            <AudioScript key={segment.audio.id} audio={segment.audio} />
           ) : (
             <ExerciseRenderer key={segment.block.id} block={segment.block} />
           )

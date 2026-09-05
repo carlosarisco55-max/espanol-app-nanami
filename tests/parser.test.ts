@@ -157,3 +157,19 @@ test("parseSessionOutline no parte 'y' si lo que sigue no es un emoji", () => {
   assert.equal(steps.length, 1);
   assert.match(steps[0].label, /role-play/);
 });
+
+test("extrae el audio canónico de U1 con metadatos y turnos", () => {
+  const unit = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
+  const audio = unit.sessions[1].audios[0];
+  assert.equal(audio.id, "B1-B2-U01-A1");
+  assert.match(audio.title, /La nueva del cuarto/);
+  assert.equal(audio.lines[0].speaker, "LUCÍA");
+  assert.match(audio.lines[0].text, /chica nueva/);
+  assert.ok(audio.lines.length >= 15);
+});
+
+test("las 15 unidades lectivas tienen un audio canónico y U16 se reserva para el modo examen", () => {
+  const units = parseCurriculum(content);
+  assert.equal(units.slice(0, 15).filter((unit) => unit.sessions.some((session) => session.audios.length > 0)).length, 15);
+  assert.equal(units[15].sessions.flatMap((session) => session.audios).length, 0);
+});

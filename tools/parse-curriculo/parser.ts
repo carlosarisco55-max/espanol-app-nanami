@@ -109,7 +109,7 @@ function parseSessions(
       exerciseIds,
       exercises,
       opening: resolveOpening(number, rawMarkdown, canDos, openingsManual[number]),
-      outline: sessionOutline(number),
+      outline: parseSessionOutline(title),
       orientation: orientations[number]
     };
   });
@@ -185,6 +185,22 @@ function deriveGrammarContrast(sessionMarkdown: string): { serExample: string; e
   };
 }
 
+export function parseSessionOutline(title: string): { icon: string; label: string }[] {
+  const parts = title.split(/(?:,\s+|\s+y\s+)(?=\p{Extended_Pictographic})/u);
+  const steps = parts
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => {
+      const match = part.match(/^(\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic})*)\s+(.+)$/u);
+      if (!match) {
+        return { icon: "", label: part };
+      }
+      return { icon: match[1], label: match[2].trim() };
+    });
+
+  return steps.length > 0 ? steps : [{ icon: "", label: title }];
+}
+
 function firstSentence(value: string | undefined): string | undefined {
   if (!value) {
     return undefined;
@@ -194,34 +210,6 @@ function firstSentence(value: string | undefined): string | undefined {
   const sentence = normalized.split("/")[0]?.trim();
 
   return sentence?.replace(/\.$/, "");
-}
-
-function sessionOutline(number: SessionNumber) {
-  const base = {
-    1: [
-      { icon: "🔥", label: "Calentamiento" },
-      { icon: "💬", label: "Vocabulario en contexto" }
-    ],
-    2: [
-      { icon: "📖", label: "Lectura" },
-      { icon: "🎧", label: "Audio" }
-    ],
-    3: [
-      { icon: "🧩", label: "Gramática inducida" },
-      { icon: "✍️", label: "Práctica A/B/C" }
-    ],
-    4: [
-      { icon: "🗣️", label: "Función comunicativa" },
-      { icon: "🎭", label: "Role-play asimétrico" }
-    ],
-    5: [
-      { icon: "✍️", label: "Tarea final" },
-      { icon: "🔊", label: "Fonética" },
-      { icon: "🔁", label: "Repaso" }
-    ]
-  } satisfies Record<SessionNumber, { icon: string; label: string }[]>;
-
-  return base[number];
 }
 
 function parseOpeningsTable(section: string): Partial<Record<SessionNumber, string>> {

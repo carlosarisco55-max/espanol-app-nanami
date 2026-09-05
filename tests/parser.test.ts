@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { resolve } from "node:path";
 
-import { parseCurriculum, readCurriculumFile } from "../tools/parse-curriculo/parser";
+import { parseCurriculum, parseSessionOutline, readCurriculumFile } from "../tools/parse-curriculo/parser";
 
 const CURRICULUM_PATH = resolve(process.cwd(), "content", "curriculo-b1-b2.md");
 const content = readCurriculumFile(CURRICULUM_PATH);
@@ -133,4 +133,27 @@ test("Fase 2 — E03 (clasificar) tiene el banco completo y las dos columnas res
     assert.ok(e03.content.solucion["SER"].includes("trabajador"));
     assert.ok(e03.content.solucion["ESTAR"].includes("cansado"));
   }
+});
+
+test("el outline de sesión sale del título, no de un mapa fijo por número", () => {
+  const u1 = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
+  assert.deepEqual(
+    u1.sessions[0].outline.map((s) => s.label),
+    ["Calentamiento", "vocabulario"]
+  );
+
+  const u16 = parseCurriculum(content, { unitFilter: "B1-B2-U16" })[0];
+  const s2 = u16.sessions.find((s) => s.number === 2)!;
+  assert.equal(s2.outline.length, 1);
+  assert.match(s2.outline[0].label, /PRUEBA 1/);
+  assert.equal(
+    u16.sessions.some((s) => s.outline.some((step) => /Calentamiento/i.test(step.label))),
+    false
+  );
+});
+
+test("parseSessionOutline no parte 'y' si lo que sigue no es un emoji", () => {
+  const steps = parseSessionOutline("🗣️ Función comunicativa y role-play");
+  assert.equal(steps.length, 1);
+  assert.match(steps[0].label, /role-play/);
 });

@@ -11,8 +11,7 @@ import styles from "@/app/unidades/[unitId]/[session]/page.module.css";
 // servidor que lo usa: React no permite pasar funciones de un Server Component a un
 // Client Component como prop (no son serializables a través del límite).
 const markdownComponents: Components = {
-  // Los bloques de metadatos (```yaml) son para el motor de ejercicios, no para leer —
-  // en la Fase 1 (estática, sin interactividad) se ocultan de la experiencia editorial.
+  // Los bloques de metadatos (```yaml) son para el motor de ejercicios, no para leer.
   pre(props) {
     const child = props.children as { props?: { className?: string } } | undefined;
     const className = child?.props?.className ?? "";
@@ -30,8 +29,7 @@ const markdownComponents: Components = {
 
 // Sustituye los huecos personalizables (🎯 {{nombre}}, {{profesion}}, {{intereses}}) por
 // el perfil guardado en el onboarding. Regla de CLAUDE.md: solo afecta a saludos y huecos
-// explícitos, nunca a la lógica de corrección de ejercicios (que ni siquiera pasa por aquí
-// en la Fase 1, porque todavía no hay interactividad).
+// explícitos, nunca a la lógica de corrección de ejercicios (esa vive en los validadores).
 function applyProfile(markdown: string): string {
   const profile = readProfile();
   return markdown

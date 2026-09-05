@@ -1,0 +1,393 @@
+{
+  "unidadId": "B1-B2-U13",
+  "titulo": "Argumentar: sociedad y medio ambiente",
+  "subtitulo": "Construir un texto que convenza",
+  "cita": "«No hay viento favorable para el que no sabe adónde va.» — Séneca",
+  "bloque": 4,
+  "nivelEntrada": "B2",
+  "nivelSalida": "B2+",
+  "lexicoNucleo": 132,
+  "focosContraste": [
+    "J3",
+    "J6"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Expresión escrita, B2+",
+      "texto": "Escribir un texto argumentativo estructurado que defienda una postura con ventajas e inconvenientes."
+    },
+    {
+      "index": 2,
+      "destreza": "Expresión escrita, B2+",
+      "texto": "Conceder un punto al adversario y refutarlo sin perder la propia posición."
+    },
+    {
+      "index": 3,
+      "destreza": "Interacción oral, B2+",
+      "texto": "Defender una postura ante contraargumentos en tiempo real."
+    },
+    {
+      "index": 4,
+      "destreza": "Comprensión lectora, B2+",
+      "texto": "Entender un ensayo divulgativo denso e identificar su arquitectura argumentativa."
+    },
+    {
+      "index": 5,
+      "destreza": "Comprensión auditiva, B2+",
+      "texto": "Seguir un debate semiformal con turnos largos y argumentos con datos."
+    },
+    {
+      "index": 6,
+      "destreza": "Gramática",
+      "texto": "Usar los conectores del discurso, las concesivas con aunque + indicativo/subjuntivo, el lo neutro y el artículo genérico."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔥 Calentamiento y 💬 vocabulario",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U13-E01",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2+",
+          "destreza": "lexico",
+          "foco": "Léxico medioambiental y de consumo",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E02",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2+",
+          "destreza": "lexico",
+          "foco": "Fallos de razonamiento",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E03",
+          "tipo": "huecos",
+          "nivel_mcer": "B2+",
+          "destreza": "lexico",
+          "foco": "Verbos de argumentar",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 Comprensión lectora y 🎧 comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U13-E04",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2+",
+          "destreza": "comprension_lectora",
+          "foco": "Identificar la función de cada parte",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E05",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2+",
+          "destreza": "comprension_lectora",
+          "foco": null,
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E06",
+          "tipo": "huecos",
+          "nivel_mcer": "B2+",
+          "destreza": "lexico",
+          "foco": "Reutilización del léxico y los conectores de T1",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E07",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B2+",
+          "destreza": "comprension_lectora",
+          "foco": "Localizar concesiones, refutaciones y puntos de acuerdo",
+          "autocorregible": true,
+          "items": 7,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E08",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2+",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E09",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2+",
+          "destreza": "comprension_auditiva",
+          "foco": "Pragmática de la argumentación",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E10",
+          "tipo": "huecos",
+          "nivel_mcer": "B2+",
+          "destreza": "comprension_auditiva",
+          "foco": "Conectores y concesivas en input real",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 7
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🧩 Gramática inducida",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U13-E11",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2+",
+          "destreza": "gramatica",
+          "foco": "Función de cada conector",
+          "autocorregible": true,
+          "items": 24,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E12",
+          "tipo": "huecos",
+          "nivel_mcer": "B2+",
+          "destreza": "gramatica",
+          "foco": "Elegir el conector según la relación lógica",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E13",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2+",
+          "destreza": "gramatica",
+          "foco": "J6 — aunque + indicativo vs subjuntivo",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E14",
+          "tipo": "huecos",
+          "nivel_mcer": "B2+",
+          "destreza": "gramatica",
+          "foco": "J3 — lo neutro y artículo genérico",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E15",
+          "tipo": "huecos",
+          "nivel_mcer": "B2+",
+          "destreza": "gramatica",
+          "foco": "Integración: conectores + concesivas + lo neutro + artículo genérico",
+          "autocorregible": true,
+          "items": 26,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E16",
+          "tipo": "corregir_error",
+          "nivel_mcer": "B2+",
+          "destreza": "gramatica",
+          "foco": "J3 + J6 + conectores",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "🗣️ Función comunicativa y role-play",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U13-E17",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2+",
+          "destreza": "interaccion_oral",
+          "foco": "PCIC funciones: argumentar, conceder, refutar, reencuadrar",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E18",
+          "tipo": "roleplay",
+          "nivel_mcer": "B2+",
+          "destreza": "interaccion_oral",
+          "foco": "Argumentar, conceder, refutar, reencuadrar y llegar a una propuesta común",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 2
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "✍️ Tarea final, 🔊 fonética y 🔁 repaso",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Escribir un texto argumentativo estructurado que defienda una postura con ventajas e inconvenientes.",
+          "Conceder un punto al adversario y refutarlo sin perder la propia posición.",
+          "Defender una postura ante contraargumentos en tiempo real."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U13-E19",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2+",
+          "destreza": "expresion_escrita",
+          "foco": "Texto argumentativo con estructura completa",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U13-E20",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2+",
+          "destreza": "interaccion_oral",
+          "foco": "Defender una postura ante objeciones en tiempo real",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U13-E21",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2+",
+          "destreza": "fonetica",
+          "foco": "Pausas, énfasis del conector, enumeración",
+          "autocorregible": true,
+          "items": 5,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E22",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2+",
+          "destreza": "fonetica",
+          "foco": "Leer un párrafo argumentativo con la prosodia correcta",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U13-E23",
+          "tipo": "huecos",
+          "nivel_mcer": "B2+",
+          "destreza": "gramatica",
+          "foco": "U12 estilo indirecto · U11 pasado irreal · U07 opinión · U02 artículos",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U13-E24",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 6
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 24
+  }
+}

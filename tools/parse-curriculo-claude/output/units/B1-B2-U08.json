@@ -1,0 +1,383 @@
+{
+  "unidadId": "B1-B2-U08",
+  "titulo": "Perfiles, relativas y el mundo laboral",
+  "subtitulo": "Describir lo que existe y buscar lo que todavía no",
+  "cita": "«Elige un trabajo que te guste y no tendrás que trabajar ni un día de tu vida.» — atribuido a Confucio (y muy discutido)",
+  "bloque": 2,
+  "nivelEntrada": "B2",
+  "nivelSalida": "B2",
+  "lexicoNucleo": 116,
+  "focosContraste": [
+    "J6",
+    "J1",
+    "J2"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Expresión oral, B2",
+      "texto": "Describir un perfil profesional —el propio y el de otros— con precisión y detalle."
+    },
+    {
+      "index": 2,
+      "destreza": "Comprensión lectora, B2",
+      "texto": "Entender ofertas de empleo, distinguir requisitos imprescindibles de valorables y compararlas."
+    },
+    {
+      "index": 3,
+      "destreza": "Interacción oral, B2",
+      "texto": "Defenderse en una entrevista de trabajo: responder, matizar, esquivar y preguntar."
+    },
+    {
+      "index": 4,
+      "destreza": "Expresión escrita, B2",
+      "texto": "Escribir una carta de presentación de 200 palabras adaptada a una oferta."
+    },
+    {
+      "index": 5,
+      "destreza": "Comprensión auditiva, B2",
+      "texto": "Seguir una entrevista de trabajo y detectar qué se responde y qué se evita."
+    },
+    {
+      "index": 6,
+      "destreza": "Gramática",
+      "texto": "Distinguir describir lo conocido (indicativo) de buscar lo hipotético (subjuntivo) en oraciones de relativo."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔥 Calentamiento y 💬 vocabulario",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U08-E01",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Léxico laboral",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E02",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Verbos y colocaciones del CV",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E03",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Requisitos: imprescindible vs valorable · comprensión de ofertas",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 Comprensión lectora y 🎧 comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U08-E04",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E05",
+          "tipo": "verdadero_falso",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": null,
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E06",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Comparar y evaluar información",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E07",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E08",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "Pragmática de la entrevista",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E09",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "J6 — relativas con indicativo y subjuntivo",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🧩 Gramática inducida",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U08-E10",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — antecedente conocido o inespecífico",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E11",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — relativas",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E12",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Preposición + relativo · cuyo",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E13",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Especificativas vs explicativas",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E14",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 integrado: relativas + subjuntivo + concordancia (J1, J2)",
+          "autocorregible": true,
+          "items": 22,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E15",
+          "tipo": "corregir_error",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_escrita",
+          "foco": "J6 + J1/J2 + léxico del CV",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "🗣️ Función comunicativa y role-play",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U08-E16",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "PCIC funciones: destacar méritos, matizar, esquivar, preguntar",
+          "autocorregible": true,
+          "items": 18,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E17",
+          "tipo": "roleplay",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "Entrevista: describir perfil, matizar, esquivar, negociar, preguntar",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 2
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "✍️ Tarea final, 🔊 fonética y 🔁 repaso (Puente 2)",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Describir un perfil profesional —el propio y el de otros— con precisión y detalle.",
+          "Entender ofertas de empleo, distinguir requisitos imprescindibles de valorables y compararlas.",
+          "Defenderse en una entrevista de trabajo: responder, matizar, esquivar y preguntar."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U08-E18",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_escrita",
+          "foco": "Carta de presentación adaptada a una oferta",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E19",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_oral",
+          "foco": "Presentación de perfil profesional",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U08-E20",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Fluidez, muletillas, reducción de pausas",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U08-E21",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Repaso transversal del subjuntivo: J6 completo",
+          "autocorregible": true,
+          "items": 18,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U08-E22",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B2",
+          "destreza": "mediacion",
+          "foco": "Reflexión intercultural sobre el trabajo",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U08-E23",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 6
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 23
+  }
+}

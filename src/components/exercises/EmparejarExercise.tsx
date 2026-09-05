@@ -49,11 +49,16 @@ export default function EmparejarExercise({ id, content }: { id: string; content
                       <option value="" disabled>
                         elige…
                       </option>
-                      {content.derecha.map((op) => (
-                        <option key={op.letra} value={op.letra}>
-                          {op.letra}) {op.texto}
-                        </option>
-                      ))}
+                      {content.derecha.map((op) => {
+                        const taken = Object.entries(respuestas).some(
+                          ([numero, letra]) => numero !== item.numero && letra === op.letra
+                        );
+                        return (
+                          <option key={op.letra} value={op.letra} disabled={taken}>
+                            {op.letra}) {op.texto}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 );

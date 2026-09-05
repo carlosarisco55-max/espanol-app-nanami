@@ -1,0 +1,311 @@
+{
+  "unidadId": "B1-B2-U16",
+  "titulo": "Repaso general y simulacro DELE B2",
+  "subtitulo": "Comprobar que el B2 está",
+  "cita": "«Nadie sabe lo que sabe hasta que se lo preguntan.»",
+  "bloque": 4,
+  "nivelEntrada": "B2+",
+  "nivelSalida": "B2 consolidado",
+  "lexicoNucleo": "repaso integral (~1.700 ítems acumulados)",
+  "focosContraste": [
+    "J1",
+    "J2",
+    "J3",
+    "J4",
+    "J5",
+    "J6",
+    "J7",
+    "J8"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Todas las destrezas, B2",
+      "texto": "Afrontar las cuatro pruebas del DELE B2 con estrategia y control del tiempo."
+    },
+    {
+      "index": 2,
+      "destreza": "Metacognición",
+      "texto": "Autoevaluar el propio nivel con la parrilla MCER."
+    },
+    {
+      "index": 3,
+      "destreza": "Metacognición",
+      "texto": "Identificar los tres puntos débiles propios y saber qué hacer con ellos."
+    },
+    {
+      "index": 4,
+      "destreza": "Producción",
+      "texto": "Elaborar un proyecto final propio en español."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔁 Repaso gramatical integral y cierre de los códigos J",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U16-E01",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — todo el sistema modal (40 % del repaso)",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E02",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J5 — pasados, condicionales y conjetura",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E03",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J1, J2, J3, J4 — cierre de los cuatro códigos",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E04",
+          "tipo": "discriminacion_fonetica",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "J7 y J8 — evaluación final",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U16-E05",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2",
+          "destreza": "mediacion",
+          "foco": "Metacognición",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 5
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 PRUEBA 1: Comprensión de lectura",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U16-E06",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E07",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": null,
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U16-E08",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🎧 PRUEBA 2: Comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U16-E09",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E10",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E11",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E12",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 4,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E13",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 5
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "✍️ PRUEBA 3: Expresión e interacción escritas",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [],
+      "numEjercicios": 0
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "🗣️ PRUEBA 4: Expresión e interacción orales + cierre",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Afrontar las cuatro pruebas del DELE B2 con estrategia y control del tiempo.",
+          "Autoevaluar el propio nivel con la parrilla MCER.",
+          "Identificar los tres puntos débiles propios y saber qué hacer con ellos."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U16-E14",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_oral",
+          "foco": null,
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E15",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E16",
+          "tipo": "produccion_escrita + produccion_oral",
+          "nivel_mcer": "B2+",
+          "destreza": null,
+          "foco": null,
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U16-E17",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 4
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 17
+  }
+}

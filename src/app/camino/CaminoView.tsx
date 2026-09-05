@@ -7,12 +7,7 @@ import { readProfile, greetingName, type Profile } from "@/lib/profile";
 import type { CurriculumIndexEntry } from "../../../tools/parse-curriculo/types";
 import BackupReminder from "@/components/BackupReminder";
 
-const BLOCK_LABELS = [
-  "Bloque 1 · Rampa y arranque de la narración",
-  "Bloque 2 · Instalación del subjuntivo",
-  "Bloque 3 · Todo el sistema modal y los compuestos",
-  "Bloque 4 · Banda alta de B2"
-];
+const BLOCK_LABELS = ["Unidades 1 a 4", "Unidades 5 a 8", "Unidades 9 a 12", "Unidades 13 a 16"];
 
 export default function CaminoView({ index }: { index: CurriculumIndexEntry[] }) {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -38,8 +33,7 @@ export default function CaminoView({ index }: { index: CurriculumIndexEntry[] })
           {profile ? `Hola, ${greetingName(profile)}` : "Tu camino de español"}
         </h1>
         <p className={styles.subtitle}>
-          16 unidades, de B1 a B2. Solo la primera está lista para jugarse — el resto se va
-          abriendo a medida que el curso se construye.
+          16 unidades, de B1 a B2. Recórrelas en orden; hoy toca la primera.
         </p>
       </header>
 
@@ -59,7 +53,7 @@ export default function CaminoView({ index }: { index: CurriculumIndexEntry[] })
                       {unlocked ? (
                         <span className={styles.badge}>Lista</span>
                       ) : (
-                        <span>🔒 Próximamente</span>
+                        <span>Más adelante</span>
                       )}
                     </span>
                   </>

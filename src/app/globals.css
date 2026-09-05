@@ -1,6 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
-
 :root {
+
   /* Washi: papel japonés sin blanquear — no blanco puro, no crema-plantilla */
   --bg: #eeece2;
   --bg-raised: #f8f6ee;
@@ -25,6 +24,10 @@
   --sage: #47654a;
   --sage-soft: #dde8dc;
 
+  /* Error / desacierto: barro, no rojo de alerta. Contraste AA sobre --bg y --clay-soft. */
+  --clay: #8c3228;
+  --clay-soft: #f3d4cc;
+
   --shadow: 0 1px 2px rgba(28, 26, 31, 0.06), 0 12px 32px -14px rgba(28, 26, 31, 0.28);
   --focus: #223059;
 
@@ -36,9 +39,9 @@
   --on-dark-ink: #f8f6ee;
   --on-dark-ink-soft: rgba(248, 246, 238, 0.82);
 
-  --font-display: "Instrument Serif", "Times New Roman", serif;
-  --font-reading: "Literata", ui-serif, Georgia, serif;
-  --font-ui: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), "Times New Roman", serif;
+  --font-reading: var(--font-reading-face), ui-serif, Georgia, serif;
+  --font-ui: var(--font-ui-face), ui-sans-serif, system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -63,6 +66,9 @@
 
     --sage: #94b393;
     --sage-soft: #202b20;
+
+    --clay: #e4a295;
+    --clay-soft: #3a221e;
 
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 36px -14px rgba(0, 0, 0, 0.55);
   }
@@ -89,6 +95,9 @@
 
   --sage: #94b393;
   --sage-soft: #202b20;
+
+  --clay: #e4a295;
+  --clay-soft: #3a221e;
 
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 36px -14px rgba(0, 0, 0, 0.55);
 }

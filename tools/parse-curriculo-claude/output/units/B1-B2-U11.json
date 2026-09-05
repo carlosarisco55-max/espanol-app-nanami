@@ -1,0 +1,387 @@
+{
+  "unidadId": "B1-B2-U11",
+  "titulo": "Lo que no fue: lamento y reproche",
+  "subtitulo": "Reescribir el pasado con palabras",
+  "cita": "«De lo que me arrepiento no es de lo que hice, sino de lo que no hice.»",
+  "bloque": 3,
+  "nivelEntrada": "B2",
+  "nivelSalida": "B2",
+  "lexicoNucleo": 124,
+  "focosContraste": [
+    "J6",
+    "J5"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Expresión oral, B2",
+      "texto": "Expresar arrepentimiento y lamento sobre decisiones pasadas."
+    },
+    {
+      "index": 2,
+      "destreza": "Interacción oral, B2",
+      "texto": "Reprochar sin agredir y responder a un reproche."
+    },
+    {
+      "index": 3,
+      "destreza": "Interacción oral, B2",
+      "texto": "Disculparse, aceptar disculpas y reconciliarse."
+    },
+    {
+      "index": 4,
+      "destreza": "Comprensión lectora, B2",
+      "texto": "Entender un relato literario o testimonial con carga emocional e inferir lo que no se dice."
+    },
+    {
+      "index": 5,
+      "destreza": "Comprensión auditiva, B2",
+      "texto": "Seguir una entrevista personal y detectar lo que el hablante evita."
+    },
+    {
+      "index": 6,
+      "destreza": "Expresión escrita, B2",
+      "texto": "Escribir un texto personal de 200–220 palabras dirigido a alguien del pasado."
+    },
+    {
+      "index": 7,
+      "destreza": "Gramática",
+      "texto": "Usar el pluscuamperfecto de subjuntivo, las condicionales irreales de pasado y las condicionales mixtas."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔥 Calentamiento y 💬 vocabulario",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U11-E01",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Locuciones de arrepentimiento",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E02",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Léxico de conflictos y reconciliación",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E03",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Función pragmática: lamento, reproche, disculpa, consuelo",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 Comprensión lectora y 🎧 comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U11-E04",
+          "tipo": "reordenar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Reconstruir el orden real de los hechos · J5",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E05",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Inferencia · lectura literaria",
+          "autocorregible": true,
+          "items": 7,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E06",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Reutilización del léxico de T1",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E07",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E08",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E09",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "J6 — pluscuamperfecto de subjuntivo y condicional compuesto",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🧩 Gramática inducida",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U11-E10",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Formación del pluscuamperfecto de subjuntivo",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E11",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Los tres tipos de condicional + mixtas",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E12",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Expresar arrepentimiento",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E13",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "Reprochar y atenuar",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E14",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Integración: pluscuamperfecto de subjuntivo, condicionales de pasado y mixtas",
+          "autocorregible": true,
+          "items": 24,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E15",
+          "tipo": "corregir_error",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — errores típicos del pasado irreal",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "🗣️ Función comunicativa y role-play",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U11-E16",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "PCIC funciones: reprochar, disculparse, consolar, reconciliar",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E17",
+          "tipo": "roleplay",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "Reprochar, disculparse, reconciliar con condicionales de pasado",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 2
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "✍️ Tarea final, 🔊 fonética y 🔁 repaso",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Expresar arrepentimiento y lamento sobre decisiones pasadas.",
+          "Reprochar sin agredir y responder a un reproche.",
+          "Disculparse, aceptar disculpas y reconciliarse."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U11-E18",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_escrita",
+          "foco": "Texto personal con condicionales de pasado",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E19",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_oral",
+          "foco": "Narrar un pasado alternativo",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E20",
+          "tipo": "discriminacion_fonetica",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Entonación actitudinal",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E21",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Producir cuatro actitudes con la misma frase",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U11-E22",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Toda la cuadrícula modal instalada hasta ahora",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U11-E23",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 6
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 23
+  }
+}

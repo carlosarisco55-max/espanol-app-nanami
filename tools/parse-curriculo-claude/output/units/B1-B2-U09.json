@@ -1,0 +1,387 @@
+{
+  "unidadId": "B1-B2-U09",
+  "titulo": "Futuro, conjetura y probabilidad",
+  "subtitulo": "Hablar de lo que no sabes con seguridad",
+  "cita": "«Predecir es muy difícil, sobre todo el futuro.» — atribuido a Niels Bohr",
+  "bloque": 3,
+  "nivelEntrada": "B2",
+  "nivelSalida": "B2",
+  "lexicoNucleo": 118,
+  "focosContraste": [
+    "J6",
+    "J5"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Expresión oral, B2",
+      "texto": "Hacer predicciones sobre el futuro y matizar su grado de certeza."
+    },
+    {
+      "index": 2,
+      "destreza": "Interacción oral, B2",
+      "texto": "Conjeturar sobre el presente y el pasado inmediato (serán las diez, habrá salido)."
+    },
+    {
+      "index": 3,
+      "destreza": "Comprensión lectora, B2",
+      "texto": "Entender un artículo divulgativo sobre tendencias y evaluar críticamente el grado de certeza de sus afirmaciones."
+    },
+    {
+      "index": 4,
+      "destreza": "Comprensión lectora, B2",
+      "texto": "Comparar cómo dos medios presentan el mismo estudio y detectar la exageración."
+    },
+    {
+      "index": 5,
+      "destreza": "Comprensión auditiva, B2",
+      "texto": "Seguir un debate divulgativo y situar cada afirmación en una escala de certeza."
+    },
+    {
+      "index": 6,
+      "destreza": "Expresión escrita, B2",
+      "texto": "Escribir un texto de prospectiva de 200 palabras graduando la certeza de cada predicción."
+    },
+    {
+      "index": 7,
+      "destreza": "Gramática",
+      "texto": "Usar el futuro y el condicional de conjetura, la escala completa de probabilidad y el pretérito perfecto de subjuntivo."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔥 Calentamiento y 💬 vocabulario",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U09-E01",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Léxico de ciencia, clima y prospectiva",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E02",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Escala de certeza",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E03",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Léxico de prospectiva y aproximación",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 Comprensión lectora y 🎧 comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U09-E04",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Identificar el tipo de error de cada previsión",
+          "autocorregible": true,
+          "items": 5,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E05",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Evaluar la certeza que el autor atribuye a cada afirmación",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E06",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Contrastar fuente y titular · pensamiento crítico",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E07",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E08",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "Situar afirmaciones en la escala de certeza",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E09",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "J6 — futuro, conjetura y pretérito perfecto de subjuntivo",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🧩 Gramática inducida",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U09-E10",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Las cuatro casillas de la conjetura",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E11",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Futuro y condicional de conjetura",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E12",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — rección de los exponentes de probabilidad",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E13",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Presente vs pretérito perfecto de subjuntivo",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E14",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Integración: futuro, conjetura, escala de probabilidad, perfecto de subjuntivo",
+          "autocorregible": true,
+          "items": 22,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E15",
+          "tipo": "corregir_error",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 + conjetura",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "🗣️ Función comunicativa y role-play",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U09-E16",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "PCIC funciones: conjeturar, predecir, dudar, advertir",
+          "autocorregible": true,
+          "items": 18,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E17",
+          "tipo": "roleplay",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "Conjeturar, predecir, contrastar datos, negociar un pronóstico común",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 2
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "✍️ Tarea final, 🔊 fonética y 🔁 repaso",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Hacer predicciones sobre el futuro y matizar su grado de certeza.",
+          "Conjeturar sobre el presente y el pasado inmediato (serán las diez, habrá salido).",
+          "Entender un artículo divulgativo sobre tendencias y evaluar críticamente el grado de certeza de sus afirmaciones."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U09-E18",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_escrita",
+          "foco": "Predecir graduando la certeza",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U09-E19",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_oral",
+          "foco": "Exposición con gradación de certeza",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U09-E20",
+          "tipo": "discriminacion_fonetica",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Futuro vs imperfecto de subjuntivo vs infinitivo",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E21",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Acento y sinalefa",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U09-E22",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "U07 opinión · U05 influencia · U03 pasados",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U09-E23",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 6
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 23
+  }
+}

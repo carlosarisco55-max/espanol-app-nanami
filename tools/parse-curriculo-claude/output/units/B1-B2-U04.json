@@ -1,0 +1,394 @@
+{
+  "unidadId": "B1-B2-U04",
+  "titulo": "Recuerdos, cambios y lo que dijeron",
+  "subtitulo": "Cómo era todo antes y quién dijo qué",
+  "cita": "«Cualquier tiempo pasado fue anterior.» — Enrique Jardiel Poncela, parodiando a Jorge Manrique",
+  "bloque": 1,
+  "nivelEntrada": "B2",
+  "nivelSalida": "B2",
+  "lexicoNucleo": 96,
+  "focosContraste": [
+    "J5",
+    "J4",
+    "J2"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Expresión oral, B2",
+      "texto": "Describir cómo era un lugar, una época o una persona, y compararlo con el presente estableciendo matices."
+    },
+    {
+      "index": 2,
+      "destreza": "Comprensión lectora, B2",
+      "texto": "Entender una columna de opinión con carga nostálgica e identificar qué valora el autor y qué critica."
+    },
+    {
+      "index": 3,
+      "destreza": "Comprensión auditiva, B2",
+      "texto": "Entender mensajes de voz reales, con habla espontánea, rectificaciones y muletillas."
+    },
+    {
+      "index": 4,
+      "destreza": "Mediación, B2",
+      "texto": "Transmitir a un tercero lo que otra persona dijo, ajustando tiempos, personas y referencias de lugar y tiempo."
+    },
+    {
+      "index": 5,
+      "destreza": "Expresión escrita, B2",
+      "texto": "Escribir un correo de 180–200 palabras transmitiendo información recibida de otra fuente."
+    },
+    {
+      "index": 6,
+      "destreza": "Gramática",
+      "texto": "Usar la correlación de tiempos del estilo indirecto y el imperfecto de intención frustrada."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔥 Calentamiento y 💬 vocabulario",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U04-E01",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Léxico del cambio urbano",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E02",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Expresiones para evocar el pasado",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E03",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Verbos de dicción: qué añaden",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 Comprensión lectora y 🎧 comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U04-E04",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Postura del autor",
+          "autocorregible": true,
+          "items": 1,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E05",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Localizar y clasificar argumentos",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E06",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Reutilización del léxico de T1",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E07",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Identificar la postura de cada voz",
+          "autocorregible": true,
+          "items": 5,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E08",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 4,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E09",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E10",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "Verbos de dicción y estructuras de transmisión",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 7
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🧩 Gramática inducida",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U04-E11",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "¿Retrocede el tiempo o no? · información vs petición",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E12",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Estilo indirecto: tiempos + deícticos + modo",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E13",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Reconstrucción del enunciado original",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E14",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Estilo indirecto integrado + imperfecto de conato",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E15",
+          "tipo": "corregir_error",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Deícticos y venir/traer en el estilo indirecto",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 5
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "🗣️ Función comunicativa y role-play",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U04-E16",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "PCIC funciones: atribuir, matizar la fuente, distanciarse",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E17",
+          "tipo": "roleplay",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "Mediación: transmitir y contrastar dos versiones",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 2
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "✍️ Tarea final, 🔊 fonética y 🔁 repaso (Puente 1)",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Describir cómo era un lugar, una época o una persona, y compararlo con el presente estableciendo matices.",
+          "Entender una columna de opinión con carga nostálgica e identificar qué valora el autor y qué critica.",
+          "Entender mensajes de voz reales, con habla espontánea, rectificaciones y muletillas."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U04-E18",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_escrita",
+          "foco": "Mediación escrita: transmitir varios mensajes",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E19",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_oral",
+          "foco": "Descripción del pasado y comparación con el presente",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U04-E20",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Grupos fónicos y pausas",
+          "autocorregible": true,
+          "items": 5,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E21",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Pausas, entonación de la cita, ritmo",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U04-E22",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "Repaso transversal: J1, J2, J3, J4, J5",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U04-E23",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2",
+          "destreza": "mediacion",
+          "foco": "Reflexión intercultural, formato Working across cultures",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U04-E24",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 7
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 24
+  }
+}

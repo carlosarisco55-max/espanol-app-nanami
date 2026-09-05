@@ -1,0 +1,375 @@
+{
+  "unidadId": "B1-B2-U07",
+  "titulo": "Opinión, valoración y sentimiento",
+  "subtitulo": "Decir lo que piensas sin sonar brusca",
+  "cita": "«No estoy de acuerdo con lo que dices, pero defenderé hasta la muerte tu derecho a decirlo.» — atribuido a Voltaire",
+  "bloque": 2,
+  "nivelEntrada": "B2",
+  "nivelSalida": "B2",
+  "lexicoNucleo": 112,
+  "focosContraste": [
+    "J6"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Interacción oral, B2",
+      "texto": "Opinar con matices, graduando la certeza, y defender un punto de vista ante objeciones."
+    },
+    {
+      "index": 2,
+      "destreza": "Interacción oral, B2",
+      "texto": "Discrepar y contraargumentar sin generar tensión."
+    },
+    {
+      "index": 3,
+      "destreza": "Expresión oral, B2",
+      "texto": "Valorar hechos y comportamientos y expresar emociones complejas."
+    },
+    {
+      "index": 4,
+      "destreza": "Comprensión lectora, B2",
+      "texto": "Entender un artículo de opinión, identificar la tesis del autor y distinguir sus argumentos de sus concesiones."
+    },
+    {
+      "index": 5,
+      "destreza": "Comprensión auditiva, B2",
+      "texto": "Seguir una tertulia entre tres hablantes con interrupciones y solapamientos, y saber quién defiende qué."
+    },
+    {
+      "index": 6,
+      "destreza": "Expresión escrita, B2",
+      "texto": "Escribir una carta al director de 200 palabras defendiendo una postura."
+    },
+    {
+      "index": 7,
+      "destreza": "Gramática",
+      "texto": "Dominar el contraste indicativo/subjuntivo en opinión, certeza, valoración, sentimiento y duda."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔥 Calentamiento y 💬 vocabulario",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U07-E01",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Léxico de medios",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E02",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Verbos de sentimiento con dativo",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E03",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "lexico",
+          "foco": "Intensidad de la reacción emocional",
+          "autocorregible": true,
+          "items": 15,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 Comprensión lectora y 🎧 comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U07-E04",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Identificar tesis, argumentos, concesión y refutación",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E05",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Detalle y postura",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E06",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_lectora",
+          "foco": "Análisis del desacuerdo",
+          "autocorregible": true,
+          "items": 5,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E07",
+          "tipo": "emparejar",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E08",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "Pragmática de la interrupción y la concesión",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E09",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "comprension_auditiva",
+          "foco": "J6 — contraste indicativo/subjuntivo en debate real",
+          "autocorregible": true,
+          "items": 14,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🧩 Gramática inducida",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U07-E10",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — qué modo rige cada expresión",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E11",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — el contraste en pares",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E12",
+          "tipo": "transformar",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_escrita",
+          "foco": "Graduar la certeza",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E13",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 integrado en texto de opinión",
+          "autocorregible": true,
+          "items": 22,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E14",
+          "tipo": "corregir_error",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "J6 — errores típicos de opinión",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 5
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "🗣️ Función comunicativa y role-play",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U07-E15",
+          "tipo": "clasificar",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "PCIC funciones: acordar, discrepar, matizar, gestionar el turno",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E16",
+          "tipo": "roleplay",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "Debatir, conceder, objetar, gestionar el turno",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 2
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "✍️ Tarea final, 🔊 fonética y 🔁 repaso",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Opinar con matices, graduando la certeza, y defender un punto de vista ante objeciones.",
+          "Discrepar y contraargumentar sin generar tensión.",
+          "Valorar hechos y comportamientos y expresar emociones complejas."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U07-E17",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B2",
+          "destreza": "expresion_escrita",
+          "foco": "Texto de opinión con concesión y refutación",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U07-E18",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "interaccion_oral",
+          "foco": "Debate con defensa de postura",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U07-E19",
+          "tipo": "discriminacion_fonetica",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Entonación contrastiva",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E20",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B2",
+          "destreza": "fonetica",
+          "foco": "Entonación enfática",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U07-E21",
+          "tipo": "huecos",
+          "nivel_mcer": "B2",
+          "destreza": "gramatica",
+          "foco": "U06 temporales y finales + U04 estilo indirecto",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U07-E22",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 6
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 22
+  }
+}

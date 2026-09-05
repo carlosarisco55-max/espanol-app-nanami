@@ -1,0 +1,351 @@
+{
+  "unidadId": "B1-B2-U02",
+  "titulo": "La casa, el barrio y la rutina",
+  "subtitulo": "Dónde vives, cómo vives y con quién cuentas",
+  "cita": "«Casa con dos puertas, mala es de guardar.» — Calderón de la Barca",
+  "bloque": 1,
+  "nivelEntrada": "B1",
+  "nivelSalida": "B1+",
+  "lexicoNucleo": 72,
+  "focosContraste": [
+    "J1",
+    "J2",
+    "J3",
+    "J8"
+  ],
+  "canDos": [
+    {
+      "index": 1,
+      "destreza": "Comprensión lectora, B1+",
+      "texto": "Entender una guía práctica con instrucciones y advertencias, y localizar información concreta (precios, condiciones, plazos)."
+    },
+    {
+      "index": 2,
+      "destreza": "Comprensión auditiva, B1+",
+      "texto": "Seguir una llamada telefónica de gestión con datos numéricos y condiciones."
+    },
+    {
+      "index": 3,
+      "destreza": "Interacción oral, B1+",
+      "texto": "Pedir información sobre una vivienda, pedir un favor a un vecino y aceptarlo o rechazarlo con cortesía."
+    },
+    {
+      "index": 4,
+      "destreza": "Expresión escrita, B1+",
+      "texto": "Escribir un correo semiformal de 150–180 palabras solicitando o pidiendo algo concreto."
+    },
+    {
+      "index": 5,
+      "destreza": "Expresión oral, B1+",
+      "texto": "Describir un espacio con precisión y compararlo con otro."
+    },
+    {
+      "index": 6,
+      "destreza": "Gramática",
+      "texto": "Elegir correctamente el / un / Ø, cuantificar, y usar los pronombres de OD y OI, incluida la combinación se lo."
+    }
+  ],
+  "categoriaB": {
+    "aperturas": {},
+    "continuidad": {
+      "datoCuriosoEspana": null,
+      "elencoRecurrente": null
+    }
+  },
+  "sesiones": [
+    {
+      "numero": 1,
+      "slug": "s1",
+      "titulo": "🔥 Calentamiento y 💬 vocabulario",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U02-E01",
+          "tipo": "emparejar",
+          "nivel_mcer": "B1",
+          "destreza": "lexico",
+          "foco": "Léxico del alquiler",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E02",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B1+",
+          "destreza": "lexico",
+          "foco": "Léxico del barrio + preposiciones de lugar",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E03",
+          "tipo": "reordenar",
+          "nivel_mcer": "B1",
+          "destreza": "gramatica",
+          "foco": "Verbos reflexivos + frecuencia + orden de palabras",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 2,
+      "slug": "s2",
+      "titulo": "📖 Comprensión lectora y 🎧 comprensión auditiva",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U02-E04",
+          "tipo": "opcion_multiple",
+          "nivel_mcer": "B1+",
+          "destreza": "comprension_lectora",
+          "foco": "Idea principal y estructura",
+          "autocorregible": true,
+          "items": 5,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U02-E05",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B1+",
+          "destreza": "comprension_lectora",
+          "foco": "Localizar datos concretos",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E06",
+          "tipo": "huecos",
+          "nivel_mcer": "B1+",
+          "destreza": "lexico",
+          "foco": "Colocaciones verbo + sustantivo",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E07",
+          "tipo": "verdadero_falso",
+          "nivel_mcer": "B1+",
+          "destreza": "comprension_auditiva",
+          "foco": null,
+          "autocorregible": true,
+          "items": 5,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E08",
+          "tipo": "respuesta_corta",
+          "nivel_mcer": "B1+",
+          "destreza": "comprension_auditiva",
+          "foco": "Datos numéricos y condiciones",
+          "autocorregible": true,
+          "items": 6,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E09",
+          "tipo": "huecos",
+          "nivel_mcer": "B1+",
+          "destreza": "comprension_auditiva",
+          "foco": "Pronombres OD/OI y combinación se lo (input para la S3)",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 6
+    },
+    {
+      "numero": 3,
+      "slug": "s3",
+      "titulo": "🧩 Gramática inducida",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "¿Por qué se usa esta forma y no la otra? La regla sale del propio material que ya has visto."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U02-E10",
+          "tipo": "clasificar",
+          "nivel_mcer": "B1+",
+          "destreza": "gramatica",
+          "foco": "Valor del artículo (J3)",
+          "autocorregible": true,
+          "items": 8,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E11",
+          "tipo": "transformar",
+          "nivel_mcer": "B1+",
+          "destreza": "gramatica",
+          "foco": "Sustitución por pronombres OD/OI y combinación se lo",
+          "autocorregible": true,
+          "items": 12,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E12",
+          "tipo": "huecos",
+          "nivel_mcer": "B1+",
+          "destreza": "gramatica",
+          "foco": "Integración: artículo + cuantificador + pronombres (J1, J2, J3)",
+          "autocorregible": true,
+          "items": 20,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 3
+    },
+    {
+      "numero": 4,
+      "slug": "s4",
+      "titulo": "🗣️ Función comunicativa y role-play",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Seguimos avanzando desde el material de la unidad."
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U02-E13",
+          "tipo": "clasificar",
+          "nivel_mcer": "B1+",
+          "destreza": "interaccion_oral",
+          "foco": "PCIC funciones: pedir, aceptar, rechazar, proponer",
+          "autocorregible": true,
+          "items": 16,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U02-E14",
+          "tipo": "roleplay",
+          "nivel_mcer": "B1+",
+          "destreza": "interaccion_oral",
+          "foco": "Pedir favores, negociar condiciones, rechazar con cortesía",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 2
+    },
+    {
+      "numero": 5,
+      "slug": "s5",
+      "titulo": "✍️ Tarea final, 🔊 fonética y 🔁 repaso",
+      "opening": {
+        "fuente": "categoria_a",
+        "texto": "Lo que te llevas hoy",
+        "tarjetas": [
+          "Entender una guía práctica con instrucciones y advertencias, y localizar información concreta (precios, condiciones, plazos).",
+          "Seguir una llamada telefónica de gestión con datos numéricos y condiciones.",
+          "Pedir información sobre una vivienda, pedir un favor a un vecino y aceptarlo o rechazarlo con cortesía."
+        ]
+      },
+      "orientacion": null,
+      "ejercicios": [
+        {
+          "id": "B1-B2-U02-E15",
+          "tipo": "produccion_escrita",
+          "nivel_mcer": "B1+",
+          "destreza": "expresion_escrita",
+          "foco": "Correo de solicitud; registro semiformal; artículos y pronombres",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U02-E16",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "B1+",
+          "destreza": "expresion_oral",
+          "foco": "Describir y comparar espacios",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U02-E17",
+          "tipo": "clasificar",
+          "nivel_mcer": "A2",
+          "destreza": "fonetica",
+          "foco": "J8",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U02-E18",
+          "tipo": "produccion_oral",
+          "nivel_mcer": "A2",
+          "destreza": "fonetica",
+          "foco": "J8 + entonación interrogativa",
+          "autocorregible": false,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        },
+        {
+          "id": "B1-B2-U02-E19",
+          "tipo": "corregir_error",
+          "nivel_mcer": "B1",
+          "destreza": "gramatica",
+          "foco": "U01: ser/estar/haber (J4), concordancia (J1, J2)",
+          "autocorregible": true,
+          "items": 10,
+          "tieneSolucion": true,
+          "tieneExplicacion": true
+        },
+        {
+          "id": "B1-B2-U02-E20",
+          "tipo": null,
+          "nivel_mcer": null,
+          "destreza": null,
+          "foco": null,
+          "autocorregible": null,
+          "items": null,
+          "tieneSolucion": false,
+          "tieneExplicacion": false
+        }
+      ],
+      "numEjercicios": 6
+    }
+  ],
+  "stats": {
+    "numSesiones": 5,
+    "numEjercicios": 20
+  }
+}

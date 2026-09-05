@@ -137,6 +137,14 @@
   margin-top: -0.1rem;
 }
 
+.privacy {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
 .input,
 .textarea {
   font-family: var(--font-reading);

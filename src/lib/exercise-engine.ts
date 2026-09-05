@@ -16,11 +16,11 @@ export interface ExerciseState {
   intentos: number;
 }
 
-type ExerciseAction = { type: "SUBMIT"; correcto: boolean } | { type: "REINTENTAR" };
+export type ExerciseAction = { type: "SUBMIT"; correcto: boolean } | { type: "REINTENTAR" };
 
-const initialState: ExerciseState = { status: "idle", intentos: 0 };
+export const idleExerciseState: ExerciseState = { status: "idle", intentos: 0 };
 
-function exerciseReducer(state: ExerciseState, action: ExerciseAction): ExerciseState {
+export function exerciseReducer(state: ExerciseState, action: ExerciseAction): ExerciseState {
   switch (action.type) {
     case "SUBMIT": {
       if (action.correcto) {
@@ -32,15 +32,19 @@ function exerciseReducer(state: ExerciseState, action: ExerciseAction): Exercise
       return { status: "fallo_2", intentos: state.intentos + 1 };
     }
     case "REINTENTAR":
-      return initialState;
+      return idleExerciseState;
     default:
       return state;
   }
 }
 
-export function useExerciseEngine() {
-  const [state, dispatch] = useReducer(exerciseReducer, initialState);
-  const submit = (correcto: boolean) => dispatch({ type: "SUBMIT", correcto });
+export function useExerciseEngine(initial: ExerciseState = idleExerciseState) {
+  const [state, dispatch] = useReducer(exerciseReducer, initial);
+  const submit = (correcto: boolean): ExerciseState => {
+    const next = exerciseReducer(state, { type: "SUBMIT", correcto });
+    dispatch({ type: "SUBMIT", correcto });
+    return next;
+  };
   const reintentar = () => dispatch({ type: "REINTENTAR" });
   const bloqueado = state.status === "correcto" || state.status === "fallo_2";
   return { state, submit, reintentar, bloqueado };

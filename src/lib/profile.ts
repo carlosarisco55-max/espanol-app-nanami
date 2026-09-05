@@ -1,7 +1,6 @@
 // Perfil de onboarding (nombre, nivel, profesión, gustos). Vive en localStorage —
-// es un dato ligero, distinto del progreso de aprendizaje (que irá en IndexedDB
-// más adelante, en la fase del motor de ejercicios). Ver CLAUDE.md § Restricciones
-// técnicas: sin backend obligatorio en V1.
+// es un dato ligero, distinto del progreso de aprendizaje (IndexedDB en lib/storage.ts).
+// Sin backend obligatorio en V1.
 
 export type NivelMcer = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 

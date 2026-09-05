@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { readProfile, greetingName, type Profile } from "@/lib/profile";
 import type { CurriculumIndexEntry } from "../../../tools/parse-curriculo/types";
+import BackupReminder from "@/components/BackupReminder";
 
 const BLOCK_LABELS = [
   "Bloque 1 · Rampa y arranque de la narración",
@@ -32,8 +33,14 @@ export default function CaminoPage() {
 
   return (
     <main className={styles.page}>
+      <BackupReminder />
       <header className={styles.header}>
-        <p className={styles.eyebrow}>Tu camino</p>
+        <div className={styles.headerRow}>
+          <p className={styles.eyebrow}>Tu camino</p>
+          <Link href="/perfil" className={styles.perfilLink}>
+            Copia de seguridad
+          </Link>
+        </div>
         <h1 className={styles.title}>
           {profile ? `Hola, ${greetingName(profile)}` : "Tu camino de español"}
         </h1>

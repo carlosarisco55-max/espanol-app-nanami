@@ -116,6 +116,11 @@ export default function OnboardingPage() {
             </span>
           </label>
 
+          <p className={styles.privacy}>
+            Tu progreso se guarda solo en este navegador. Cada cinco sesiones te pediremos una copia, por si
+            cambias de aparato.
+          </p>
+
           <button type="submit" className={styles.submit}>
             Empezar el camino
           </button>

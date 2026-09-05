@@ -5,6 +5,8 @@ import { getUnit } from "@/lib/curriculum";
 import PersonalizedMarkdown from "@/components/PersonalizedMarkdown";
 import OrientationToggle from "@/components/OrientationToggle";
 import ExerciseRenderer from "@/components/exercises/ExerciseRenderer";
+import SessionProgressProvider from "@/components/SessionProgressProvider";
+import BackupReminder from "@/components/BackupReminder";
 import { splitSessionIntoSegments } from "@/lib/session-segments";
 
 export default async function SessionPage({
@@ -21,8 +23,10 @@ export default async function SessionPage({
 
   const sessionIndex = unit.sessions.findIndex((s) => s.slug === sessionSlug);
   const nextSession = unit.sessions[sessionIndex + 1];
+  const interactiveIds = session.exercises.filter((exercise) => exercise.content !== null).map((exercise) => exercise.id);
 
   return (
+    <SessionProgressProvider unitId={unit.unitId} sessionSlug={session.slug} interactiveIds={interactiveIds}>
     <main className={styles.page}>
       <Link href={`/unidades/${unit.unitId}`} className={styles.back}>
         ← {unit.title}
@@ -71,6 +75,8 @@ export default async function SessionPage({
           </span>
         )}
       </footer>
+      <BackupReminder />
     </main>
+    </SessionProgressProvider>
   );
 }

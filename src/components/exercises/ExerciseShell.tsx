@@ -2,12 +2,12 @@
 
 import type { ReactNode } from "react";
 import styles from "./exercises.module.css";
-import { useExerciseEngine, type ExerciseState } from "@/lib/exercise-engine";
+import { useExerciseEngine, type ExerciseState, idleExerciseState } from "@/lib/exercise-engine";
 
 export interface ExerciseShellRenderProps {
   state: ExerciseState;
   bloqueado: boolean;
-  submit: (correcto: boolean) => void;
+  submit: (correcto: boolean) => ExerciseState;
 }
 
 export default function ExerciseShell({
@@ -15,15 +15,17 @@ export default function ExerciseShell({
   enunciado,
   pista,
   explicacion,
+  initialState,
   children
 }: {
   id: string;
   enunciado: string;
   pista?: string;
   explicacion?: string;
+  initialState?: ExerciseState;
   children: (props: ExerciseShellRenderProps) => ReactNode;
 }) {
-  const { state, submit, bloqueado } = useExerciseEngine();
+  const { state, submit, bloqueado } = useExerciseEngine(initialState ?? idleExerciseState);
 
   return (
     <div className={styles.card}>
@@ -39,9 +41,6 @@ export default function ExerciseShell({
         </p>
       )}
       {state.status === "fallo_1" && (
-        // No todos los ejercicios del currículo tienen "pista" escrita (algunos van
-        // directos a la explicación completa en el segundo fallo) — pero el primer
-        // fallo SIEMPRE debe dar alguna señal visible, o parece que el botón no hizo nada.
         <p className={`${styles.feedback} ${styles.feedbackPista}`}>
           <span className={styles.feedbackLabel}>💡 {pista ? "Pista." : "Casi."}</span>
           {pista ?? "No es correcto todavía — vuelve a intentarlo."}

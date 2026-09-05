@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
 import type { ClasificarContent } from "../../../tools/parse-curriculo/exercise-types";
+import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 
 export default function ClasificarExercise({ id, content }: { id: string; content: ClasificarContent }) {
-  const [asignadas, setAsignadas] = useState<Record<string, string>>({});
+  const { respuestas: asignadas, setRespuestas: setAsignadas, initialState, persist } = usePersistedAnswers(id);
 
   return (
-    <ExerciseShell id={id} enunciado={content.enunciado} pista={content.pista} explicacion={content.explicacion}>
+    <ExerciseShell
+      id={id}
+      enunciado={content.enunciado}
+      pista={content.pista}
+      explicacion={content.explicacion}
+      initialState={initialState}
+    >
       {({ bloqueado, submit }) => {
         const completo = content.banco.every((w) => asignadas[w]);
         const pendientes = content.banco.filter((w) => !asignadas[w]);
@@ -18,7 +24,7 @@ export default function ClasificarExercise({ id, content }: { id: string; conten
           const correcto = content.columnas.every((col) =>
             content.solucion[col].every((w) => asignadas[w] === col)
           );
-          submit(correcto);
+          persist(submit(correcto), asignadas);
         }
 
         function asignar(word: string, columna: string) {

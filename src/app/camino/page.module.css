@@ -8,6 +8,31 @@
   margin: 0 auto 3rem;
 }
 
+.headerRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.headerRow .eyebrow {
+  margin: 0;
+}
+
+.perfilLink {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.perfilLink:hover {
+  text-decoration: underline;
+}
+
 .eyebrow {
   font-family: var(--font-ui);
   font-size: 0.75rem;

@@ -1,21 +1,27 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
 import type { OpcionMultipleContent } from "../../../tools/parse-curriculo/exercise-types";
+import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 
 export default function OpcionMultipleExercise({ id, content }: { id: string; content: OpcionMultipleContent }) {
-  const [respuestas, setRespuestas] = useState<Record<string, string>>({});
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
 
   return (
-    <ExerciseShell id={id} enunciado={content.enunciado} pista={content.pista} explicacion={content.explicacion}>
+    <ExerciseShell
+      id={id}
+      enunciado={content.enunciado}
+      pista={content.pista}
+      explicacion={content.explicacion}
+      initialState={initialState}
+    >
       {({ bloqueado, submit }) => {
         const completo = content.items.every((item) => respuestas[item.numero]);
 
         function comprobar() {
           const correcto = content.items.every((item) => respuestas[item.numero] === content.solucion[item.numero]);
-          submit(correcto);
+          persist(submit(correcto), respuestas);
         }
 
         return (

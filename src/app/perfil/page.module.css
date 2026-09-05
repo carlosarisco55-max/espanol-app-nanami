@@ -1,0 +1,87 @@
+.page {
+  min-height: 100dvh;
+  padding: 3rem 1.5rem 6rem;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.back {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+}
+
+.back:hover {
+  color: var(--accent-ink);
+}
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm);
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.8rem, 4.5vw, 2.3rem);
+  line-height: 1.15;
+  margin: 0 0 0.8rem;
+}
+
+.body {
+  font-family: var(--font-reading);
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  margin: 0 0 1.6rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.primary,
+.secondary {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.primary {
+  border: none;
+  background: var(--warm);
+  color: var(--bg-raised);
+}
+
+.secondary {
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--ink-soft);
+}
+
+.ok,
+.err {
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  margin-top: 1rem;
+}
+
+.ok {
+  color: var(--sage);
+}
+
+.err {
+  color: var(--warm-strong);
+}

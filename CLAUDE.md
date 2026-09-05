@@ -2,6 +2,8 @@
 
 App de aprendizaje de español para hablantes de japonés. Primera usuaria: adulta japonesa en España, nivel B1 → objetivo B2. Este archivo es el punto de partida para cualquier sesión de IA en este repo — léelo antes de tocar nada.
 
+**Cómo está organizado:** *build* (código/producto) en `src/` y lo que construya TRAE; *brief* (contenido pedagógico, la fuente de verdad que no es código) en `content/curriculo-b1-b2.md`; *track* (decisiones y estado) en `docs/decisions/` + la sección "Estado actual" más abajo en este archivo. Si generas algo nuevo, primero decide en cuál de las tres cae antes de crear un archivo.
+
 ## Reparto de trabajo (regla fija, no renegociar sin que el usuario lo pida)
 
 - **Claude Code** → contenido pedagógico: el currículo, sus unidades, ejercicios, y cualquier texto que necesite rigor lingüístico o cultural (incluida la "Categoría B" de aperturas narrativas, ver abajo).

@@ -22,6 +22,17 @@ export function rateFromDescription(speed?: string): number {
   return 0.98;
 }
 
+export function speakText(text: string): boolean {
+  if (!speechAvailable()) return false;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "es-ES";
+  utterance.rate = 0.88;
+  utterance.voice = spanishVoices()[0] ?? null;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+  return true;
+}
+
 export function speakLines(
   lines: AudioLine[],
   speed: string | undefined,

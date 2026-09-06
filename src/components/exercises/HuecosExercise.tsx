@@ -1,0 +1,66 @@
+"use client";
+
+import type { HuecosContent } from "../../../tools/parse-curriculo/exercise-types";
+import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { validarHuecos } from "@/lib/validators";
+import ExerciseShell from "./ExerciseShell";
+import styles from "./exercises.module.css";
+
+export default function HuecosExercise({ id, content }: { id: string; content: HuecosContent }) {
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+  const keys = content.items.flatMap((item) =>
+    Array.from({ length: item.respuestasPorHueco?.length ?? 1 }, (_, index) => `${item.numero}:${index}`)
+  );
+  const completo = keys.every((key) => respuestas[key]?.trim());
+
+  return (
+    <ExerciseShell
+      id={id}
+      enunciado={content.enunciado}
+      pista={content.pista}
+      explicacion={content.explicacion ?? content.porQue}
+      initialState={initialState}
+    >
+      {({ bloqueado, submit }) => (
+        <>
+          {content.texto && <p className={styles.sourceText}>{content.texto}</p>}
+          {content.items.map((item) => {
+            const count = item.respuestasPorHueco?.length ?? 1;
+            return (
+              <div key={item.numero} className={styles.itemRow}>
+                {item.texto && <p className={styles.itemText}>{item.numero}. {item.texto}</p>}
+                <div className={styles.inputRow}>
+                  <span className={styles.inputNumber}>{item.numero}.</span>
+                  {Array.from({ length: count }, (_, index) => {
+                    const key = `${item.numero}:${index}`;
+                    return (
+                      <input
+                        key={key}
+                        className={styles.textInput}
+                        aria-label={`Respuesta ${item.numero}${count > 1 ? `, hueco ${index + 1}` : ""}`}
+                        value={respuestas[key] ?? ""}
+                        disabled={bloqueado}
+                        autoComplete="off"
+                        onChange={(event) => setRespuestas((current) => ({ ...current, [key]: event.target.value }))}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.checkBtn}
+              disabled={!completo || bloqueado}
+              onClick={() => persist(submit(validarHuecos(respuestas, content.items)), respuestas)}
+            >
+              Comprobar
+            </button>
+          </div>
+        </>
+      )}
+    </ExerciseShell>
+  );
+}

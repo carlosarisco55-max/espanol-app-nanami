@@ -244,3 +244,92 @@
   font-weight: 700;
   margin-right: 0.3rem;
 }
+
+.sourceText {
+  white-space: pre-line;
+  font-family: var(--font-reading);
+  line-height: 1.75;
+  padding: 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-sunken);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.inputNumber {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  color: var(--ink-faint);
+}
+
+.textAnswerRow {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.textInput {
+  width: min(100%, 34rem);
+  padding: 0.65rem 0.75rem;
+  border: 1.5px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-reading);
+  font-size: 0.96rem;
+}
+
+.textInput:focus {
+  outline: 2px solid var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.clearBtn {
+  border: 0;
+  background: transparent;
+  color: var(--ink-faint);
+  font-family: var(--font-ui);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clearBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.phoneticRow {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.listenBtn {
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inlineNotice {
+  color: var(--clay);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .phoneticRow {
+    grid-template-columns: 1fr;
+  }
+}

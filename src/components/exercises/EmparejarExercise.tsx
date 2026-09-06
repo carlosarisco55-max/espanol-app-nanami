@@ -14,7 +14,7 @@ export default function EmparejarExercise({ id, content }: { id: string; content
       id={id}
       enunciado={content.enunciado}
       pista={content.pista}
-      explicacion={content.explicacion}
+      explicacion={content.explicacion ?? content.porQue}
       initialState={initialState}
     >
       {({ bloqueado, submit }) => {

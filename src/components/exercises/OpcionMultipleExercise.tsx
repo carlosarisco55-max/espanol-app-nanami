@@ -14,7 +14,7 @@ export default function OpcionMultipleExercise({ id, content }: { id: string; co
       id={id}
       enunciado={content.enunciado}
       pista={content.pista}
-      explicacion={content.explicacion}
+      explicacion={content.explicacion ?? content.porQue}
       initialState={initialState}
     >
       {({ bloqueado, submit }) => {

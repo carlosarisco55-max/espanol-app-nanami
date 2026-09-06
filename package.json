@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "predev": "pnpm parse",
-    "build": "next build",
+    "build": "node --require ./tools/nft-enoent-guard.cjs ./node_modules/next/dist/bin/next build",
     "prebuild": "pnpm parse",
     "parse": "tsx tools/parse-curriculo/index.ts",
     "test": "node --import tsx --test \"tests/**/*.test.ts\""

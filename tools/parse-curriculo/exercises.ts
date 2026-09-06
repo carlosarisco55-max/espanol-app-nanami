@@ -137,6 +137,21 @@ function parseEmparejar(raw: string): EmparejarContent | null {
 
 function parseOpcionMultiple(raw: string): OpcionMultipleContent | null {
   const body = exerciseBody(raw);
+  const authoredSolution = solutionBody(raw);
+  const enunciado = simplifyInline(body.match(/\*\*([^*]+)\*\*/)?.[1] ?? "Elige la opción correcta.");
+
+  const table = parseOpcionMultipleTabla(body, authoredSolution);
+  if (table) {
+    return {
+      kind: "opcion_multiple",
+      layout: "tabla",
+      enunciado,
+      items: table.items,
+      solucion: table.solucion,
+      ...feedback(raw)
+    };
+  }
+
   const lines = body.split("\n");
   const parsedItems: Array<OpcionMultipleItem & { inferred?: string }> = [];
   let current: { numero: string; enunciado: string; opcionesRaw: string } | null = null;
@@ -161,37 +176,8 @@ function parseOpcionMultiple(raw: string): OpcionMultipleContent | null {
     if (item.inferred) solucion[item.numero] = item.inferred;
   }
 
-  const authoredSolution = solutionBody(raw);
   for (const m of authoredSolution.matchAll(/(\d+)\s*[-–]\s*([a-z])/gi)) {
     solucion[m[1]] = m[2];
-  }
-
-  if (validItems.length === 0) {
-    const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
-    const headerCells = tableLines[0]
-      ?.split("|")
-      .slice(1, -1)
-      .map((cell) => simplifyInline(cell));
-    let optionLabels = headerCells?.slice(2).filter(Boolean) ?? [];
-    if (optionLabels.length === 1 && optionLabels[0].includes("/")) {
-      optionLabels = optionLabels[0].split("/").map((label) => label.trim()).filter(Boolean);
-    }
-    const tableRows = [...body.matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|.*$/gm)];
-    const tableSolutions = new Map(numberedEntries(authoredSolution).map((item) => [item.numero, item.value]));
-    if (optionLabels.length >= 2 && tableRows.length > 0) {
-      validItems = tableRows.map((row) => ({
-        numero: row[1],
-        enunciado: simplifyInline(row[2]),
-        opciones: optionLabels.map((label, index) => ({ letra: String(index), texto: label }))
-      }));
-      for (const item of validItems) {
-        const authored = tableSolutions.get(item.numero)?.toLocaleLowerCase("es") ?? "";
-        const matchIndex = optionLabels.findIndex((label) =>
-          authored.startsWith(label.toLocaleLowerCase("es"))
-        );
-        if (matchIndex >= 0) solucion[item.numero] = String(matchIndex);
-      }
-    }
   }
 
   if (validItems.length === 0) {
@@ -199,42 +185,12 @@ function parseOpcionMultiple(raw: string): OpcionMultipleContent | null {
     if (standalone.length >= 2) {
       validItems = [{
         numero: "1",
-        enunciado: body.match(/\*\*([^*]+)\*\*/)?.[1] ?? "Elige la opción correcta.",
+        enunciado: enunciado,
         opciones: standalone.map((match) => ({
           letra: match[1].toLowerCase(),
           texto: simplifyInline(match[2])
         }))
       }];
-    }
-  }
-
-  if (validItems.length === 0) {
-    const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
-    const headerLine = tableLines.find((line) => !/^\|\s*(?:---|\|)/.test(line) && !/^\|\s*\d+\s*\|/.test(line));
-    const tableRows = tableLines
-      .map((line) => line.split("|").slice(1, -1).map((cell) => simplifyInline(cell)))
-      .filter((cells) => /^\d+$/.test(cells[0] ?? "") && Boolean(cells[1]));
-    if (headerLine && tableRows.length > 0) {
-      const headers = headerLine.split("|").slice(1, -1).map((cell) => simplifyInline(cell));
-      const categoryHeaders = headers.slice(2).filter(Boolean);
-      const categories = categoryHeaders.length === 1 && categoryHeaders[0].includes("/")
-        ? categoryHeaders[0].split(/\s*\/\s*/).filter(Boolean)
-        : categoryHeaders;
-      const tableSolutions = new Map(numberedEntries(authoredSolution).map((item) => [item.numero, item.value]));
-      if (categories.length >= 2) {
-        validItems = tableRows.map((cells) => ({
-          numero: cells[0],
-          enunciado: cells[1],
-          opciones: categories.map((category) => ({ letra: category, texto: category }))
-        }));
-        for (const item of validItems) {
-          const authored = tableSolutions.get(item.numero) ?? "";
-          const category = categories.find((candidate) =>
-            simplifyInline(authored).toLowerCase().startsWith(candidate.toLowerCase())
-          );
-          if (category) solucion[item.numero] = category;
-        }
-      }
     }
   }
 
@@ -265,16 +221,75 @@ function parseOpcionMultiple(raw: string): OpcionMultipleContent | null {
   }
 
   if (validItems.length === 0 || validItems.some((item) => !solucion[item.numero])) return null;
-  const enunciado = body.match(/\*\*([^*]+)\*\*/)?.[1] ?? "Elige la opción correcta.";
 
   return {
     kind: "opcion_multiple",
     layout: validItems[0]?.opciones[0]?.letra === "si" ? "tabla" : "items",
-    enunciado: simplifyInline(enunciado),
+    enunciado,
     items: validItems,
     solucion,
     ...feedback(raw)
   };
+}
+
+function parseTableCells(line: string): string[] {
+  return line.split("|").slice(1, -1).map((cell) => simplifyInline(cell));
+}
+
+function isTableSeparator(cells: string[]): boolean {
+  return cells.length > 0 && cells.every((cell) => cell === "" || /^:?-+:?$/.test(cell));
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Opciones compartidas por cabecera de tabla (DELE V/F/ND, grado de certeza, etc.).
+function parseOpcionMultipleTabla(
+  body: string,
+  authoredSolution: string
+): { items: OpcionMultipleItem[]; solucion: Record<string, string> } | null {
+  const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
+  if (tableLines.length < 2) return null;
+
+  const headerLine = tableLines.find((line) => {
+    const cells = parseTableCells(line);
+    return cells.length > 0 && !isTableSeparator(cells) && !/^\d+$/.test(cells[0] ?? "");
+  });
+  if (!headerLine) return null;
+
+  const headers = parseTableCells(headerLine);
+  let optionLabels = headers.slice(2).filter(Boolean);
+  if (optionLabels.length === 1 && optionLabels[0].includes("/")) {
+    optionLabels = optionLabels[0].split(/\s*\/\s*/).filter(Boolean);
+  }
+  if (optionLabels.length < 2) return null;
+
+  const rows = tableLines
+    .map(parseTableCells)
+    .filter((cells) => /^\d+$/.test(cells[0] ?? "") && Boolean(cells[1]));
+  if (rows.length === 0) return null;
+
+  const items: OpcionMultipleItem[] = rows.map((cells) => ({
+    numero: cells[0],
+    enunciado: cells[1],
+    opciones: optionLabels.map((label) => ({ letra: label, texto: label }))
+  }));
+
+  const authored = new Map(numberedEntries(authoredSolution).map((item) => [item.numero, item.value]));
+  const labelsByLength = [...optionLabels].sort((a, b) => b.length - a.length);
+  const solucion: Record<string, string> = {};
+
+  for (const item of items) {
+    const value = simplifyInline(authored.get(item.numero) ?? "");
+    const match = labelsByLength.find((label) =>
+      new RegExp(`^${escapeRegExp(label)}(?:\\s|\\(|$)`, "i").test(value)
+    );
+    if (match) solucion[item.numero] = match;
+  }
+
+  if (items.some((item) => !solucion[item.numero])) return null;
+  return { items, solucion };
 }
 
 function finalizeOpcionMultipleItem(current: {

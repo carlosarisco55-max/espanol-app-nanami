@@ -210,7 +210,30 @@ test("Fase 3 — opción múltiple cubre formato inline, casillas y tablas", () 
   assert.equal(multiple.length, 53);
   assert.ok(multiple.every((exercise) => exercise.content?.kind === "opcion_multiple"));
   assert.equal(exercises.find((exercise) => exercise.id === "B1-B2-U01-E04")?.content?.kind, "opcion_multiple");
-  assert.equal(exercises.find((exercise) => exercise.id === "B1-B2-U06-E05")?.content?.kind, "opcion_multiple");
+
+  const u06 = exercises.find((exercise) => exercise.id === "B1-B2-U06-E05")?.content;
+  assert.equal(u06?.kind, "opcion_multiple");
+  if (u06?.kind === "opcion_multiple") {
+    assert.equal(u06.layout, "tabla");
+    assert.equal(u06.items.length, 6);
+    assert.deepEqual(u06.items[0].opciones.map((option) => option.letra), ["V", "F", "ND"]);
+    assert.deepEqual(u06.solucion, { "1": "F", "2": "V", "3": "V", "4": "F", "5": "ND", "6": "V" });
+  }
+
+  const u09 = exercises.find((exercise) => exercise.id === "B1-B2-U09-E05")?.content;
+  assert.equal(u09?.kind, "opcion_multiple");
+  if (u09?.kind === "opcion_multiple") {
+    assert.equal(u09.layout, "tabla");
+    assert.equal(u09.items.length, 8);
+    assert.deepEqual(u09.items[0].opciones.map((option) => option.letra), [
+      "Muy probable",
+      "Posible",
+      "Improbable",
+      "Falso"
+    ]);
+    assert.equal(u09.solucion["5"], "Improbable");
+    assert.equal(u09.solucion["7"], "Posible");
+  }
 });
 
 test("Fase 3 — conserva foco, códigos J y autocorrección por ejercicio", () => {

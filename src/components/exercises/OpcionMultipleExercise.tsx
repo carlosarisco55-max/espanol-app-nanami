@@ -50,7 +50,7 @@ export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { i
                         disabled={bloqueado}
                         onClick={() => setRespuestas((r) => ({ ...r, [item.numero]: op.letra }))}
                       >
-                        {op.letra}) {op.texto}
+                        {content.layout === "tabla" ? op.texto : `${op.letra}) ${op.texto}`}
                       </button>
                     );
                   })}

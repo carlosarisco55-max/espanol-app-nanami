@@ -32,6 +32,8 @@ test("clasificar exige cada palabra en su columna", () => {
 
 test("texto libre ignora mayúsculas, espacios y puntuación final, pero conserva las tildes", () => {
   assert.equal(matchesAcceptedAnswer("  Por el acento! ", "Por el acento."), true);
+  assert.equal(matchesAcceptedAnswer("Nueve", "Nueve (eran ocho)."), true);
+  assert.equal(matchesAcceptedAnswer("se produjo", "hubo / se produjo"), true);
   assert.equal(matchesAcceptedAnswer("esta", "está"), false);
 });
 

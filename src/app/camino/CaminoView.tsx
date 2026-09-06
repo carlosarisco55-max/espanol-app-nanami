@@ -25,9 +25,14 @@ export default function CaminoView({ index }: { index: CurriculumIndexEntry[] })
       <header className={styles.header}>
         <div className={styles.headerRow}>
           <p className={styles.eyebrow}>Tu camino</p>
-          <Link href="/perfil" className={styles.perfilLink}>
-            Copia de seguridad
-          </Link>
+          <nav className={styles.headerLinks}>
+            <Link href="/repaso" className={styles.perfilLink}>
+              Repaso
+            </Link>
+            <Link href="/perfil" className={styles.perfilLink}>
+              Copia de seguridad
+            </Link>
+          </nav>
         </div>
         <h1 className={styles.title}>
           {profile ? `Hola, ${greetingName(profile)}` : "Tu camino de español"}

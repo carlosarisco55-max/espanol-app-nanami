@@ -31,7 +31,7 @@ export default function PerfilPage() {
     setMessage(null);
     try {
       const parsed = parseProgressExport(JSON.parse(await file.text()));
-      await storage.replaceAll(parsed.progress, parsed.meta);
+      await storage.replaceAll(parsed.progress, parsed.meta, parsed.srs);
       if (parsed.profile) saveProfile(parsed.profile);
       setMessage("Copia restaurada en este navegador.");
     } catch (err) {

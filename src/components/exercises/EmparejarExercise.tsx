@@ -2,12 +2,12 @@
 
 import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
-import type { EmparejarContent } from "../../../tools/parse-curriculo/exercise-types";
+import type { EmparejarContent, JCode } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarEmparejar } from "@/lib/validators";
 
-export default function EmparejarExercise({ id, content }: { id: string; content: EmparejarContent }) {
-  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+export default function EmparejarExercise({ id, content, jCodes = [] }: { id: string; content: EmparejarContent; jCodes?: JCode[] }) {
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
 
   return (
     <ExerciseShell

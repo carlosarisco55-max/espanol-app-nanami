@@ -3,6 +3,7 @@
 import type {
   CorregirErrorContent,
   DictadoContent,
+  JCode,
   RespuestaCortaContent,
   TransformarContent
 } from "../../../tools/parse-curriculo/exercise-types";
@@ -43,8 +44,8 @@ function validate(content: TextContent, answers: Record<string, string>): boolea
   }
 }
 
-export default function TextAnswerExercise({ id, content }: { id: string; content: TextContent }) {
-  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+export default function TextAnswerExercise({ id, content, jCodes = [] }: { id: string; content: TextContent; jCodes?: JCode[] }) {
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
   const rows = rowsFor(content);
   const completo = rows.every((item) => respuestas[item.numero]?.trim());
 

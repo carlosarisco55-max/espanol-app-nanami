@@ -1,13 +1,13 @@
 "use client";
 
-import type { HuecosContent } from "../../../tools/parse-curriculo/exercise-types";
+import type { HuecosContent, JCode } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarHuecos } from "@/lib/validators";
 import ExerciseShell from "./ExerciseShell";
 import styles from "./exercises.module.css";
 
-export default function HuecosExercise({ id, content }: { id: string; content: HuecosContent }) {
-  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+export default function HuecosExercise({ id, content, jCodes = [] }: { id: string; content: HuecosContent; jCodes?: JCode[] }) {
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
   const keys = content.items.flatMap((item) =>
     Array.from({ length: item.respuestasPorHueco?.length ?? 1 }, (_, index) => `${item.numero}:${index}`)
   );

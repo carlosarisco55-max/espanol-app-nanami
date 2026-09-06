@@ -27,7 +27,12 @@ export default async function SessionPage({
   const interactiveIds = session.exercises.filter((exercise) => exercise.content !== null).map((exercise) => exercise.id);
 
   return (
-    <SessionProgressProvider unitId={unit.unitId} sessionSlug={session.slug} interactiveIds={interactiveIds}>
+    <SessionProgressProvider
+      unitId={unit.unitId}
+      sessionSlug={session.slug}
+      interactiveIds={interactiveIds}
+      totalSessions={unit.sessions.length}
+    >
     <main className={styles.page}>
       <Link href={`/unidades/${unit.unitId}`} className={styles.back}>
         ← {unit.title}
@@ -73,9 +78,9 @@ export default async function SessionPage({
       <footer className={styles.footerNav}>
         <Link href={`/unidades/${unit.unitId}`}>Índice de la unidad</Link>
         {nextSession && (
-          <span style={{ color: "var(--ink-faint)", fontSize: "0.85rem" }}>
-            Sesión {nextSession.number}: próximamente
-          </span>
+          <Link href={`/unidades/${unit.unitId}/${nextSession.slug}`}>
+            Continuar a la sesión {nextSession.number} →
+          </Link>
         )}
       </footer>
       <BackupReminder />

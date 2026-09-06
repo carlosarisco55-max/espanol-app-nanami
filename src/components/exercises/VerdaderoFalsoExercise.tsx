@@ -1,13 +1,13 @@
 "use client";
 
-import type { VerdaderoFalsoContent } from "../../../tools/parse-curriculo/exercise-types";
+import type { JCode, VerdaderoFalsoContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarVerdaderoFalso } from "@/lib/validators";
 import ExerciseShell from "./ExerciseShell";
 import styles from "./exercises.module.css";
 
-export default function VerdaderoFalsoExercise({ id, content }: { id: string; content: VerdaderoFalsoContent }) {
-  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+export default function VerdaderoFalsoExercise({ id, content, jCodes = [] }: { id: string; content: VerdaderoFalsoContent; jCodes?: JCode[] }) {
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
   const completo = content.items.every((item) => respuestas[item.numero]);
 
   return (

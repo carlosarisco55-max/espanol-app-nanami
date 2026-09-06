@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { DiscriminacionFoneticaContent } from "../../../tools/parse-curriculo/exercise-types";
+import type { DiscriminacionFoneticaContent, JCode } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarDiscriminacion } from "@/lib/validators";
 import { speakText } from "@/lib/tts";
@@ -10,12 +10,14 @@ import styles from "./exercises.module.css";
 
 export default function DiscriminacionFoneticaExercise({
   id,
-  content
+  content,
+  jCodes = []
 }: {
   id: string;
   content: DiscriminacionFoneticaContent;
+  jCodes?: JCode[];
 }) {
-  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
   const [audioUnavailable, setAudioUnavailable] = useState(false);
   const completo = content.items.every((item) => respuestas[item.numero]);
 

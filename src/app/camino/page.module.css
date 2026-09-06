@@ -20,6 +20,11 @@
   margin: 0;
 }
 
+.headerLinks {
+  display: flex;
+  gap: 0.8rem;
+}
+
 .perfilLink {
   font-family: var(--font-ui);
   font-size: 0.82rem;

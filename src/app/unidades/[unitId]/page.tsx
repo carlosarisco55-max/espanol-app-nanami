@@ -47,24 +47,14 @@ export default async function UnitPage({ params }: { params: Promise<{ unitId: s
         Las 5 sesiones
       </h2>
       <nav className={styles.sessionNav}>
-        {unit.sessions.map((session) => {
-          const ready = session.number === 1;
-          const content = (
+        {unit.sessions.map((session) => (
+          <Link key={session.slug} href={`/unidades/${unit.unitId}/${session.slug}`} className={styles.sessionLink}>
             <>
               <span className={styles.sessionNumber}>S{session.number}</span>
               <span className={styles.sessionTitle}>{session.title}</span>
             </>
-          );
-          return ready ? (
-            <Link key={session.slug} href={`/unidades/${unit.unitId}/${session.slug}`} className={styles.sessionLink}>
-              {content}
-            </Link>
-          ) : (
-            <div key={session.slug} className={`${styles.sessionLink} ${styles.sessionLinkDisabled}`}>
-              {content}
-            </div>
-          );
-        })}
+          </Link>
+        ))}
       </nav>
     </main>
   );

@@ -2,12 +2,12 @@
 
 import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
-import type { OpcionMultipleContent } from "../../../tools/parse-curriculo/exercise-types";
+import type { JCode, OpcionMultipleContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarOpcionMultiple } from "@/lib/validators";
 
-export default function OpcionMultipleExercise({ id, content }: { id: string; content: OpcionMultipleContent }) {
-  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { id: string; content: OpcionMultipleContent; jCodes?: JCode[] }) {
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
 
   return (
     <ExerciseShell

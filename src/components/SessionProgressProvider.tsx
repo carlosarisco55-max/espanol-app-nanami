@@ -2,6 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { ExerciseState } from "@/lib/exercise-engine";
+import type { JCode } from "../../tools/parse-curriculo/exercise-types";
+import { recordJFailure, recordUnitCompletion } from "@/lib/srs-engine";
 import { sessionKey, shouldPromptBackup } from "@/lib/progress-logic";
 import {
   acknowledgeBackup as persistAcknowledge,
@@ -14,7 +16,12 @@ import {
 interface ProgressContextValue {
   ready: boolean;
   getRecord: (exerciseId: string) => ExerciseProgress | undefined;
-  saveRecord: (exerciseId: string, state: ExerciseState, answers: Record<string, string>) => Promise<void>;
+  saveRecord: (
+    exerciseId: string,
+    state: ExerciseState,
+    answers: Record<string, string>,
+    jCodes?: JCode[]
+  ) => Promise<void>;
   backupDue: boolean;
   dismissBackup: () => Promise<void>;
 }
@@ -37,11 +44,13 @@ export default function SessionProgressProvider({
   unitId,
   sessionSlug,
   interactiveIds,
+  totalSessions,
   children
 }: {
   unitId: string;
   sessionSlug: string;
   interactiveIds: string[];
+  totalSessions: number;
   children: ReactNode;
 }) {
   const [ready, setReady] = useState(false);
@@ -76,7 +85,12 @@ export default function SessionProgressProvider({
   }, [unitId, sessionSlug]);
 
   const saveRecord = useCallback(
-    async (exerciseId: string, state: ExerciseState, answers: Record<string, string>) => {
+    async (
+      exerciseId: string,
+      state: ExerciseState,
+      answers: Record<string, string>,
+      jCodes: JCode[] = []
+    ) => {
       const record: ExerciseProgress = {
         exerciseId,
         unitId,
@@ -90,14 +104,23 @@ export default function SessionProgressProvider({
       byIdRef.current = merged;
       setById(merged);
       await storage.saveProgress(record);
+      if (state.status === "fallo_2" && jCodes.length > 0) {
+        const currentSrs = await storage.getSrs();
+        await storage.saveSrs(recordJFailure(currentSrs, jCodes, exerciseId));
+      }
       const statuses: Record<string, string> = {};
       for (const id of interactiveIds) {
         statuses[id] = merged[id]?.status ?? "";
       }
       const nextMeta = await markSessionCompletedIfNeeded(sessionKey(unitId, sessionSlug), interactiveIds, statuses);
       setMeta(nextMeta);
+      const completedInUnit = nextMeta.completedSessions.filter((key) => key.startsWith(`${unitId}:`)).length;
+      if (completedInUnit >= totalSessions) {
+        const currentSrs = await storage.getSrs();
+        await storage.saveSrs(recordUnitCompletion(currentSrs, unitId));
+      }
     },
-    [interactiveIds, sessionSlug, unitId]
+    [interactiveIds, sessionSlug, totalSessions, unitId]
   );
 
   const dismissBackup = useCallback(async () => {

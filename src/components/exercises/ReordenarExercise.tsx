@@ -1,13 +1,13 @@
 "use client";
 
-import type { ReordenarContent } from "../../../tools/parse-curriculo/exercise-types";
+import type { JCode, ReordenarContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarReordenar } from "@/lib/validators";
 import ExerciseShell from "./ExerciseShell";
 import styles from "./exercises.module.css";
 
-export default function ReordenarExercise({ id, content }: { id: string; content: ReordenarContent }) {
-  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id);
+export default function ReordenarExercise({ id, content, jCodes = [] }: { id: string; content: ReordenarContent; jCodes?: JCode[] }) {
+  const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
   const completo = content.items.every((item) => respuestas[item.numero]?.trim());
 
   return (

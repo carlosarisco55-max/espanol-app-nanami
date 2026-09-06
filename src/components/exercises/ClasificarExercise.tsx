@@ -2,12 +2,12 @@
 
 import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
-import type { ClasificarContent } from "../../../tools/parse-curriculo/exercise-types";
+import type { ClasificarContent, JCode } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarClasificar } from "@/lib/validators";
 
-export default function ClasificarExercise({ id, content }: { id: string; content: ClasificarContent }) {
-  const { respuestas: asignadas, setRespuestas: setAsignadas, initialState, persist } = usePersistedAnswers(id);
+export default function ClasificarExercise({ id, content, jCodes = [] }: { id: string; content: ClasificarContent; jCodes?: JCode[] }) {
+  const { respuestas: asignadas, setRespuestas: setAsignadas, initialState, persist } = usePersistedAnswers(id, jCodes);
 
   return (
     <ExerciseShell

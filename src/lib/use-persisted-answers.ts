@@ -3,8 +3,9 @@
 import { useState, type Dispatch, type SetStateAction } from "react";
 import { idleExerciseState, type ExerciseState } from "@/lib/exercise-engine";
 import { useOptionalSessionProgress } from "@/components/SessionProgressProvider";
+import type { JCode } from "../../tools/parse-curriculo/exercise-types";
 
-export function usePersistedAnswers(exerciseId: string): {
+export function usePersistedAnswers(exerciseId: string, jCodes: JCode[] = []): {
   respuestas: Record<string, string>;
   setRespuestas: Dispatch<SetStateAction<Record<string, string>>>;
   initialState: ExerciseState;
@@ -24,7 +25,7 @@ export function usePersistedAnswers(exerciseId: string): {
     setRespuestas,
     initialState,
     persist: (state, answers) => {
-      void progress?.saveRecord(exerciseId, state, answers);
+      void progress?.saveRecord(exerciseId, state, answers, jCodes);
     },
     ready: progress ? progress.ready : true
   };

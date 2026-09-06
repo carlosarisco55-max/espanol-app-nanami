@@ -1,11 +1,13 @@
 import type { ExerciseStatus } from "./exercise-engine";
 import type { Profile } from "./profile";
 import { backupRound, sessionJustCompleted } from "./progress-logic";
+import { emptySrsState, normalizeSrsState, type SrsState } from "./srs-engine";
 
 const DB_NAME = "nanami";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const PROGRESS_STORE = "progress";
 const META_STORE = "meta";
+const SRS_STORE = "srs";
 const META_KEY = "backup";
 
 export interface ExerciseProgress {
@@ -25,11 +27,12 @@ export interface ProgressMeta {
 }
 
 export interface ProgressExport {
-  version: 1;
+  version: 2;
   exportedAt: string;
   profile: Profile | null;
   progress: ExerciseProgress[];
   meta: Omit<ProgressMeta, "key">;
+  srs: SrsState;
 }
 
 const emptyMeta = (): ProgressMeta => ({
@@ -44,7 +47,9 @@ export interface StorageAdapter {
   saveProgress(record: ExerciseProgress): Promise<void>;
   getMeta(): Promise<ProgressMeta>;
   saveMeta(meta: ProgressMeta): Promise<void>;
-  replaceAll(progress: ExerciseProgress[], meta: ProgressMeta): Promise<void>;
+  getSrs(): Promise<SrsState>;
+  saveSrs(state: SrsState): Promise<void>;
+  replaceAll(progress: ExerciseProgress[], meta: ProgressMeta, srs?: SrsState): Promise<void>;
 }
 
 function idbAvailable(): boolean {
@@ -61,6 +66,9 @@ function openDb(): Promise<IDBDatabase> {
       }
       if (!db.objectStoreNames.contains(META_STORE)) {
         db.createObjectStore(META_STORE, { keyPath: "key" });
+      }
+      if (!db.objectStoreNames.contains(SRS_STORE)) {
+        db.createObjectStore(SRS_STORE);
       }
     };
     req.onsuccess = () => resolve(req.result);
@@ -140,17 +148,46 @@ export const IndexedDBAdapter: StorageAdapter = {
     }
   },
 
-  async replaceAll(progress, meta) {
+  async getSrs() {
+    if (!idbAvailable()) return emptySrsState();
+    const db = await openDb();
+    try {
+      const tx = db.transaction(SRS_STORE, "readonly");
+      const stored = (await reqAs(tx.objectStore(SRS_STORE).get("state"))) as Partial<SrsState> | undefined;
+      return normalizeSrsState(stored);
+    } finally {
+      db.close();
+    }
+  },
+
+  async saveSrs(state) {
     if (!idbAvailable()) return;
     const db = await openDb();
     try {
-      const tx = db.transaction([PROGRESS_STORE, META_STORE], "readwrite");
+      const tx = db.transaction(SRS_STORE, "readwrite");
+      tx.objectStore(SRS_STORE).put(state, "state");
+      await new Promise<void>((resolve, reject) => {
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    } finally {
+      db.close();
+    }
+  },
+
+  async replaceAll(progress, meta, srs = emptySrsState()) {
+    if (!idbAvailable()) return;
+    const db = await openDb();
+    try {
+      const tx = db.transaction([PROGRESS_STORE, META_STORE, SRS_STORE], "readwrite");
       tx.objectStore(PROGRESS_STORE).clear();
       tx.objectStore(META_STORE).clear();
+      tx.objectStore(SRS_STORE).clear();
       for (const record of progress) {
         tx.objectStore(PROGRESS_STORE).put(record);
       }
       tx.objectStore(META_STORE).put(meta);
+      tx.objectStore(SRS_STORE).put(srs, "state");
       await new Promise<void>((resolve, reject) => {
         tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
@@ -193,16 +230,21 @@ export async function acknowledgeBackup(): Promise<ProgressMeta> {
 }
 
 export async function buildProgressExport(profile: Profile | null): Promise<ProgressExport> {
-  const [progress, loadedMeta] = await Promise.all([storage.getAllProgress(), storage.getMeta()]);
+  const [progress, loadedMeta, srs] = await Promise.all([
+    storage.getAllProgress(),
+    storage.getMeta(),
+    storage.getSrs()
+  ]);
   return {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     profile,
     progress,
     meta: {
       completedSessions: loadedMeta.completedSessions,
       lastAcknowledgedRound: loadedMeta.lastAcknowledgedRound
-    }
+    },
+    srs
   };
 }
 
@@ -210,12 +252,13 @@ export function parseProgressExport(raw: unknown): {
   progress: ExerciseProgress[];
   meta: ProgressMeta;
   profile: Profile | null;
+  srs: SrsState;
 } {
   if (!raw || typeof raw !== "object") {
     throw new Error("El archivo no es una copia reconocible.");
   }
-  const data = raw as Partial<ProgressExport>;
-  if (data.version !== 1 || !Array.isArray(data.progress)) {
+  const data = raw as Omit<Partial<ProgressExport>, "version"> & { version?: number };
+  if ((data.version !== 1 && data.version !== 2) || !Array.isArray(data.progress)) {
     throw new Error("Esta copia no es compatible con esta versión de la app.");
   }
   const metaFromFile = data.meta;
@@ -225,5 +268,6 @@ export function parseProgressExport(raw: unknown): {
     lastAcknowledgedRound: typeof metaFromFile?.lastAcknowledgedRound === "number" ? metaFromFile.lastAcknowledgedRound : 0
   };
   const profile = data.profile && typeof data.profile === "object" ? (data.profile as Profile) : null;
-  return { progress: data.progress as ExerciseProgress[], meta, profile };
+  const srs = data.version === 2 && data.srs ? normalizeSrsState(data.srs) : emptySrsState();
+  return { progress: data.progress as ExerciseProgress[], meta, profile, srs };
 }

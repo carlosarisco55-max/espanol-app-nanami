@@ -10694,14 +10694,14 @@ items: 8
 | 7 | El teletrabajo se habrá consolidado en el trabajo de oficina | | | | |
 | 8 | Las desalinizadoras serán la única solución al agua | | | | |
 
-**Solución:** 1. **Improbable** · 2. **Muy probable** · 3. **Muy probable** · 4. **Muy probable** · 5. **Improbable / casi falso** *(«es dudoso que lleguemos en este siglo»)* · 6. **Falso** *(el 60 % de los empleos no se pueden hacer a distancia)* · 7. **Posible / probable** · 8. **Improbable**
+**Solución:** 1. **Improbable** · 2. **Muy probable** · 3. **Muy probable** · 4. **Muy probable** · 5. **Improbable** · 6. **Falso** *(el 60 % de los empleos no se pueden hacer a distancia)* · 7. **Posible** · 8. **Improbable**
 
 > 💡 **Por qué, y esta es la clave del texto.** Fíjate en que el autor **nunca dice sólo «sí» o «no»**: cada predicción recibe un grado distinto, y ese grado está **codificado en la gramática**:
 > - *«**seguiría habiendo** millones rodando»* → condicional: consecuencia hipotética muy probable.
 > - *«**probablemente sigan** existiendo enfermeras»* → subjuntivo tras *probablemente*.
 > - *«**habrá desaparecido** buena parte»* → futuro compuesto: lo da casi por hecho.
-> - *«**es dudoso que lleguemos**»* → subjuntivo tras duda.
-> - *«**es probable que se haya consolidado**»* → pretérito perfecto de subjuntivo.
+> - *«**es dudoso que lleguemos**»* → subjuntivo de duda, un paso por debajo de «falso»: por eso el ítem 5 es **improbable**, no falso — el texto no lo descarta del todo, solo lo ve muy poco probable en este siglo.
+> - *«**es probable que se haya consolidado**»* → pretérito perfecto de subjuntivo, y el propio texto lo acota a *«una parte de los trabajos de oficina»*: por eso el ítem 7 es **posible**, no muy probable — la afirmación original habla de «la norma para todos los trabajos», que el texto no respalda con esa fuerza.
 > - *«**puede que llegue**… pero también **puede que llegue** por donde menos se habla»* → dos posibilidades al mismo nivel.
 > **La gramática es el argumento.** Por eso la última sección del texto dice que una previsión sin margen de error «no es una previsión: es un titular».
 

@@ -23,11 +23,20 @@ export function rateFromDescription(speed?: string): number {
 }
 
 export function speakText(text: string): boolean {
-  if (!speechAvailable()) return false;
+  return speakAsSpeaker("", text);
+}
+
+export function speakAsSpeaker(speaker: string, text: string): boolean {
+  if (!speechAvailable() || !text.trim()) return false;
+  const voices = spanishVoices();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "es-ES";
   utterance.rate = 0.88;
-  utterance.voice = spanishVoices()[0] ?? null;
+  if (voices.length > 0) {
+    utterance.voice = speaker
+      ? voices[speakerIndex(speaker) % voices.length]
+      : voices[0];
+  }
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
   return true;

@@ -144,6 +144,57 @@ export interface DictadoContent extends ExerciseFeedback {
   items: { numero: string; frase: string }[];
 }
 
+export interface RoleplayAppCard {
+  etiqueta: "B" | "C" | "moderadora";
+  hablante: string;
+  texto: string;
+  turnos: string[];
+}
+
+export interface RoleplayScene {
+  titulo?: string;
+  tarjetaA: string;
+  tarjetaB: string;
+  hablanteB: string;
+  turnosB: string[];
+  tarjetasApp: RoleplayAppCard[];
+}
+
+export interface RoleplayContent extends ExerciseFeedback {
+  kind: "roleplay";
+  enunciado: string;
+  duracion?: string;
+  formato?: string;
+  escenas: RoleplayScene[];
+  guion: string[];
+  guionSegundos?: number;
+  rubrica: string[];
+}
+
+export interface RubricCriterion {
+  criterio: string;
+  peso?: string;
+}
+
+export interface ProduccionEscritaContent extends ExerciseFeedback {
+  kind: "produccion_escrita";
+  enunciado: string;
+  contexto?: string;
+  requisitos: string[];
+  modelo?: string;
+  rubrica: RubricCriterion[];
+  palabras?: string;
+}
+
+export interface ProduccionOralContent extends ExerciseFeedback {
+  kind: "produccion_oral";
+  enunciado: string;
+  guion?: string;
+  frases: string[];
+  autoevaluacion: string[];
+  duracion?: string;
+}
+
 export type ExerciseContent =
   | EmparejarContent
   | OpcionMultipleContent
@@ -155,7 +206,10 @@ export type ExerciseContent =
   | CorregirErrorContent
   | ReordenarContent
   | DiscriminacionFoneticaContent
-  | DictadoContent;
+  | DictadoContent
+  | RoleplayContent
+  | ProduccionEscritaContent
+  | ProduccionOralContent;
 
 export interface ExerciseBlock {
   id: string;

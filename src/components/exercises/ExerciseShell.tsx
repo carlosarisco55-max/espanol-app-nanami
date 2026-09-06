@@ -16,6 +16,7 @@ export default function ExerciseShell({
   pista,
   explicacion,
   initialState,
+  feedback = "engine",
   children
 }: {
   id: string;
@@ -23,9 +24,11 @@ export default function ExerciseShell({
   pista?: string;
   explicacion?: string;
   initialState?: ExerciseState;
+  feedback?: "engine" | "none";
   children: (props: ExerciseShellRenderProps) => ReactNode;
 }) {
   const { state, submit, bloqueado } = useExerciseEngine(initialState ?? idleExerciseState);
+  const showEngineFeedback = feedback === "engine";
 
   return (
     <div className={styles.card}>
@@ -34,19 +37,19 @@ export default function ExerciseShell({
 
       {children({ state, bloqueado, submit })}
 
-      {state.status === "correcto" && (
+      {showEngineFeedback && state.status === "correcto" && (
         <p className={`${styles.feedback} ${styles.feedbackCorrecto}`}>
           <span className={styles.feedbackLabel}>✓ Correcto.</span>
           Bien hecho.
         </p>
       )}
-      {state.status === "fallo_1" && (
+      {showEngineFeedback && state.status === "fallo_1" && (
         <p className={`${styles.feedback} ${styles.feedbackPista}`}>
           <span className={styles.feedbackLabel}>💡 {pista ? "Pista." : "Casi."}</span>
           {pista ?? "No es correcto todavía — vuelve a intentarlo."}
         </p>
       )}
-      {state.status === "fallo_2" && (
+      {showEngineFeedback && state.status === "fallo_2" && (
         <p className={`${styles.feedback} ${styles.feedbackExplicacion}`}>
           <span className={styles.feedbackLabel}>📖 Por qué.</span>
           {explicacion ?? "No es correcto. Revisa el material de la sesión y vuelve más tarde."}

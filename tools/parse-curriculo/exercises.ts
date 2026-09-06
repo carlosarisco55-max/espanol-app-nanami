@@ -9,8 +9,14 @@ import type {
   HuecosContent,
   OpcionMultipleContent,
   OpcionMultipleItem,
+  ProduccionEscritaContent,
+  ProduccionOralContent,
   ReordenarContent,
   RespuestaCortaContent,
+  RoleplayAppCard,
+  RoleplayContent,
+  RoleplayScene,
+  RubricCriterion,
   TransformarContent,
   VerdaderoFalsoContent
 } from "./exercise-types";
@@ -58,6 +64,9 @@ export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
   else if (tipo === "reordenar") content = parseReordenar(raw);
   else if (tipo === "discriminacion_fonetica") content = parseDiscriminacionFonetica(raw);
   else if (tipo === "dictado") content = parseDictado(raw);
+  else if (tipo === "roleplay") content = parseRoleplay(raw);
+  else if (tipo === "produccion_escrita") content = parseProduccionEscrita(raw);
+  else if (tipo === "produccion_oral") content = parseProduccionOral(raw);
 
   const foco = extractYamlField(raw, "foco");
   const title = raw.match(/^####\s+`[^`]+`(?:\s+—\s+(.+))?$/m)?.[1]?.trim();
@@ -360,7 +369,7 @@ function parseClasificar(raw: string): ClasificarContent | null {
 function exerciseBody(raw: string): string {
   const yaml = raw.match(YAML_FENCE_RE);
   const start = yaml?.index === undefined ? 0 : yaml.index + yaml[0].length;
-  return raw.slice(start).split(/\*\*Soluci[oó]n[^:]*:\*\*/i)[0].trim();
+  return raw.slice(start).split(/^\*\*Soluci[oó]n[^:]*:\*\*/im)[0].trim();
 }
 
 function solutionBody(raw: string): string {
@@ -598,6 +607,189 @@ function parseDictado(raw: string): DictadoContent | null {
     kind: "dictado",
     enunciado: enunciadoBefore(raw, /\*\*Soluci[oó]n/i) || "Escucha y escribe.",
     items: solutions.map((item) => ({ numero: item.numero, frase: item.value })),
+    ...feedback(raw)
+  };
+}
+
+function stripQuotePrefix(value: string): string {
+  return value.replace(/^>\s?/gm, "").trim();
+}
+
+function extractBetween(raw: string, start: RegExp, end: RegExp): string {
+  const startMatch = raw.search(start);
+  if (startMatch === -1) return "";
+  const from = raw.slice(startMatch);
+  const endOffset = from.search(end);
+  return (endOffset === -1 ? from : from.slice(0, endOffset)).trim();
+}
+
+function cleanCardText(text: string): string {
+  return text
+    .replace(/\*\([^)]+\)\*/g, "")
+    .replace(/^---\s*$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function cardLines(text: string): string[] {
+  const lines = text
+    .split("\n")
+    .map((line) => line.replace(/^[-*]\s+/, "").trim())
+    .filter(Boolean);
+  return lines.length > 0 ? lines : [text];
+}
+
+function speakerFromHeader(header: string): string {
+  const paren = header.match(/\(([^)]+)\)/);
+  if (paren) return simplifyInline(paren[1]);
+  if (/moderadora/i.test(header)) return "Moderadora";
+  if (/interlocutor/i.test(header)) return "Interlocutor";
+  return "Interlocutor";
+}
+
+function etiquetaFromHeader(header: string): RoleplayAppCard["etiqueta"] {
+  if (/TARJETA\s+C/i.test(header)) return "C";
+  if (/MODERADORA/i.test(header)) return "moderadora";
+  return "B";
+}
+
+function parseAppCards(raw: string): RoleplayAppCard[] {
+  const headerRe = /\*\*[^*]*(TARJETA\s+[BC]|MODERADORA)[^*]*\*\*/gi;
+  const matches = [...raw.matchAll(headerRe)];
+  const cards: RoleplayAppCard[] = [];
+  for (let i = 0; i < matches.length; i++) {
+    const match = matches[i];
+    const start = (match.index ?? 0) + match[0].length;
+    const nextHeader = matches[i + 1]?.index;
+    const rest = raw.slice(start, nextHeader ?? raw.length);
+    const cut = rest.search(/\*\*Guion|\*\*R[uú]brica|^####\s+ESCENA/im);
+    const chunk = cleanCardText(
+      stripQuotePrefix((cut === -1 ? rest : rest.slice(0, cut)).replace(/^---\s*$/gm, ""))
+    );
+    if (!chunk) continue;
+    cards.push({
+      etiqueta: etiquetaFromHeader(match[0]),
+      hablante: speakerFromHeader(match[0]),
+      texto: chunk,
+      turnos: cardLines(chunk)
+    });
+  }
+  return cards;
+}
+
+function parseRoleplayScene(raw: string, titulo?: string): RoleplayScene | null {
+  const cardA = cleanCardText(
+    stripQuotePrefix(
+      extractBetween(raw, /\*\*[^*]*TARJETA A[^*]*\*\*/i, /\*\*[^*]*TARJETA B[^*]*\*\*/i)
+        .replace(/\*\*[^*]*TARJETA A[^*]*\*\*/i, "")
+    )
+  );
+  const tarjetasApp = parseAppCards(raw);
+  const cardB = tarjetasApp.find((card) => card.etiqueta === "B") ?? tarjetasApp[0];
+  if (!cardA || !cardB) return null;
+  return {
+    titulo,
+    tarjetaA: cardA,
+    tarjetaB: cardB.texto,
+    hablanteB: cardB.hablante,
+    turnosB: cardB.turnos,
+    tarjetasApp
+  };
+}
+
+function parseRoleplay(raw: string): RoleplayContent | null {
+  const body = exerciseBody(raw);
+  const sceneChunks = [...body.split(/^####\s+(ESCENA[^\n]+)$/im)];
+  const escenas: RoleplayScene[] = [];
+  if (sceneChunks.length > 1) {
+    for (let i = 1; i < sceneChunks.length; i += 2) {
+      const scene = parseRoleplayScene(sceneChunks[i + 1] ?? "", simplifyInline(sceneChunks[i] ?? ""));
+      if (scene) escenas.push(scene);
+    }
+  }
+  if (escenas.length === 0) {
+    const scene = parseRoleplayScene(body);
+    if (scene) escenas.push(scene);
+  }
+  if (escenas.length === 0) return null;
+
+  const situacion = body.match(/\*\*Situaci[oó]n:\*\*\s*([\s\S]+?)(?=\n---|\n>\s*\*\*|\n####\s+ESCENA)/i)?.[1];
+  const guionHeading = body.match(/\*\*Guion de apoyo[^*]*\*\*/i)?.[0] ?? "";
+  const guionSegundosMatch = guionHeading.match(/(\d+)\s*s/i);
+  const guion = numberedPrompts(
+    extractBetween(body, /\*\*Guion de apoyo[^:]*:\*\*/i, /\*\*R[uú]brica/i)
+  ).map((item) => item.text);
+  const rubrica = parseRubricCriteria(body).map((item) => item.criterio);
+  return {
+    kind: "roleplay",
+    enunciado: situacion ? simplifyInline(situacion.replace(/\n+/g, " ")) : "Role-play con información asimétrica.",
+    duracion: extractYamlField(raw, "duracion"),
+    formato: extractYamlField(raw, "formato"),
+    escenas,
+    guion,
+    guionSegundos: guionSegundosMatch ? Number(guionSegundosMatch[1]) : undefined,
+    rubrica,
+    ...feedback(raw)
+  };
+}
+
+function parseRubricCriteria(raw: string): RubricCriterion[] {
+  const section = extractBetween(raw, /\*\*R[uú]brica[^:]*:\*\*/i, /\n##\s|\n---\s*$|$/);
+  const rows = section
+    .split("\n")
+    .map((line) => line.split("|").slice(1, -1).map((cell) => simplifyInline(cell)))
+    .filter((cells) => cells.length >= 1 && Boolean(cells[0]) && !/^:?-+:?$/.test(cells[0]) && !/^criterio$/i.test(cells[0]));
+  return rows.map((cells) => ({
+    criterio: cells[0],
+    peso: cells[1] && /%/.test(cells[1]) ? cells[1] : undefined
+  }));
+}
+
+function parseProduccionEscrita(raw: string): ProduccionEscritaContent | null {
+  const body = exerciseBody(raw);
+  const contexto = body.match(/\*\*Contexto[^:]*:\*\*\s*([\s\S]+?)(?=\n\*\*[^*]+\*\*|\n---)/i)?.[1];
+  const requisitos = numberedPrompts(body).map((item) => item.text);
+  const modelo = stripQuotePrefix(
+    extractBetween(body, /\*\*MODELO\*\*/i, /\*\*R[uú]brica/i).replace(/\*\*MODELO\*\*[^\n]*/i, "")
+  );
+  const rubrica = parseRubricCriteria(body);
+  const enunciado =
+    body.match(/\*\*Escribe[^*]*\*\*\s*([\s\S]+?)(?=\n\d+\.\s)/i)?.[1] ??
+    body.match(/\*\*([^*]{12,120})\*\*/)?.[1] ??
+    "Escribe el texto.";
+  return {
+    kind: "produccion_escrita",
+    enunciado: simplifyInline(enunciado.replace(/\n+/g, " ")),
+    contexto: contexto ? simplifyInline(contexto.replace(/\n+/g, " ")) : undefined,
+    requisitos,
+    modelo: modelo || undefined,
+    rubrica,
+    palabras: extractYamlField(raw, "palabras"),
+    ...feedback(raw)
+  };
+}
+
+function parseProduccionOral(raw: string): ProduccionOralContent | null {
+  const body = exerciseBody(raw);
+  const frases = numberedPrompts(body)
+    .map((item) => item.text)
+    .filter((text) => text.length > 8);
+  const autoevaluacion = [
+    ...body.matchAll(/[⬜☐]\s+(.+)/g)
+  ].map((match) => simplifyInline(match[1]));
+  const rubrica = parseRubricCriteria(body).map((item) => item.criterio);
+  const criteria = autoevaluacion.length > 0 ? autoevaluacion : rubrica;
+  const enunciado =
+    body.match(/\*\*(Graba[\s\S]+?)\*\*/)?.[1] ??
+    body.match(/\*\*([^*]{12,160})\*\*/)?.[1] ??
+    "Graba tu respuesta.";
+  return {
+    kind: "produccion_oral",
+    enunciado: simplifyInline(enunciado.replace(/\n+/g, " ")),
+    guion: body.match(/Guion obligatorio:\s*(.+)/i)?.[1],
+    frases,
+    autoevaluacion: criteria,
+    duracion: extractYamlField(raw, "duracion"),
     ...feedback(raw)
   };
 }

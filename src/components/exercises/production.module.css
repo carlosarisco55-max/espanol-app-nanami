@@ -1,0 +1,133 @@
+.card {
+  margin: 1.6rem 0;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: var(--bg-raised);
+}
+
+.meta {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin: 0 0 0.8rem;
+}
+
+.context,
+.guion,
+.cardText,
+.modelo,
+.turn {
+  font-family: var(--font-reading);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.studentCard {
+  padding: 1rem 1.1rem;
+  border-radius: 0.7rem;
+  border: 1px dashed var(--accent);
+  background: var(--accent-soft);
+  margin: 0 0 1rem;
+}
+
+.hiddenNote {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin: 0 0 1rem;
+}
+
+.beat {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  padding: 0.9rem 1rem;
+  border-radius: 0.6rem;
+  background: var(--bg-sunken);
+  margin: 0 0 0.8rem;
+}
+
+.requirements,
+.phrases {
+  margin: 0 0 1rem;
+  padding-left: 1.2rem;
+}
+
+.textarea,
+.notes {
+  width: 100%;
+  min-height: 10rem;
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.8rem;
+  border-radius: 0.6rem;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.notes {
+  min-height: 4.5rem;
+}
+
+.wordCount {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  margin: 0.4rem 0 1rem;
+}
+
+.rubric {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.rubricRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+}
+
+.marks {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.mark,
+.markSelected {
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  border-radius: 0.45rem;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+}
+
+.markSelected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.saved {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--sage);
+  margin: 1rem 0 0;
+}

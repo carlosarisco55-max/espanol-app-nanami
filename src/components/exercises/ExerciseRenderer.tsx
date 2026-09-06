@@ -9,6 +9,9 @@ import HuecosExercise from "./HuecosExercise";
 import ReordenarExercise from "./ReordenarExercise";
 import TextAnswerExercise from "./TextAnswerExercise";
 import VerdaderoFalsoExercise from "./VerdaderoFalsoExercise";
+import ProduccionEscritaExercise from "./ProduccionEscritaExercise";
+import ProduccionOralExercise from "./ProduccionOralExercise";
+import RoleplayExercise from "@/components/roleplay/RoleplayExercise";
 import { useOptionalSessionProgress } from "@/components/SessionProgressProvider";
 import styles from "./exercises.module.css";
 
@@ -39,6 +42,12 @@ export default function ExerciseRenderer({ block }: { block: ExerciseBlock }) {
       return <ReordenarExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
     case "discriminacion_fonetica":
       return <DiscriminacionFoneticaExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
+    case "roleplay":
+      return <RoleplayExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
+    case "produccion_escrita":
+      return <ProduccionEscritaExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
+    case "produccion_oral":
+      return <ProduccionOralExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
     default:
       return null;
   }

@@ -236,6 +236,96 @@ test("Fase 3 — opción múltiple cubre formato inline, casillas y tablas", () 
   }
 });
 
+test("Fase 4 — role-play y producción de U1 quedan estructurados", () => {
+  const unit = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
+  const exercises = new Map(unit.sessions.flatMap((session) => session.exercises).map((exercise) => [exercise.id, exercise]));
+
+  const roleplay = exercises.get("B1-B2-U01-E14")?.content;
+  assert.equal(roleplay?.kind, "roleplay");
+  if (roleplay?.kind === "roleplay") {
+    assert.equal(roleplay.escenas.length, 1);
+    assert.match(roleplay.escenas[0].tarjetaA, /Rosa/);
+    assert.doesNotMatch(roleplay.escenas[0].tarjetaA, /s[oó]lo ve esto/i);
+    assert.match(roleplay.escenas[0].tarjetaB, /Diego/);
+    assert.doesNotMatch(roleplay.escenas[0].tarjetaB, /NO ve esto/);
+    assert.match(roleplay.escenas[0].hablanteB, /interlocutor/i);
+    assert.equal(roleplay.guionSegundos, 30);
+    assert.ok(roleplay.guion.length >= 4);
+    assert.equal(roleplay.rubrica.length, 5);
+  }
+
+  const escrita = exercises.get("B1-B2-U01-E15")?.content;
+  assert.equal(escrita?.kind, "produccion_escrita");
+  if (escrita?.kind === "produccion_escrita") {
+    assert.ok(escrita.modelo?.includes("Nuria"));
+    assert.equal(escrita.rubrica.length, 6);
+    assert.equal(escrita.palabras, "150-180");
+  }
+
+  const oral = exercises.get("B1-B2-U01-E16")?.content;
+  assert.equal(oral?.kind, "produccion_oral");
+  if (oral?.kind === "produccion_oral") {
+    assert.match(oral.enunciado, /2–3 minutos|2-3 minutos|persona/i);
+    assert.equal(oral.autoevaluacion.length, 0);
+  }
+});
+
+test("Fase 4 — escenas, tarjeta C y rúbricas salen del markdown, no se inventan", () => {
+  const units = parseCurriculum(content);
+  const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));
+  const roleplays = exercises.filter((exercise) => exercise.content?.kind === "roleplay");
+  const scenes = roleplays.flatMap((exercise) =>
+    exercise.content?.kind === "roleplay" ? exercise.content.escenas : []
+  );
+  assert.equal(roleplays.length, 15);
+  assert.equal(scenes.length, 26);
+
+  const u02 = exercises.find((exercise) => exercise.id === "B1-B2-U02-E14")?.content;
+  assert.equal(u02?.kind, "roleplay");
+  if (u02?.kind === "roleplay") {
+    assert.equal(u02.escenas.length, 2);
+    assert.match(u02.escenas[0].tarjetaA, /paquete/);
+    assert.match(u02.escenas[1].tarjetaB, /Trafalgar|propietaria/i);
+  }
+
+  const u07 = exercises.find((exercise) => exercise.id === "B1-B2-U07-E16")?.content;
+  assert.equal(u07?.kind, "roleplay");
+  if (u07?.kind === "roleplay") {
+    assert.deepEqual(
+      u07.escenas[0].tarjetasApp.map((card) => card.etiqueta),
+      ["B", "C", "moderadora"]
+    );
+    assert.match(u07.escenas[0].tarjetasApp[1].texto, /Puedo entrar/);
+  }
+
+  const u12 = exercises.find((exercise) => exercise.id === "B1-B2-U12-E16")?.content;
+  assert.equal(u12?.kind, "roleplay");
+  if (u12?.kind === "roleplay") {
+    assert.equal(u12.escenas.length, 2);
+    assert.equal(u12.escenas[0].tarjetasApp.length, 2);
+    assert.match(u12.escenas[0].tarjetasApp[1].texto, /Amparo|sin teléfono/i);
+    assert.match(u12.escenas[0].hablanteB, /técnico/i);
+  }
+
+  const u02escrita = exercises.find((exercise) => exercise.id === "B1-B2-U02-E15")?.content;
+  assert.equal(u02escrita?.kind, "produccion_escrita");
+  if (u02escrita?.kind === "produccion_escrita") {
+    assert.ok(u02escrita.modelo?.includes("Trafalgar"));
+    assert.equal(u02escrita.rubrica.length, 0);
+  }
+});
+
+test("Fase 4 — todos los role-play y producciones del currículo tienen contenido", () => {
+  const units = parseCurriculum(content);
+  const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));
+  const kinds = ["roleplay", "produccion_escrita", "produccion_oral"] as const;
+  for (const tipo of kinds) {
+    const items = exercises.filter((exercise) => exercise.tipo === tipo);
+    assert.ok(items.length > 0, tipo);
+    assert.ok(items.every((exercise) => exercise.content?.kind === tipo), tipo);
+  }
+});
+
 test("Fase 3 — conserva foco, códigos J y autocorrección por ejercicio", () => {
   const unit = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
   const exercise = unit.sessions[0].exercises.find((item) => item.id === "B1-B2-U01-E03")!;

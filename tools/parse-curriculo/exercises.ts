@@ -1,10 +1,18 @@
 import type {
   ClasificarContent,
+  CorregirErrorContent,
+  DictadoContent,
+  DiscriminacionFoneticaContent,
   EmparejarContent,
   ExerciseBlock,
   ExerciseContent,
+  HuecosContent,
   OpcionMultipleContent,
-  OpcionMultipleItem
+  OpcionMultipleItem,
+  ReordenarContent,
+  RespuestaCortaContent,
+  TransformarContent,
+  VerdaderoFalsoContent
 } from "./exercise-types";
 
 const EXERCISE_BLOCK_RE = /^####\s+`(B1-B2-U\d{2}-E\d{2})`.*$/gm;
@@ -42,8 +50,33 @@ export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
   if (tipo === "emparejar") content = parseEmparejar(raw);
   else if (tipo === "opcion_multiple") content = parseOpcionMultiple(raw);
   else if (tipo === "clasificar") content = parseClasificar(raw);
+  else if (tipo === "huecos") content = parseHuecos(raw);
+  else if (tipo === "verdadero_falso") content = parseVerdaderoFalso(raw);
+  else if (tipo === "respuesta_corta") content = parseRespuestaCorta(raw);
+  else if (tipo === "transformar") content = parseTransformar(raw);
+  else if (tipo === "corregir_error") content = parseCorregirError(raw);
+  else if (tipo === "reordenar") content = parseReordenar(raw);
+  else if (tipo === "discriminacion_fonetica") content = parseDiscriminacionFonetica(raw);
+  else if (tipo === "dictado") content = parseDictado(raw);
 
-  return { id, tipo, raw, content };
+  const foco = extractYamlField(raw, "foco");
+  const title = raw.match(/^####\s+`[^`]+`(?:\s+—\s+(.+))?$/m)?.[1]?.trim();
+  const autocorregibleRaw = extractYamlField(raw, "autocorregible");
+  const autocorregible =
+    autocorregibleRaw === "true" ? true : autocorregibleRaw === "false" ? false : null;
+  const jCodes = [...new Set(foco?.match(/\bJ[1-8]\b/g) ?? [])] as ExerciseBlock["jCodes"];
+
+  return {
+    id,
+    tipo,
+    raw,
+    content,
+    title,
+    foco,
+    jCodes,
+    autocorregible,
+    sinSoporte: content ? undefined : `Formato ${tipo} todavía no estructurado`
+  };
 }
 
 function extractPistaExplicacion(raw: string): { pista?: string; explicacion?: string } {
@@ -103,16 +136,16 @@ function parseEmparejar(raw: string): EmparejarContent | null {
 }
 
 function parseOpcionMultiple(raw: string): OpcionMultipleContent | null {
-  const body = raw.split(/\*\*Soluci[oó]n/)[0];
+  const body = exerciseBody(raw);
   const lines = body.split("\n");
-  const items: OpcionMultipleContent["items"] = [];
+  const parsedItems: Array<OpcionMultipleItem & { inferred?: string }> = [];
   let current: { numero: string; enunciado: string; opcionesRaw: string } | null = null;
 
   for (const line of lines) {
     const questionMatch = line.match(/^(\d+)\.\s+(.+)$/);
     if (questionMatch) {
-      if (current) items.push(finalizeOpcionMultipleItem(current));
-      current = { numero: questionMatch[1], enunciado: questionMatch[2], opcionesRaw: "" };
+      if (current) parsedItems.push(finalizeOpcionMultipleItem(current));
+      current = { numero: questionMatch[1], enunciado: questionMatch[2], opcionesRaw: questionMatch[2] };
       continue;
     }
     const optionLineMatch = line.match(/^\s*[a-z]\)/);
@@ -120,27 +153,127 @@ function parseOpcionMultiple(raw: string): OpcionMultipleContent | null {
       current.opcionesRaw += " " + line.trim();
     }
   }
-  if (current) items.push(finalizeOpcionMultipleItem(current));
+  if (current) parsedItems.push(finalizeOpcionMultipleItem(current));
 
-  const validItems = items.filter((it) => it.opciones.length >= 2);
-  if (validItems.length === 0) return null;
-
-  const solucionLine = raw.match(/\*\*Soluci[oó]n:?\*\*\s*(.+)/)?.[1] ?? "";
+  let validItems = parsedItems.filter((item) => item.opciones.length >= 2);
   const solucion: Record<string, string> = {};
-  for (const m of solucionLine.matchAll(/(\d+)-([a-z])/g)) {
+  for (const item of parsedItems) {
+    if (item.inferred) solucion[item.numero] = item.inferred;
+  }
+
+  const authoredSolution = solutionBody(raw);
+  for (const m of authoredSolution.matchAll(/(\d+)\s*[-–]\s*([a-z])/gi)) {
     solucion[m[1]] = m[2];
   }
 
-  const { pista, explicacion } = extractPistaExplicacion(raw);
-  const enunciado = raw.match(/\*\*([^*]+correcta[^*]*)\*\*/i)?.[1] ?? "Elige la opción correcta.";
+  if (validItems.length === 0) {
+    const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
+    const headerCells = tableLines[0]
+      ?.split("|")
+      .slice(1, -1)
+      .map((cell) => simplifyInline(cell));
+    let optionLabels = headerCells?.slice(2).filter(Boolean) ?? [];
+    if (optionLabels.length === 1 && optionLabels[0].includes("/")) {
+      optionLabels = optionLabels[0].split("/").map((label) => label.trim()).filter(Boolean);
+    }
+    const tableRows = [...body.matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|.*$/gm)];
+    const tableSolutions = new Map(numberedEntries(authoredSolution).map((item) => [item.numero, item.value]));
+    if (optionLabels.length >= 2 && tableRows.length > 0) {
+      validItems = tableRows.map((row) => ({
+        numero: row[1],
+        enunciado: simplifyInline(row[2]),
+        opciones: optionLabels.map((label, index) => ({ letra: String(index), texto: label }))
+      }));
+      for (const item of validItems) {
+        const authored = tableSolutions.get(item.numero)?.toLocaleLowerCase("es") ?? "";
+        const matchIndex = optionLabels.findIndex((label) =>
+          authored.startsWith(label.toLocaleLowerCase("es"))
+        );
+        if (matchIndex >= 0) solucion[item.numero] = String(matchIndex);
+      }
+    }
+  }
+
+  if (validItems.length === 0) {
+    const standalone = [...body.matchAll(/^\s*([a-z])\)\s+(.+)$/gm)];
+    if (standalone.length >= 2) {
+      validItems = [{
+        numero: "1",
+        enunciado: body.match(/\*\*([^*]+)\*\*/)?.[1] ?? "Elige la opción correcta.",
+        opciones: standalone.map((match) => ({
+          letra: match[1].toLowerCase(),
+          texto: simplifyInline(match[2])
+        }))
+      }];
+    }
+  }
+
+  if (validItems.length === 0) {
+    const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
+    const headerLine = tableLines.find((line) => !/^\|\s*(?:---|\|)/.test(line) && !/^\|\s*\d+\s*\|/.test(line));
+    const tableRows = tableLines
+      .map((line) => line.split("|").slice(1, -1).map((cell) => simplifyInline(cell)))
+      .filter((cells) => /^\d+$/.test(cells[0] ?? "") && Boolean(cells[1]));
+    if (headerLine && tableRows.length > 0) {
+      const headers = headerLine.split("|").slice(1, -1).map((cell) => simplifyInline(cell));
+      const categoryHeaders = headers.slice(2).filter(Boolean);
+      const categories = categoryHeaders.length === 1 && categoryHeaders[0].includes("/")
+        ? categoryHeaders[0].split(/\s*\/\s*/).filter(Boolean)
+        : categoryHeaders;
+      const tableSolutions = new Map(numberedEntries(authoredSolution).map((item) => [item.numero, item.value]));
+      if (categories.length >= 2) {
+        validItems = tableRows.map((cells) => ({
+          numero: cells[0],
+          enunciado: cells[1],
+          opciones: categories.map((category) => ({ letra: category, texto: category }))
+        }));
+        for (const item of validItems) {
+          const authored = tableSolutions.get(item.numero) ?? "";
+          const category = categories.find((candidate) =>
+            simplifyInline(authored).toLowerCase().startsWith(candidate.toLowerCase())
+          );
+          if (category) solucion[item.numero] = category;
+        }
+      }
+    }
+  }
+
+  if (validItems.length === 1 && !solucion[validItems[0].numero]) {
+    const single = authoredSolution.match(/^\**\s*([a-z])\s*\**(?:\s|$)/i)?.[1];
+    if (single) solucion[validItems[0].numero] = single.toLowerCase();
+  }
+
+  // Variante de lectura global: lista de puntos con casillas y una solución
+  // "se mencionan 1, 3 y 6". Se convierte en una elección sí/no por punto.
+  if (validItems.length === 0) {
+    const checklist = numberedPrompts(body).filter((item) => /☐/.test(item.text));
+    const mentionedPart = authoredSolution.split(/\n/)[0] ?? "";
+    const mentioned = new Set(mentionedPart.match(/\d+/g) ?? []);
+    if (checklist.length > 0 && mentioned.size > 0) {
+      validItems = checklist.map((item) => ({
+        numero: item.numero,
+        enunciado: item.text.replace(/☐\s*/, ""),
+        opciones: [
+          { letra: "si", texto: "Se menciona" },
+          { letra: "no", texto: "No se menciona" }
+        ]
+      }));
+      for (const item of checklist) {
+        solucion[item.numero] = mentioned.has(item.numero) ? "si" : "no";
+      }
+    }
+  }
+
+  if (validItems.length === 0 || validItems.some((item) => !solucion[item.numero])) return null;
+  const enunciado = body.match(/\*\*([^*]+)\*\*/)?.[1] ?? "Elige la opción correcta.";
 
   return {
     kind: "opcion_multiple",
+    layout: validItems[0]?.opciones[0]?.letra === "si" ? "tabla" : "items",
     enunciado: simplifyInline(enunciado),
     items: validItems,
     solucion,
-    pista,
-    explicacion
+    ...feedback(raw)
   };
 }
 
@@ -148,18 +281,26 @@ function finalizeOpcionMultipleItem(current: {
   numero: string;
   enunciado: string;
   opcionesRaw: string;
-}): OpcionMultipleItem {
-  const opciones = current.opcionesRaw
-    .split("·")
-    .map((chunk) => chunk.trim())
-    .filter(Boolean)
-    .map((chunk) => {
-      const m = chunk.match(/^([a-z])\)\s*(.+)$/);
-      return m ? { letra: m[1], texto: simplifyInline(m[2]) } : null;
-    })
-    .filter((o): o is { letra: string; texto: string } => o !== null);
-
-  return { numero: current.numero, enunciado: simplifyInline(current.enunciado), opciones };
+}): OpcionMultipleItem & { inferred?: string } {
+  const firstOption = current.opcionesRaw.search(/\b[a-z]\)\s*/i);
+  if (firstOption === -1) {
+    return { numero: current.numero, enunciado: simplifyInline(current.enunciado), opciones: [] };
+  }
+  const prompt = current.opcionesRaw.slice(0, firstOption).replace(/\s*→\s*$/, "");
+  const optionsRaw = current.opcionesRaw.slice(firstOption);
+  const opciones: { letra: string; texto: string }[] = [];
+  let inferred: string | undefined;
+  for (const match of optionsRaw.matchAll(/([a-z])\)\s*([\s\S]*?)(?=(?:\s*·\s*|\s+)[a-z]\)\s*|$)/gi)) {
+    const rawText = match[2].trim();
+    if (/\*\*[^*]+\*\*/.test(rawText)) inferred = match[1].toLowerCase();
+    opciones.push({ letra: match[1].toLowerCase(), texto: simplifyInline(rawText) });
+  }
+  return {
+    numero: current.numero,
+    enunciado: simplifyInline(prompt),
+    opciones,
+    inferred
+  };
 }
 
 function parseClasificar(raw: string): ClasificarContent | null {
@@ -191,11 +332,257 @@ function parseClasificar(raw: string): ClasificarContent | null {
 
   return {
     kind: "clasificar",
+    layout: "banco",
     enunciado: simplifyInline(enunciado),
     banco,
     columnas,
     solucion,
     pista,
     explicacion
+  };
+}
+
+function exerciseBody(raw: string): string {
+  const yaml = raw.match(YAML_FENCE_RE);
+  const start = yaml?.index === undefined ? 0 : yaml.index + yaml[0].length;
+  return raw.slice(start).split(/\*\*Soluci[oó]n[^:]*:\*\*/i)[0].trim();
+}
+
+function solutionBody(raw: string): string {
+  const match = raw.match(/\*\*Soluci[oó]n[^:]*:\*\*\s*([\s\S]+?)(?=\n(?:>\s*)?💡|\n\*\*[^*\n]+:\*\*|\n---|$)/i);
+  return match?.[1]?.trim() ?? "";
+}
+
+function numberedEntries(value: string): { numero: string; value: string }[] {
+  const normalized = value.replace(/\r/g, "").trim();
+  const matches = [
+    ...normalized.matchAll(
+      /(?:^|(?:\s*·\s*|\n+))(\d+)[.)]\s*([\s\S]*?)(?=(?:\s*·\s*|\n+)\d+[.)]\s*|$)/g
+    )
+  ];
+  return matches.map((match) => ({
+    numero: match[1],
+    value: simplifyInline(match[2].replace(/\n+/g, " ").trim())
+  }));
+}
+
+function numberedPrompts(value: string): { numero: string; text: string }[] {
+  return [...value.matchAll(/^\s*(\d+)\.\s+(.+)$/gm)].map((match) => ({
+    numero: match[1],
+    text: simplifyInline(match[2])
+  }));
+}
+
+function feedback(raw: string) {
+  const base = extractPistaExplicacion(raw);
+  const porQue = raw.match(/>\s*💡\s*\*\*Por qu[eé]\.\*\*\s*([\s\S]+?)(?=\n---|$)/i)?.[1];
+  return {
+    ...base,
+    porQue: porQue ? simplifyInline(porQue.replace(/^>\s?/gm, " ")) : undefined
+  };
+}
+
+function parseHuecos(raw: string): HuecosContent | null {
+  const solutions = numberedEntries(solutionBody(raw));
+  if (solutions.length === 0) return null;
+  const body = exerciseBody(raw);
+  const prompts = numberedPrompts(body).filter((item) => /_{3,}|…/.test(item.text));
+  const byNumber = new Map(prompts.map((item) => [item.numero, item.text]));
+  const layout = prompts.length > 0 ? "lista" : "texto";
+  const items = solutions.map(({ numero, value }) => {
+    const texto = byNumber.get(numero);
+    const huecos = texto ? Math.max(texto.match(/_{3,}/g)?.length ?? 0, 1) : 1;
+    const respuestasPorHueco = huecos > 1 && value.includes(" / ")
+      ? value.split(/\s+\/\s+/).map(simplifyInline)
+      : undefined;
+    return {
+      numero,
+      texto,
+      huecos,
+      respuesta: value,
+      respuestasPorHueco,
+      alternativas: []
+    };
+  });
+  return {
+    kind: "huecos",
+    layout,
+    enunciado: enunciadoBefore(raw, /(?:^\d+\.\s|^>)/m) || "Completa los huecos.",
+    texto: layout === "texto" ? simplifyInline(body.replace(/^>\s?/gm, " ")) : undefined,
+    items,
+    ...feedback(raw)
+  };
+}
+
+function parseVerdaderoFalso(raw: string): VerdaderoFalsoContent | null {
+  const rows = [...exerciseBody(raw).matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|\s*\|$/gm)];
+  const solutions = numberedEntries(solutionBody(raw));
+  if (rows.length === 0 || solutions.length === 0) return null;
+  const solutionMap = new Map(solutions.map((item) => [item.numero, item.value]));
+  const items: VerdaderoFalsoContent["items"] = rows.flatMap((row) => {
+    const authored = solutionMap.get(row[1]);
+    const answer = authored?.match(/^(V|F)\b/i)?.[1]?.toUpperCase();
+    if (answer !== "V" && answer !== "F") return [];
+    return [{
+      numero: row[1],
+      afirmacion: simplifyInline(row[2]),
+      respuesta: answer as "V" | "F",
+      justificacion: simplifyInline(authored!.replace(/^(V|F)\s*[—-]?\s*/i, "")) || undefined
+    }];
+  });
+  return {
+    kind: "verdadero_falso",
+    enunciado: enunciadoBefore(raw, /^\|/m) || "Marca verdadero o falso.",
+    items,
+    ...feedback(raw)
+  };
+}
+
+function parseRespuestaCorta(raw: string): RespuestaCortaContent | null {
+  const prompts = numberedPrompts(exerciseBody(raw));
+  const solutions = new Map(numberedEntries(solutionBody(raw)).map((item) => [item.numero, item.value]));
+  const items = prompts.flatMap((prompt) => {
+    const respuesta = solutions.get(prompt.numero);
+    return respuesta
+      ? [{ numero: prompt.numero, pregunta: prompt.text, respuesta, alternativas: [] }]
+      : [];
+  });
+  if (items.length === 0) return null;
+  return {
+    kind: "respuesta_corta",
+    enunciado: enunciadoBefore(raw, /^\d+\.\s/m) || "Responde con pocas palabras.",
+    items,
+    ...feedback(raw)
+  };
+}
+
+function parseTransformar(raw: string): TransformarContent | null {
+  const prompts = numberedPrompts(exerciseBody(raw));
+  const solutions = new Map(numberedEntries(solutionBody(raw)).map((item) => [item.numero, item.value]));
+  const items = prompts.flatMap((prompt) => {
+    const respuesta = solutions.get(prompt.numero);
+    if (!respuesta) return [];
+    const [origen, arranque] = prompt.text.split(/\s*→\s*/, 2);
+    return [{
+      numero: prompt.numero,
+      origen,
+      arranque: arranque?.replace(/_{3,}/g, "").trim() || undefined,
+      respuesta,
+      alternativas: []
+    }];
+  });
+  if (items.length === 0) return null;
+  return {
+    kind: "transformar",
+    enunciado: enunciadoBefore(raw, /^\d+\.\s/m) || "Transforma las frases.",
+    items,
+    ...feedback(raw)
+  };
+}
+
+function parseCorregirError(raw: string): CorregirErrorContent | null {
+  const prompts = numberedPrompts(exerciseBody(raw));
+  const solutions = new Map(numberedEntries(solutionBody(raw)).map((item) => [item.numero, item.value]));
+  const items = prompts.flatMap((prompt) => {
+    const correccion = solutions.get(prompt.numero);
+    return correccion
+      ? [{ numero: prompt.numero, frase: prompt.text, correccion, alternativas: [] }]
+      : [];
+  });
+  if (items.length === 0) return null;
+  return {
+    kind: "corregir_error",
+    enunciado: enunciadoBefore(raw, /^\d+\.\s/m) || "Corrige el error.",
+    items,
+    ...feedback(raw)
+  };
+}
+
+function parseReordenar(raw: string): ReordenarContent | null {
+  const body = exerciseBody(raw);
+  const prompts = numberedPrompts(body);
+  const solutions = new Map(numberedEntries(solutionBody(raw)).map((item) => [item.numero, item.value]));
+  const sentenceItems = prompts.flatMap((prompt) => {
+    const respuesta = solutions.get(prompt.numero);
+    return respuesta
+      ? [{
+          numero: prompt.numero,
+          fragmentos: prompt.text.split(/\s+\/\s+/).map(simplifyInline),
+          respuesta,
+          alternativas: []
+        }]
+      : [];
+  });
+  if (sentenceItems.length > 0) {
+    return {
+      kind: "reordenar",
+      enunciado: enunciadoBefore(raw, /^\d+\.\s/m) || "Ordena los elementos.",
+      items: sentenceItems,
+      ...feedback(raw)
+    };
+  }
+
+  const tableRows = [...body.matchAll(/^\|\s*([a-z])\s*\|\s*(.+?)\s*\|$/gm)];
+  const sequence = simplifyInline(solutionBody(raw)).match(/\b[a-z](?:\s*→\s*[a-z])+/)?.[0];
+  if (tableRows.length === 0 || !sequence) return null;
+  return {
+    kind: "reordenar",
+    enunciado: enunciadoBefore(raw, /^\|/m) || "Ordena los hechos.",
+    items: [{
+      numero: "orden",
+      fragmentos: tableRows.map((row) => `${row[1]}) ${simplifyInline(row[2])}`),
+      respuesta: sequence,
+      alternativas: []
+    }],
+    ...feedback(raw)
+  };
+}
+
+function parseDiscriminacionFonetica(raw: string): DiscriminacionFoneticaContent | null {
+  const body = exerciseBody(raw);
+  const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
+  const header = tableLines.find((line) => /Opci[oó]n A/i.test(line));
+  if (!header) return null;
+  const headerCells = header.split("|").map((cell) => simplifyInline(cell)).filter(Boolean);
+  const rows = [...body.matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm)];
+  const authoredSolution = solutionBody(raw);
+  const solutionMap = new Map(numberedEntries(authoredSolution).map((item) => [item.numero, item.value]));
+  for (const match of authoredSolution.matchAll(/(\d+)\s*[-–]\s*([AB])\b/gi)) {
+    solutionMap.set(match[1], match[2].toUpperCase());
+  }
+  const items = rows.map((row) => {
+    const authored = solutionMap.get(row[1]) ?? "";
+    const response = authored.match(/^(?:-|–)?\s*([AB])\b/i)?.[1]?.toUpperCase() ?? null;
+    return {
+      numero: row[1],
+      opciones: [
+        { letra: "A", texto: simplifyInline(row[2]) },
+        { letra: "B", texto: simplifyInline(row[3]) }
+      ],
+      respuesta: response,
+      nota: response ? undefined : authored || undefined
+    };
+  });
+  if (items.length === 0) return null;
+  return {
+    kind: "discriminacion_fonetica",
+    enunciado: enunciadoBefore(raw, /^\|/m) || "Escucha y elige.",
+    columnas: [
+      { letra: "A", etiqueta: headerCells[0] ?? "Opción A" },
+      { letra: "B", etiqueta: headerCells[1] ?? "Opción B" }
+    ],
+    items,
+    ...feedback(raw)
+  };
+}
+
+function parseDictado(raw: string): DictadoContent | null {
+  const solutions = numberedEntries(solutionBody(raw));
+  if (solutions.length === 0) return null;
+  return {
+    kind: "dictado",
+    enunciado: enunciadoBefore(raw, /\*\*Soluci[oó]n/i) || "Escucha y escribe.",
+    items: solutions.map((item) => ({ numero: item.numero, frase: item.value })),
+    ...feedback(raw)
   };
 }

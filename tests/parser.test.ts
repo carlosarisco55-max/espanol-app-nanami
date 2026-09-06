@@ -173,3 +173,50 @@ test("las 15 unidades lectivas tienen un audio canónico y U16 se reserva para e
   assert.equal(units.slice(0, 15).filter((unit) => unit.sessions.some((session) => session.audios.length > 0)).length, 15);
   assert.equal(units[15].sessions.flatMap((session) => session.audios).length, 0);
 });
+
+test("Fase 3 — parsea huecos, V/F, respuesta corta y discriminación de U1", () => {
+  const unit = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
+  const exercises = new Map(unit.sessions.flatMap((session) => session.exercises).map((exercise) => [exercise.id, exercise]));
+
+  const huecos = exercises.get("B1-B2-U01-E06")?.content;
+  assert.equal(huecos?.kind, "huecos");
+  if (huecos?.kind === "huecos") assert.equal(huecos.items.length, 8);
+  const textoContinuo = exercises.get("B1-B2-U01-E12")?.content;
+  if (textoContinuo?.kind === "huecos") {
+    assert.equal(textoContinuo.items.at(-1)?.respuesta, "hago");
+  }
+
+  const vf = exercises.get("B1-B2-U01-E05")?.content;
+  assert.equal(vf?.kind, "verdadero_falso");
+  if (vf?.kind === "verdadero_falso") assert.equal(vf.items.length, 6);
+
+  const corta = exercises.get("B1-B2-U01-E08")?.content;
+  assert.equal(corta?.kind, "respuesta_corta");
+  if (corta?.kind === "respuesta_corta") assert.equal(corta.items.length, 5);
+
+  const fonetica = exercises.get("B1-B2-U01-E17")?.content;
+  assert.equal(fonetica?.kind, "discriminacion_fonetica");
+  if (fonetica?.kind === "discriminacion_fonetica") {
+    assert.equal(fonetica.items.length, 10);
+    assert.equal(fonetica.items[0].respuesta, "A");
+    assert.equal(fonetica.items[9].respuesta, null);
+  }
+});
+
+test("Fase 3 — opción múltiple cubre formato inline, casillas y tablas", () => {
+  const units = parseCurriculum(content);
+  const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));
+  const multiple = exercises.filter((exercise) => exercise.tipo === "opcion_multiple");
+  assert.equal(multiple.length, 53);
+  assert.ok(multiple.every((exercise) => exercise.content?.kind === "opcion_multiple"));
+  assert.equal(exercises.find((exercise) => exercise.id === "B1-B2-U01-E04")?.content?.kind, "opcion_multiple");
+  assert.equal(exercises.find((exercise) => exercise.id === "B1-B2-U06-E05")?.content?.kind, "opcion_multiple");
+});
+
+test("Fase 3 — conserva foco, códigos J y autocorrección por ejercicio", () => {
+  const unit = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
+  const exercise = unit.sessions[0].exercises.find((item) => item.id === "B1-B2-U01-E03")!;
+  assert.equal(exercise.autocorregible, true);
+  assert.match(exercise.foco ?? "", /J4/);
+  assert.deepEqual(exercise.jCodes, ["J4"]);
+});

@@ -50,17 +50,29 @@ export function buildIndex(units: CurriculumUnit[]): CurriculumIndexEntry[] {
 }
 
 function parseUnitBlock(block: string): CurriculumUnit {
-  const frontmatter = parseFrontmatter(extractYaml(block));
-  const canDos = parseCanDos(extractSection(block, "### Objetivos «puede hacer» (MCER)", "### Contenidos (referencia PCIC)"));
-  const contents = parseContentsTable(extractSection(block, "### Contenidos (referencia PCIC)", "\n---", true));
+  const nextDocumentSection = [...block.matchAll(/^#\s+.+$/gm)].find(
+    (match) => match.index !== undefined && match.index > 0 && !/\bUNIDAD\b/.test(match[0])
+  );
+  const unitBlock = nextDocumentSection?.index
+    ? block.slice(0, nextDocumentSection.index).trim()
+    : block;
+  const frontmatter = parseFrontmatter(extractYaml(unitBlock));
+  const canDos = parseCanDos(extractSection(unitBlock, "### Objetivos «puede hacer» (MCER)", "### Contenidos (referencia PCIC)"));
+  const contents = parseContentsTable(extractSection(unitBlock, "### Contenidos (referencia PCIC)", "\n---", true));
   const openingsManual = parseOpeningsTable(
-    extractSection(block, "### Aperturas de sesión (Categoría B)", "### Orientación multiidioma (Categoría B)", true)
+    extractSection(unitBlock, "### Aperturas de sesión (Categoría B)", "### Orientación multiidioma (Categoría B)", true)
   );
   const orientations = parseOrientationTable(
-    extractSection(block, "### Orientación multiidioma (Categoría B)", "### Continuidad narrativa (Categoría B)", true)
+    extractSection(unitBlock, "### Orientación multiidioma (Categoría B)", "### Continuidad narrativa (Categoría B)", true)
   );
-  const continuity = parseContinuity(extractSection(block, "### Continuidad narrativa (Categoría B)", "\n---", true));
-  const sessions = parseSessions(block, openingsManual, orientations, canDos);
+  const continuity = parseContinuity(extractSection(unitBlock, "### Continuidad narrativa (Categoría B)", "\n---", true));
+  const sessions = parseSessions(
+    unitBlock,
+    frontmatter.unidad_id,
+    openingsManual,
+    orientations,
+    canDos
+  );
   const exerciseCount = sessions.reduce((sum, session) => sum + session.exerciseIds.length, 0);
 
   return {
@@ -73,6 +85,7 @@ function parseUnitBlock(block: string): CurriculumUnit {
     levelOut: frontmatter.nivel_mcer_salida,
     duration: frontmatter.duracion,
     lexiconCore: frontmatter.lexico_nucleo,
+    specialType: frontmatter.tipo_especial,
     focusCodes: frontmatter.focos_contraste ?? [],
     canDos,
     contents,
@@ -86,6 +99,7 @@ function parseUnitBlock(block: string): CurriculumUnit {
 
 function parseSessions(
   block: string,
+  unitId: string,
   openingsManual: Partial<Record<SessionNumber, string>>,
   orientations: Partial<Record<SessionNumber, { en?: string; ja?: string }>>,
   canDos: CanDoItem[]
@@ -113,9 +127,47 @@ function parseSessions(
       audios,
       opening: resolveOpening(number, rawMarkdown, canDos, openingsManual[number]),
       outline: parseSessionOutline(title),
-      orientation: orientations[number]
+      orientation: orientations[number],
+      exam: parseDeleExamSession(unitId, number, rawMarkdown)
     };
   });
+}
+
+function parseDeleExamSession(
+  unitId: string,
+  sessionNumber: SessionNumber,
+  rawMarkdown: string
+): SessionData["exam"] {
+  if (unitId !== "B1-B2-U16" || sessionNumber < 2) return undefined;
+  const yaml = rawMarkdown.match(/^```yaml\n([\s\S]*?)\n```/m)?.[1] ?? "";
+  const field = (name: string) =>
+    stripQuotes(
+      yaml
+        .split("\n")
+        .find((line) => line.trim().startsWith(`${name}:`))
+        ?.split(":")
+        .slice(1)
+        .join(":")
+        .trim() ?? ""
+    );
+  const timeLabel = field("tiempo");
+  const examMinutes = Number(
+    timeLabel.match(/(\d+)\s+minutos?(?:\s+de examen)?/i)?.[1] ?? 0
+  );
+  const preparationMinutes = Number(
+    timeLabel.match(/(\d+)\s+de preparación/i)?.[1] ?? 0
+  );
+  if (examMinutes <= 0) return undefined;
+
+  return {
+    testNumber: (sessionNumber - 1) as 1 | 2 | 3 | 4,
+    timeLabel,
+    durationSeconds: examMinutes * 60,
+    preparationSeconds: preparationMinutes > 0 ? preparationMinutes * 60 : undefined,
+    tasksLabel: field("tareas") || undefined,
+    uninterrupted: true,
+    audioMaxPlays: /DOS veces/i.test(rawMarkdown) ? 2 : undefined
+  };
 }
 
 // Tabla | Sesión | English | 日本語 | — la columna de japonés puede venir vacía ("—")

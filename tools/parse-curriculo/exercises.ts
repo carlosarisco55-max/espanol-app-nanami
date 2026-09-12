@@ -1,4 +1,5 @@
 import type {
+  AutoevaluacionContent,
   ClasificarContent,
   CorregirErrorContent,
   DictadoContent,
@@ -50,29 +51,38 @@ export function splitExerciseBlocks(sessionMarkdown: string): { id: string; raw:
 }
 
 export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
-  const tipo = extractYamlField(raw, "tipo") ?? "desconocido";
-  let content: ExerciseContent | null = null;
-
-  if (tipo === "emparejar") content = parseEmparejar(raw);
-  else if (tipo === "opcion_multiple") content = parseOpcionMultiple(raw);
-  else if (tipo === "clasificar") content = parseClasificar(raw);
-  else if (tipo === "huecos") content = parseHuecos(raw);
-  else if (tipo === "verdadero_falso") content = parseVerdaderoFalso(raw);
-  else if (tipo === "respuesta_corta") content = parseRespuestaCorta(raw);
-  else if (tipo === "transformar") content = parseTransformar(raw);
-  else if (tipo === "corregir_error") content = parseCorregirError(raw);
-  else if (tipo === "reordenar") content = parseReordenar(raw);
-  else if (tipo === "discriminacion_fonetica") content = parseDiscriminacionFonetica(raw);
-  else if (tipo === "dictado") content = parseDictado(raw);
-  else if (tipo === "roleplay") content = parseRoleplay(raw);
-  else if (tipo === "produccion_escrita") content = parseProduccionEscrita(raw);
-  else if (tipo === "produccion_oral") content = parseProduccionOral(raw);
-
-  const foco = extractYamlField(raw, "foco");
-  const title = raw.match(/^####\s+`[^`]+`(?:\s+—\s+(.+))?$/m)?.[1]?.trim();
-  const autocorregibleRaw = extractYamlField(raw, "autocorregible");
+  const headerEnd = raw.indexOf("\n");
+  const nextPeerOffset = raw.slice(headerEnd + 1).search(/^###\s+/m);
+  const authoredBlock =
+    nextPeerOffset === -1 ? raw : raw.slice(0, headerEnd + 1 + nextPeerOffset);
+  const tipo = extractYamlField(authoredBlock, "tipo") ?? "desconocido";
+  const autocorregibleRaw = extractYamlField(authoredBlock, "autocorregible");
   const autocorregible =
     autocorregibleRaw === "true" ? true : autocorregibleRaw === "false" ? false : null;
+  let content: ExerciseContent | null = null;
+
+  if (tipo === "emparejar") content = parseEmparejar(authoredBlock);
+  else if (tipo === "opcion_multiple") content = parseOpcionMultiple(authoredBlock);
+  else if (tipo === "clasificar") content = parseClasificar(authoredBlock);
+  else if (tipo === "huecos") content = parseHuecos(authoredBlock);
+  else if (tipo === "verdadero_falso") content = parseVerdaderoFalso(authoredBlock);
+  else if (tipo === "respuesta_corta") {
+    content = autocorregible === false
+      ? parseProduccionEscrita(authoredBlock)
+      : parseRespuestaCorta(authoredBlock);
+  }
+  else if (tipo === "transformar") content = parseTransformar(authoredBlock);
+  else if (tipo === "corregir_error") content = parseCorregirError(authoredBlock);
+  else if (tipo === "reordenar") content = parseReordenar(authoredBlock);
+  else if (tipo === "discriminacion_fonetica") content = parseDiscriminacionFonetica(authoredBlock);
+  else if (tipo === "dictado") content = parseDictado(authoredBlock);
+  else if (tipo === "roleplay") content = parseRoleplay(authoredBlock);
+  else if (tipo === "produccion_escrita") content = parseProduccionEscrita(authoredBlock);
+  else if (tipo === "produccion_oral") content = parseProduccionOral(authoredBlock);
+  else if (/Autoevaluaci[oó]n MCER/i.test(authoredBlock)) content = parseAutoevaluacion(authoredBlock);
+
+  const foco = extractYamlField(authoredBlock, "foco");
+  const title = authoredBlock.match(/^####\s+`[^`]+`(?:\s+—\s+(.+))?$/m)?.[1]?.trim();
   const jCodes = [...new Set(foco?.match(/\bJ[1-8]\b/g) ?? [])] as ExerciseBlock["jCodes"];
 
   return {
@@ -119,26 +129,69 @@ function enunciadoBefore(raw: string, marker: RegExp): string {
 }
 
 function parseEmparejar(raw: string): EmparejarContent | null {
-  const rows = [...raw.matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|\s*([a-z])\s*\|\s*(.+?)\s*\|$/gm)];
-  if (rows.length === 0) return null;
-
-  const izquierda = rows.map((r) => ({ numero: r[1], texto: simplifyInline(r[2]) }));
-  const derechaShuffled = rows.map((r) => ({ letra: r[3], texto: simplifyInline(r[4]) }));
-
   const solucionLine = raw.match(/\*\*Soluci[oó]n:?\*\*\s*(.+)/)?.[1] ?? "";
   const solucion: Record<string, string> = {};
-  for (const m of solucionLine.matchAll(/(\d+)-([a-z])/g)) {
-    solucion[m[1]] = m[2];
+  for (const m of solucionLine.matchAll(/([\p{L}\d]+)\s*-\s*\**([A-Z①-⑳])\**/giu)) {
+    solucion[simplifyInline(m[1])] = simplifyInline(m[2]);
+  }
+  const unused = solucionLine.match(/sobran:\s*([^)\n]+)/i)?.[1] ?? "";
+  for (const match of unused.matchAll(/\**([\p{L}\d]+)\**/gu)) {
+    const key = simplifyInline(match[1]);
+    if (key) solucion[key] = "__unused__";
   }
 
   const { pista, explicacion } = extractPistaExplicacion(raw);
+  const pairedRows = [
+    ...raw.matchAll(/^\|\s*([\p{L}\d]+)\s*\|\s*(.+?)\s*\|\s*([a-z])\s*\|\s*(.+?)\s*\|$/gimu)
+  ];
+  if (pairedRows.length > 0) {
+    const izquierda = pairedRows.map((row) => ({
+      numero: simplifyInline(row[1]),
+      texto: simplifyInline(row[2])
+    }));
+    const derecha = pairedRows.map((row) => ({
+      letra: simplifyInline(row[3]),
+      texto: simplifyInline(row[4])
+    }));
+    const normalizedSolution = Object.fromEntries(
+      Object.entries(solucion).map(([key, value]) => [key, value.toLowerCase()])
+    );
+    return {
+      kind: "emparejar",
+      enunciado: enunciadoBefore(raw, /\|\s*[\p{L}\d]+\s*\|/u),
+      izquierda,
+      derecha,
+      solucion: normalizedSolution,
+      allowRepeat: new Set(Object.values(normalizedSolution)).size < izquierda.length,
+      pista,
+      explicacion
+    };
+  }
+
+  const tableRows = raw
+    .split("\n")
+    .filter((line) => line.trim().startsWith("|"))
+    .map(parseTableCells)
+    .filter((cells) => {
+      const key = cells[0] ?? "";
+      return Boolean(solucion[key]) && Boolean(cells[1]);
+    });
+  if (tableRows.length === 0) return null;
+
+  const izquierda = tableRows.map((cells) => ({ numero: cells[0], texto: cells[1] }));
+  const optionValues = [...new Set(izquierda.map((item) => solucion[item.numero]))];
+  const derecha = optionValues.map((value) => ({
+    letra: value,
+    texto: value === "__unused__" ? "No se usa" : value
+  }));
 
   return {
     kind: "emparejar",
-    enunciado: enunciadoBefore(raw, /\|\s*\d+\s*\|/),
+    enunciado: enunciadoBefore(raw, /^\|/m),
     izquierda,
-    derecha: derechaShuffled,
+    derecha,
     solucion,
+    allowRepeat: new Set(Object.values(solucion)).size < izquierda.length,
     pista,
     explicacion
   };
@@ -754,9 +807,11 @@ function parseProduccionEscrita(raw: string): ProduccionEscritaContent | null {
   );
   const rubrica = parseRubricCriteria(body);
   const enunciado =
+    body.match(/\*\*(Responde por escrito[^*]*)\*\*/i)?.[1] ??
     body.match(/\*\*Escribe[^*]*\*\*\s*([\s\S]+?)(?=\n\d+\.\s)/i)?.[1] ??
     body.match(/\*\*([^*]{12,120})\*\*/)?.[1] ??
     "Escribe el texto.";
+  const palabrasEnunciado = body.match(/Responde por escrito\s*\(([\d–-]+\s+palabras)\)/i)?.[1];
   return {
     kind: "produccion_escrita",
     enunciado: simplifyInline(enunciado.replace(/\n+/g, " ")),
@@ -764,7 +819,7 @@ function parseProduccionEscrita(raw: string): ProduccionEscritaContent | null {
     requisitos,
     modelo: modelo || undefined,
     rubrica,
-    palabras: extractYamlField(raw, "palabras"),
+    palabras: extractYamlField(raw, "palabras") ?? palabrasEnunciado?.replace(/\s+palabras$/i, ""),
     ...feedback(raw)
   };
 }
@@ -791,5 +846,43 @@ function parseProduccionOral(raw: string): ProduccionOralContent | null {
     autoevaluacion: criteria,
     duracion: extractYamlField(raw, "duracion"),
     ...feedback(raw)
+  };
+}
+
+function parseAutoevaluacion(raw: string): AutoevaluacionContent | null {
+  const body = exerciseBody(raw);
+  const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
+  const rows = tableLines.map((line) =>
+    line
+      .split("|")
+      .slice(1, -1)
+      .map((cell) => simplifyInline(cell))
+  );
+  const header = rows.find((cells) => /^Puedo/i.test(cells[0] ?? ""));
+  if (!header) return null;
+
+  const criterios = rows
+    .filter((cells) => {
+      const first = cells[0] ?? "";
+      return Boolean(first) && !/^Puedo/i.test(first) && !/^:?-+:?$/.test(first);
+    })
+    .map((cells) => cells[0]);
+  if (criterios.length === 0) return null;
+
+  const escala = header
+    .slice(1)
+    .filter(Boolean)
+    .map((label, index) => ({
+      value: ["si", "esfuerzo", "todavia"][index] ?? `nivel-${index + 1}`,
+      label
+    }));
+  const nota = body.match(/>\s*⚠️\s*\*\*Nota para la app\.\*\*\s*([\s\S]+?)(?=\n---|$)/i)?.[1];
+
+  return {
+    kind: "autoevaluacion",
+    enunciado: raw.match(/^####\s+`[^`]+`\s+—\s+(.+)$/m)?.[1]?.trim() ?? "Autoevaluación MCER",
+    criterios,
+    escala,
+    nota: nota ? simplifyInline(nota.replace(/\n>\s*/g, " ")) : undefined
   };
 }

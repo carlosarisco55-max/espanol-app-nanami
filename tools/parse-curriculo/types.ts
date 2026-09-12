@@ -16,6 +16,7 @@ export interface UnitFrontmatter {
   huecos_personalizables?: string[];
   huecos_sabor?: string[];
   depende_de?: string[];
+  tipo_especial?: string;
 }
 
 export interface CanDoItem {
@@ -82,6 +83,17 @@ export interface SessionData {
     en?: string;
     ja?: string;
   };
+  exam?: DeleExamSession;
+}
+
+export interface DeleExamSession {
+  testNumber: 1 | 2 | 3 | 4;
+  timeLabel: string;
+  durationSeconds: number;
+  preparationSeconds?: number;
+  tasksLabel?: string;
+  uninterrupted: true;
+  audioMaxPlays?: number;
 }
 
 export interface ContinuityNotes {
@@ -99,6 +111,7 @@ export interface CurriculumUnit {
   levelOut?: string;
   duration?: string;
   lexiconCore?: number;
+  specialType?: string;
   focusCodes: string[];
   canDos: CanDoItem[];
   contents: ContentRow[];

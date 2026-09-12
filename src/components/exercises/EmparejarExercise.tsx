@@ -5,9 +5,11 @@ import ExerciseShell from "./ExerciseShell";
 import type { EmparejarContent, JCode } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarEmparejar } from "@/lib/validators";
+import { useExamMode } from "@/components/dele/ExamModeContext";
 
 export default function EmparejarExercise({ id, content, jCodes = [] }: { id: string; content: EmparejarContent; jCodes?: JCode[] }) {
   const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
+  const exam = useExamMode();
 
   return (
     <ExerciseShell
@@ -50,7 +52,7 @@ export default function EmparejarExercise({ id, content, jCodes = [] }: { id: st
                         elige…
                       </option>
                       {content.derecha.map((op) => {
-                        const taken = Object.entries(respuestas).some(
+                        const taken = !content.allowRepeat && Object.entries(respuestas).some(
                           ([numero, letra]) => numero !== item.numero && letra === op.letra
                         );
                         return (
@@ -65,8 +67,8 @@ export default function EmparejarExercise({ id, content, jCodes = [] }: { id: st
               })}
             </div>
             <div className={styles.actions}>
-              <button type="button" className={styles.checkBtn} disabled={!completo || bloqueado} onClick={comprobar}>
-                Comprobar
+              <button type="button" className={styles.checkBtn} disabled={!completo || bloqueado || !exam.canCheck} onClick={comprobar}>
+                {exam.canCheck ? "Comprobar" : "Disponible al terminar la prueba"}
               </button>
             </div>
           </>

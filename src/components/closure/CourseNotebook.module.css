@@ -1,0 +1,174 @@
+.page {
+  min-height: 100dvh;
+  padding: 2.5rem 1.5rem 6rem;
+}
+
+.topNav,
+.hero,
+.section,
+.loading {
+  max-width: 52rem;
+  margin-inline: auto;
+}
+
+.topNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font: 700 0.85rem var(--font-ui);
+}
+
+.topNav a {
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+.topNav button {
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 0.85rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hero {
+  padding: 5rem 0 3rem;
+}
+
+.eyebrow {
+  color: var(--warm);
+  font: 700 0.72rem var(--font-ui);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 15ch;
+  margin: 0.6rem 0 1.5rem;
+  font: 500 clamp(2.5rem, 8vw, 5rem)/0.98 var(--font-display);
+  text-wrap: balance;
+}
+
+.hero blockquote {
+  max-width: 42rem;
+  margin: 0;
+  color: var(--ink-soft);
+  font: 1.1rem/1.7 var(--font-reading);
+}
+
+.section {
+  margin-bottom: 4rem;
+}
+
+.section h2 {
+  margin-bottom: 1.2rem;
+  font: 600 1.5rem var(--font-display);
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.comparison article,
+.entries article {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--bg-raised);
+}
+
+.comparison span,
+.entries span {
+  color: var(--ink-faint);
+  font: 700 0.72rem var(--font-ui);
+  text-transform: uppercase;
+}
+
+.comparison p,
+.entries p {
+  white-space: pre-wrap;
+  color: var(--ink);
+  font: 0.95rem/1.65 var(--font-reading);
+}
+
+.jGrid,
+.entries {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.jGrid article {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(8rem, 1fr) 9rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-ui);
+}
+
+.jGrid article > div:first-child {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.jGrid small {
+  color: var(--ink-faint);
+}
+
+.track {
+  height: 0.45rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--bg-sunken);
+}
+
+.track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--sage);
+}
+
+.loading {
+  color: var(--ink-faint);
+  font-family: var(--font-ui);
+}
+
+@media (max-width: 44rem) {
+  .comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .jGrid article {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+}
+
+@media print {
+  .page {
+    padding: 0;
+    color: #111;
+    background: white;
+  }
+
+  .topNav {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 1rem;
+  }
+
+  .comparison article,
+  .entries article {
+    break-inside: avoid;
+    background: white;
+  }
+}

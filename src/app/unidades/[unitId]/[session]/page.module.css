@@ -118,6 +118,31 @@
   padding: 0.7rem 0.9rem;
 }
 
+.bridgeBanner {
+  max-width: 40rem;
+  margin: -1.5rem auto 2.5rem;
+  padding: 1rem 1.2rem;
+  display: grid;
+  gap: 0.3rem;
+  border: 1px solid var(--warm);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--bg-raised) 88%, var(--warm) 12%);
+  font-family: var(--font-ui);
+}
+
+.bridgeBanner strong {
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.bridgeEyebrow {
+  color: var(--warm);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .content {
   max-width: 40rem;
   margin: 0 auto;
@@ -197,6 +222,36 @@
 
 .content blockquote p:last-child {
   margin-bottom: 0;
+}
+
+.warmupFigure {
+  margin: 1.4rem 0 1.8rem;
+}
+
+.warmupImageFrame {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  background: var(--bg-sunken);
+  box-shadow: 0 1rem 2.5rem color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.warmupImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.warmupCaption {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--ink-faint);
+}
+
+.warmupCaption strong {
+  color: var(--ink-soft);
 }
 
 .content code {

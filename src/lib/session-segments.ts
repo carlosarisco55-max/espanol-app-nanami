@@ -22,12 +22,17 @@ export function splitSessionIntoSegments(
   const audioById = new Map(audios.map((audio) => [audio.id, audio]));
   if (byId.size === 0 && audioById.size === 0) return [{ kind: "markdown", text: rawMarkdown }];
 
-  const exerciseMatches = [...rawMarkdown.matchAll(EXERCISE_HEADER_RE)].map((match, index, all) => ({
-    kind: "exercise" as const,
-    id: match[1],
-    start: match.index!,
-    end: all[index + 1]?.index ?? rawMarkdown.length
-  }));
+  const exerciseMatches = [...rawMarkdown.matchAll(EXERCISE_HEADER_RE)].map((match, index, all) => {
+    const nextExercise = all[index + 1]?.index ?? rawMarkdown.length;
+    const afterHeader = match.index! + match[0].length;
+    const nextSectionOffset = rawMarkdown.slice(afterHeader, nextExercise).search(/^###\s+/m);
+    return {
+      kind: "exercise" as const,
+      id: match[1],
+      start: match.index!,
+      end: nextSectionOffset === -1 ? nextExercise : afterHeader + nextSectionOffset
+    };
+  });
   const audioMatches = [...rawMarkdown.matchAll(AUDIO_HEADER_RE)].map((match) => {
     const afterStart = rawMarkdown.slice(match.index!);
     const nextExercise = afterStart.search(/^####\s+`B1-B2-U\d{2}-E\d{2}`/m);

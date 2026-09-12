@@ -1,8 +1,16 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { parseCurriculum, parseSessionOutline, readCurriculumFile } from "../tools/parse-curriculo/parser";
+import {
+  extractDeleAudioTasks,
+  extractOralInterventions,
+  hideDeleReview,
+  parseReadingSupplementalTasks
+} from "../src/lib/dele-exam";
+import { splitSessionIntoSegments } from "../src/lib/session-segments";
 
 const CURRICULUM_PATH = resolve(process.cwd(), "content", "curriculo-b1-b2.md");
 const content = readCurriculumFile(CURRICULUM_PATH);
@@ -174,6 +182,17 @@ test("las 15 unidades lectivas tienen un audio canónico y U16 se reserva para e
   assert.equal(units[15].sessions.flatMap((session) => session.audios).length, 0);
 });
 
+test("las 15 unidades lectivas tienen una imagen JPEG de calentamiento", () => {
+  for (let number = 1; number <= 15; number += 1) {
+    const filename = `u${String(number).padStart(2, "0")}.jpg`;
+    const imagePath = resolve(process.cwd(), "public", "images", "warmups", filename);
+    assert.ok(existsSync(imagePath), `Falta ${filename}`);
+    const image = readFileSync(imagePath);
+    assert.deepEqual([...image.subarray(0, 3)], [255, 216, 255]);
+    assert.ok(image.length > 100_000, `${filename} parece incompleta`);
+  }
+});
+
 test("Fase 3 — parsea huecos, V/F, respuesta corta y discriminación de U1", () => {
   const unit = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
   const exercises = new Map(unit.sessions.flatMap((session) => session.exercises).map((exercise) => [exercise.id, exercise]));
@@ -324,6 +343,103 @@ test("Fase 4 — todos los role-play y producciones del currículo tienen conten
     assert.ok(items.length > 0, tipo);
     assert.ok(items.every((exercise) => exercise.content?.kind === tipo), tipo);
   }
+});
+
+test("Fase 5 — las tres sesiones Puente conservan quiz, reflexión y parrilla MCER", () => {
+  const units = parseCurriculum(content);
+  const expected = [
+    ["B1-B2-U04", "Puente 1", "B1-B2-U04-E22", "B1-B2-U04-E23", "B1-B2-U04-E24"],
+    ["B1-B2-U08", "Puente 2", "B1-B2-U08-E21", "B1-B2-U08-E22", "B1-B2-U08-E23"],
+    ["B1-B2-U12", "Puente 3", "B1-B2-U12-E21", "B1-B2-U12-E22", "B1-B2-U12-E23"]
+  ] as const;
+
+  for (const [unitId, label, quizId, reflectionId, selfEvalId] of expected) {
+    const unit = units.find((item) => item.unitId === unitId)!;
+    assert.match(unit.specialType ?? "", new RegExp(label));
+    const session = unit.sessions.find((item) => item.slug === "s5")!;
+    assert.match(session.title, /Puente/);
+    const exercises = new Map(session.exercises.map((exercise) => [exercise.id, exercise.content]));
+    assert.equal(exercises.get(quizId)?.kind, "opcion_multiple");
+    assert.equal(exercises.get(reflectionId)?.kind, "produccion_escrita");
+    assert.equal(exercises.get(selfEvalId)?.kind, "autoevaluacion");
+    const selfEval = exercises.get(selfEvalId);
+    if (selfEval?.kind === "autoevaluacion") {
+      assert.ok(selfEval.criterios.length >= 10);
+      assert.deepEqual(
+        selfEval.escala.map((item) => item.value),
+        ["si", "esfuerzo", "todavia"]
+      );
+    }
+  }
+});
+
+test("Fase 5 — U16 distingue diagnóstico y cuatro pruebas DELE cronometradas", () => {
+  const unit = parseCurriculum(content, { unitFilter: "B1-B2-U16" })[0];
+  assert.equal(unit.sessions[0].exam, undefined);
+  assert.deepEqual(
+    unit.sessions.slice(1).map((session) => ({
+      test: session.exam?.testNumber,
+      seconds: session.exam?.durationSeconds,
+      preparation: session.exam?.preparationSeconds ?? 0,
+      uninterrupted: session.exam?.uninterrupted
+    })),
+    [
+      { test: 1, seconds: 4200, preparation: 0, uninterrupted: true },
+      { test: 2, seconds: 2400, preparation: 0, uninterrupted: true },
+      { test: 3, seconds: 4800, preparation: 0, uninterrupted: true },
+      { test: 4, seconds: 1200, preparation: 1200, uninterrupted: true }
+    ]
+  );
+  assert.equal(unit.sessions[2].exam?.audioMaxPlays, 2);
+  assert.doesNotMatch(unit.sessions[4].rawMarkdown, /^# 5\. Estado del documento/m);
+});
+
+test("Fase 5 — el simulacro conserva las tareas sin ID y oculta la corrección durante la prueba", () => {
+  const unit = parseCurriculum(content, { unitFilter: "B1-B2-U16" })[0];
+  const reading = unit.sessions[1];
+  const supplements = parseReadingSupplementalTasks(reading.rawMarkdown);
+  assert.deepEqual(
+    supplements.map((task) => [task.taskNumber, task.items.length]),
+    [[3, 6], [4, 13]]
+  );
+  assert.equal(supplements[0].items[0].answer, "c");
+  assert.equal(supplements[1].items[0].answer, "b");
+
+  const runningReading = hideDeleReview(reading.rawMarkdown, 2);
+  assert.doesNotMatch(runningReading, /\*\*Solución:\*\*/);
+  assert.doesNotMatch(runningReading, /Corrección y puntuación/);
+
+  const segments = splitSessionIntoSegments(reading.rawMarkdown, reading.exercises);
+  const preservedMarkdown = segments
+    .filter((segment) => segment.kind === "markdown")
+    .map((segment) => segment.text)
+    .join("\n");
+  assert.match(preservedMarkdown, /TAREA 2 — Emparejar/);
+  assert.match(preservedMarkdown, /TAREA 3 — Fragmentos/);
+  assert.match(preservedMarkdown, /TAREA 4 — Texto con huecos/);
+});
+
+test("Fase 5 — las audiciones y preguntas orales salen del texto del simulacro", () => {
+  const unit = parseCurriculum(content, { unitFilter: "B1-B2-U16" })[0];
+  const listening = extractDeleAudioTasks(unit.sessions[2].rawMarkdown, 3);
+  assert.deepEqual(listening.map((task) => task.lines.length), [6, 12, 6, 11]);
+  assert.match(listening[1].lines[0].text, /doce años/);
+  assert.doesNotMatch(hideDeleReview(unit.sessions[2].rawMarkdown, 3), /Hola, soy Álvaro/);
+
+  const writingAudio = extractDeleAudioTasks(unit.sessions[3].rawMarkdown, 4);
+  assert.equal(writingAudio.length, 1);
+  assert.match(writingAudio[0].lines[0].text, /Área de Movilidad/);
+
+  const oral = extractOralInterventions(unit.sessions[4].rawMarkdown);
+  assert.deepEqual(oral.map((group) => [group.taskNumber, group.prompts.length]), [
+    [2, 5],
+    [3, 3],
+    [4, 4]
+  ]);
+  assert.match(oral[0].prompts[0], /aparcamiento/);
+  const runningOral = hideDeleReview(unit.sessions[4].rawMarkdown, 5);
+  assert.doesNotMatch(runningOral, /Ha descartado usted el aparcamiento/);
+  assert.doesNotMatch(runningOral, /Discrepar del dato que ella destaque/);
 });
 
 test("Fase 3 — conserva foco, códigos J y autocorrección por ejercicio", () => {

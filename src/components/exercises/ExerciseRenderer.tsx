@@ -11,6 +11,7 @@ import TextAnswerExercise from "./TextAnswerExercise";
 import VerdaderoFalsoExercise from "./VerdaderoFalsoExercise";
 import ProduccionEscritaExercise from "./ProduccionEscritaExercise";
 import ProduccionOralExercise from "./ProduccionOralExercise";
+import AutoevaluacionExercise from "./AutoevaluacionExercise";
 import RoleplayExercise from "@/components/roleplay/RoleplayExercise";
 import { useOptionalSessionProgress } from "@/components/SessionProgressProvider";
 import styles from "./exercises.module.css";
@@ -48,6 +49,8 @@ export default function ExerciseRenderer({ block }: { block: ExerciseBlock }) {
       return <ProduccionEscritaExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
     case "produccion_oral":
       return <ProduccionOralExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
+    case "autoevaluacion":
+      return <AutoevaluacionExercise id={block.id} content={block.content} jCodes={block.jCodes} />;
     default:
       return null;
   }

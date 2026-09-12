@@ -5,9 +5,11 @@ import ExerciseShell from "./ExerciseShell";
 import type { JCode, OpcionMultipleContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import { validarOpcionMultiple } from "@/lib/validators";
+import { useExamMode } from "@/components/dele/ExamModeContext";
 
 export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { id: string; content: OpcionMultipleContent; jCodes?: JCode[] }) {
   const { respuestas, setRespuestas, initialState, persist } = usePersistedAnswers(id, jCodes);
+  const exam = useExamMode();
 
   return (
     <ExerciseShell
@@ -58,8 +60,8 @@ export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { i
               </div>
             ))}
             <div className={styles.actions}>
-              <button type="button" className={styles.checkBtn} disabled={!completo || bloqueado} onClick={comprobar}>
-                Comprobar
+              <button type="button" className={styles.checkBtn} disabled={!completo || bloqueado || !exam.canCheck} onClick={comprobar}>
+                {exam.canCheck ? "Comprobar" : "Disponible al terminar la prueba"}
               </button>
             </div>
           </>

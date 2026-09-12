@@ -12,6 +12,7 @@ export interface EmparejarContent extends ExerciseFeedback {
   izquierda: { numero: string; texto: string }[];
   derecha: { letra: string; texto: string }[];
   solucion: Record<string, string>;
+  allowRepeat?: boolean;
 }
 
 export interface OpcionMultipleItem {
@@ -195,6 +196,14 @@ export interface ProduccionOralContent extends ExerciseFeedback {
   duracion?: string;
 }
 
+export interface AutoevaluacionContent {
+  kind: "autoevaluacion";
+  enunciado: string;
+  criterios: string[];
+  escala: { value: string; label: string }[];
+  nota?: string;
+}
+
 export type ExerciseContent =
   | EmparejarContent
   | OpcionMultipleContent
@@ -209,7 +218,8 @@ export type ExerciseContent =
   | DictadoContent
   | RoleplayContent
   | ProduccionEscritaContent
-  | ProduccionOralContent;
+  | ProduccionOralContent
+  | AutoevaluacionContent;
 
 export interface ExerciseBlock {
   id: string;

@@ -1,0 +1,249 @@
+.loading,
+.gate,
+.timerBar,
+.audioPanel,
+.answerSheet,
+.reviewNotice {
+  max-width: 40rem;
+  margin: 0 auto 2rem;
+  font-family: var(--font-ui);
+}
+
+.loading,
+.gate,
+.audioPanel,
+.answerSheet {
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: var(--bg-raised);
+}
+
+.gate h2,
+.audioPanel h2,
+.answerSheet h2 {
+  margin: 0.25rem 0 1rem;
+  font-family: var(--font-display);
+}
+
+.eyebrow {
+  display: block;
+  color: var(--warm);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.conditions {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.conditions div {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 0.7rem;
+}
+
+.conditions dt {
+  color: var(--ink-faint);
+}
+
+.conditions dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.warning {
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--warm);
+  background: var(--bg-sunken);
+  color: var(--ink-soft);
+}
+
+.primary,
+.finish,
+.audioButton,
+.interlocutor button {
+  border: 1px solid var(--accent);
+  border-radius: 0.55rem;
+  background: var(--accent);
+  color: white;
+  padding: 0.55rem 0.9rem;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.timerBar {
+  position: sticky;
+  top: 0.75rem;
+  z-index: 5;
+  padding: 0.8rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--warm);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--bg-raised) 92%, var(--warm) 8%);
+  box-shadow: 0 0.4rem 1.5rem rgb(0 0 0 / 12%);
+}
+
+.timerBar strong {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.timerDone {
+  position: static;
+  border-color: var(--sage);
+  background: var(--sage-soft);
+}
+
+.finish {
+  border-color: var(--line);
+  background: transparent;
+  color: var(--ink);
+}
+
+.content {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.audioPanel p {
+  color: var(--ink-soft);
+}
+
+.audioActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.audioButton:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.supplement {
+  margin-top: 1.5rem;
+}
+
+.supplement h3 {
+  font-size: 1rem;
+}
+
+.choiceGrid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.choiceGrid label {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.choiceGrid select {
+  min-width: 0;
+  padding: 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.score {
+  color: var(--sage);
+  font-weight: 700;
+}
+
+.written {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1rem;
+}
+
+.written textarea {
+  min-height: 12rem;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  background: var(--bg);
+  color: var(--ink);
+  font: 1rem/1.55 var(--font-reading);
+  resize: vertical;
+}
+
+.written small {
+  color: var(--ink-faint);
+}
+
+.interlocutor {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px dashed var(--accent);
+  border-radius: 0.65rem;
+  background: var(--accent-soft);
+}
+
+.interlocutor span {
+  color: var(--accent-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.interlocutor div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.interlocutor button {
+  font-size: 0.8rem;
+}
+
+.reviewNotice {
+  padding: 1rem;
+  border-radius: 0.65rem;
+  background: var(--sage-soft);
+  color: var(--sage);
+}
+
+.reviewNav {
+  max-width: 40rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+
+.reviewNav a {
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+@media (max-width: 34rem) {
+  .timerBar {
+    top: 0.3rem;
+  }
+
+  .choiceGrid label {
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+  }
+
+  .choiceGrid small {
+    grid-column: 2;
+  }
+}

@@ -8,6 +8,7 @@ import ExerciseRenderer from "@/components/exercises/ExerciseRenderer";
 import SessionProgressProvider from "@/components/SessionProgressProvider";
 import BackupReminder from "@/components/BackupReminder";
 import AudioScript from "@/components/content/AudioScript";
+import DeleExamSession from "@/components/dele/DeleExamSession";
 import { splitSessionIntoSegments } from "@/lib/session-segments";
 
 export default async function SessionPage({
@@ -24,7 +25,17 @@ export default async function SessionPage({
 
   const sessionIndex = unit.sessions.findIndex((s) => s.slug === sessionSlug);
   const nextSession = unit.sessions[sessionIndex + 1];
-  const interactiveIds = session.exercises.filter((exercise) => exercise.content !== null).map((exercise) => exercise.id);
+  const examId = session.exam ? `B1-B2-U16-${session.slug}-exam` : null;
+  const interactiveIds = [
+    ...session.exercises
+      .filter((exercise) => exercise.content !== null)
+      .filter((exercise) => !(session.exam && exercise.id === "B1-B2-U16-E14"))
+      .map((exercise) => exercise.id),
+    ...(examId ? [examId] : [])
+  ];
+  const isBridgeSession =
+    session.slug === "s5" &&
+    ["B1-B2-U04", "B1-B2-U08", "B1-B2-U12"].includes(unit.unitId);
 
   return (
     <SessionProgressProvider
@@ -50,9 +61,11 @@ export default async function SessionPage({
         <p className={styles.heroEyebrow}>
           Sesión {session.number} de 5 · {unit.title}
         </p>
-        <h1 className={styles.heroHeadline}>{session.opening.headline}</h1>
+        <h1 className={styles.heroHeadline}>
+          {session.exam ? session.titleShort : session.opening.headline}
+        </h1>
         <OrientationToggle en={session.orientation?.en} ja={session.orientation?.ja} />
-        {session.opening.cards && session.opening.cards.length > 0 && (
+        {!session.exam && session.opening.cards && session.opening.cards.length > 0 && (
           <div className={styles.heroCards}>
             {session.opening.cards.map((card, i) => (
               <p key={i} className={styles.heroCard}>
@@ -63,26 +76,41 @@ export default async function SessionPage({
         )}
       </section>
 
-      <article className={styles.content}>
-        {splitSessionIntoSegments(session.rawMarkdown, session.exercises, session.audios ?? []).map((segment, i) =>
-          segment.kind === "markdown" ? (
-            <PersonalizedMarkdown key={i} content={segment.text} />
-          ) : segment.kind === "audio" ? (
-            <AudioScript key={segment.audio.id} audio={segment.audio} />
-          ) : (
-            <ExerciseRenderer key={segment.block.id} block={segment.block} />
-          )
-        )}
-      </article>
+      {isBridgeSession && unit.specialType && (
+        <aside className={styles.bridgeBanner}>
+          <span className={styles.bridgeEyebrow}>Working across cultures</span>
+          <strong>{unit.specialType}</strong>
+        </aside>
+      )}
 
-      <footer className={styles.footerNav}>
+      {session.exam ? (
+        <DeleExamSession
+          session={session}
+          unitId={unit.unitId}
+          nextSession={nextSession ? { slug: nextSession.slug, number: nextSession.number } : undefined}
+        />
+      ) : (
+        <article className={styles.content}>
+          {splitSessionIntoSegments(session.rawMarkdown, session.exercises, session.audios ?? []).map((segment, i) =>
+            segment.kind === "markdown" ? (
+                <PersonalizedMarkdown key={i} content={segment.text} unitId={unit.unitId} />
+            ) : segment.kind === "audio" ? (
+              <AudioScript key={segment.audio.id} audio={segment.audio} />
+            ) : (
+              <ExerciseRenderer key={segment.block.id} block={segment.block} />
+            )
+          )}
+        </article>
+      )}
+
+      {!session.exam && <footer className={styles.footerNav}>
         <Link href={`/unidades/${unit.unitId}`}>Índice de la unidad</Link>
         {nextSession && (
           <Link href={`/unidades/${unit.unitId}/${nextSession.slug}`}>
             Continuar a la sesión {nextSession.number} →
           </Link>
         )}
-      </footer>
+      </footer>}
       <BackupReminder />
     </main>
     </SessionProgressProvider>

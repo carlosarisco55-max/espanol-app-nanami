@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Components } from "react-markdown";
@@ -38,12 +39,60 @@ function applyProfile(markdown: string): string {
     .replace(/\{\{intereses\}\}/g, profile?.gustos?.trim() || "lo que te gusta");
 }
 
-export default function PersonalizedMarkdown({ content }: { content: string }) {
+function plainText(markdown: string): string {
+  return markdown.replace(/\*\*/g, "").replace(/`/g, "").trim();
+}
+
+export default function PersonalizedMarkdown({
+  content,
+  unitId
+}: {
+  content: string;
+  unitId?: string;
+}) {
   const [resolved, setResolved] = useState(content);
 
   useEffect(() => {
     setResolved(applyProfile(content));
   }, [content]);
+
+  const unitNumber = unitId?.match(/^B1-B2-U(0[1-9]|1[0-5])$/)?.[1];
+  const screenBrief = unitNumber
+    ? resolved.match(/^>\s*\*\*Pantalla:\*\*\s*(.+)$/m)
+    : null;
+
+  if (unitNumber && screenBrief?.index !== undefined) {
+    const before = resolved.slice(0, screenBrief.index);
+    const after = resolved.slice(screenBrief.index + screenBrief[0].length);
+    const description = plainText(screenBrief[1]);
+
+    return (
+      <>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+          {before}
+        </ReactMarkdown>
+        <figure className={styles.warmupFigure}>
+          <div className={styles.warmupImageFrame}>
+            <Image
+              className={styles.warmupImage}
+              src={`/images/warmups/u${unitNumber}.jpg`}
+              alt={description}
+              width={1024}
+              height={576}
+              sizes="(max-width: 680px) calc(100vw - 3rem), 640px"
+              priority
+            />
+          </div>
+          <figcaption className={styles.warmupCaption}>
+            <strong>Escena de observación.</strong> {description}
+          </figcaption>
+        </figure>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+          {after}
+        </ReactMarkdown>
+      </>
+    );
+  }
 
   return (
     <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>

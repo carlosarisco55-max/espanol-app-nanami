@@ -6,14 +6,17 @@ import styles from "./page.module.css";
 import { readProfile, greetingName, type Profile } from "@/lib/profile";
 import type { CurriculumIndexEntry } from "../../../tools/parse-curriculo/types";
 import BackupReminder from "@/components/BackupReminder";
+import { storage } from "@/lib/storage";
 
 const BLOCK_LABELS = ["Unidades 1 a 4", "Unidades 5 a 8", "Unidades 9 a 12", "Unidades 13 a 16"];
 
 export default function CaminoView({ index }: { index: CurriculumIndexEntry[] }) {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [completedSessions, setCompletedSessions] = useState<string[]>([]);
 
   useEffect(() => {
     setProfile(readProfile());
+    void storage.getMeta().then((meta) => setCompletedSessions(meta.completedSessions));
   }, []);
 
   const blocks: CurriculumIndexEntry[][] = [[], [], [], []];
@@ -49,14 +52,27 @@ export default function CaminoView({ index }: { index: CurriculumIndexEntry[] })
             <div className={styles.grid}>
               {block.map((unit, i) => {
                 const globalIndex = blockIndex * 4 + i;
-                const unlocked = globalIndex === 0;
+                const completedCount = completedSessions.filter((key) =>
+                  key.startsWith(`${unit.unitId}:`)
+                ).length;
+                const completed = completedCount >= unit.sessionCount;
+                const unlocked =
+                  globalIndex === 0 ||
+                  index.slice(0, globalIndex).every((previous) => {
+                    const count = completedSessions.filter((key) =>
+                      key.startsWith(`${previous.unitId}:`)
+                    ).length;
+                    return count >= previous.sessionCount;
+                  });
                 const cardBody = (
                   <>
                     <span className={styles.cardNumber}>{globalIndex + 1}</span>
                     <span className={styles.cardTitle}>{unit.title}</span>
                     <span className={styles.cardMeta}>
                       {unlocked ? (
-                        <span className={styles.badge}>Lista</span>
+                        <span className={styles.badge}>
+                          {completed ? "Completada" : completedCount > 0 ? `${completedCount}/${unit.sessionCount}` : "Lista"}
+                        </span>
                       ) : (
                         <span>Más adelante</span>
                       )}

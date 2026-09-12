@@ -75,46 +75,35 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
   los 3 caminos (correcto/primer fallo/segundo fallo). 13/13 tests en verde. TRAE seguía
   sin créditos (límite mensual, no por horas — confirmar fecha real en su panel de
   facturación) así que esta fase también la hizo Claude Code.
-- ⏸️ `ARCHITECTURE.md`: sigue pendiente de crear — mejor esperar a que TRAE audite todo
-  lo construido (Fase 0, 1 y 2) para no describir un estado que cambie enseguida.
+- ✅ **Fase 3** (resto de tipos autocorregibles + audio TTS + SRS) y **Fase 4**
+  (role-play asimétrico + producción escrita/oral con rúbrica) en `master`.
+- ✅ **Fase 5 — MVP de producto cerrado (2026-09-12):** sesiones puente U4/U8/U12,
+  simulacro DELE cronometrado en U16 (S1 diagnóstico, S2–S5 de una sentada),
+  cuaderno de cierre en `/cierre`, y las 15 fotos de calentamiento como JPEG en
+  `public/images/warmups/` (U1–U15, sesión 1). Verificado en localhost: las fotos
+  se ven; el fallo anterior era Next Image pidiendo PNG vacíos.
+- ⏸️ `ARCHITECTURE.md`: sigue pendiente — ahora sí tiene sentido escribirlo, porque
+  el MVP B1→B2 ya no va a cambiar de forma enseguida.
 
-## Plan concreto para la próxima sesión (dejado 2026-08-25, noche — sigue vigente)
+## Plan concreto para la próxima sesión
 
-1. **Comprobar si TRAE ya tiene créditos de nuevo** (versión gratuita, se reseteaba por
-   horas). Si sí, retomar esa conversación con TRAE — no crear una nueva desde cero.
-2. **Antes de que TRAE toque nada: decirle explícitamente que el repo cambió mientras no
-   tenía cuota.** TRAE llevaba un plan de 5 tareas que mezclaba Fase 0 y Fase 1 en una
-   sola lista continua (base técnica → parser → JSON → Fase 1 editorial → pruebas) y solo
-   completó la primera (los archivos base: `package.json`, `tsconfig`, `parser.ts`,
-   `types.ts`) antes de quedarse sin créditos — no llegó a escribir ni una línea de UI.
-   Su `tools/parse-curriculo/parser.ts` fue completado y corregido por Claude Code (bug
-   real: parseaba las 16 unidades siempre y fallaba si faltaba el bloque de Categoría B;
-   corregido para filtrar antes de parsear). Que TRAE lea el estado actual del repo (este
-   archivo + `git log`) antes de asumir que sigue donde lo dejó.
-3. **Auditoría cruzada, mismo patrón que usamos con la arquitectura de TRAE:** pedirle a
-   TRAE que revise lo que construyó Claude Code (Fase 0 + Fase 1 + **Fase 2, las tres ya
-   en `master`**) con ojo crítico — igual que Claude revisó la propuesta de TRAE en su
-   momento. Buscar huecos, no solo aprobar.
-4. **Decisión a tomar juntos, no asumida:** ¿TRAE sigue construyendo ENCIMA de lo que ya
-   hay (Fase 3: resto de tipos de ejercicio + audio + SRS), o prefiere rehacer su propia
-   versión desde cero para comparar de verdad las dos aproximaciones? Las dos son
-   válidas — no decidir esto sin el usuario.
-5. Si hay divergencias de criterio entre lo que hizo Claude y lo que TRAE habría hecho
-   (CSS Modules vs Tailwind/shadcn, estructura del JSON, etc.), resolverlas antes de
-   seguir — no dejar que se acumulen sin decidir.
-6. Con eso resuelto: **Fase 2**, el motor de ejercicios interactivo (`useReducer` + validadores
-   puros, sin XState — decisión ya cerrada) para la Unidad 1. Ahí sí crear `ARCHITECTURE.md`.
+1. **Auditoría del MVP cerrado** (producto, no contenido): huecos reales de UX,
+   persistencia, y el simulacro DELE en una pasada humana (Puente → U16 → cuaderno).
+2. **`ARCHITECTURE.md`:** describir lo construido (Fases 0–5), no un plan futuro.
+3. **Mejoras post-MVP** que estaban aparcadas a propósito (abajo): primero el
+   feedback bilingüe de los ejercicios.
+4. Despliegue cuando el usuario lo pida. V1 sigue sin backend obligatorio.
 
 ## Qué falta por hacer
 
-- Fases 3-5 del plan de TRAE (resto de tipos de ejercicio + audio/SRS, role-play, sesiones puente + simulacro DELE) — trabajo de PRODUCTO, no de contenido; ver el detalle en `docs/decisions/2026-08-25-auditoria-arquitectura.html`. El contenido que estas fases necesitan (audios, role-plays, sesiones puente, simulacro DELE completo) ya existe íntegro en el currículo desde el principio — lo que falta es implementarlo en la app.
+- Auditoría / `ARCHITECTURE.md` / despliegue — pulido y documentación, no más fases del MVP.
 - Escalar el currículo a otros niveles MCER (A1, A2, C1, C2) — arquitectura ya preparada para ello, contenido pendiente. Explícitamente fuera del alcance del MVP actual (B1→B2).
 
-**Contenido de la fase MVP (B1→B2, currículo + Categoría A/B de las 16 unidades): completo.** No queda ningún hueco de contenido pendiente por parte de Claude Code para el MVP — lo que sigue ahora es trabajo de producto.
+**MVP B1→B2 (contenido + producto de las 16 unidades): cerrado en `master`.** Lo que sigue son mejoras post-MVP y operación.
 
-## Mejoras post-MVP (2026-08-27, feedback de uso real de la Fase 2) — deliberadamente NO hacer ahora
+## Mejoras post-MVP (2026-08-27, feedback de uso real de la Fase 2) — ahora sí tocan
 
-El usuario probó el motor de ejercicios y confirmó que funciona, pero señaló dos huecos reales. Se deja pendiente A PROPÓSITO hasta cerrar el MVP completo (Fases 3-5 de la Unidad 1) — no se pierde de vista, no se hace ahora. Orden de prioridad, no da igual cuál primero:
+El usuario probó el motor de ejercicios y confirmó que funciona, pero señaló dos huecos reales. Estaban aparcados hasta cerrar Fases 3–5. El MVP ya está cerrado; este es el orden:
 
 1. **(Prioridad alta) Pista/explicación de cada ejercicio solo en español, sin apoyo bilingüe.** El interruptor "🌐 In English" hoy solo cubre la frase de orientación de la sesión, no el feedback de los ejercicios — que es justo el momento más vulnerable (acaba de fallar). Va primero porque es una cuestión de seguridad emocional (el mismo miedo de "no entender nada" ya identificado), no solo de pulido.
 2. **(Prioridad baja) La explicación se muestra completa, no filtrada al ítem que falló.** El feedback visual por ítem (verde/rojo en cada pregunta) ya funciona bien; lo que falta es que el TEXTO de la explicación se recorte a la parte relevante cuando el currículo ya la trae troceada por número de ítem (algunos ejercicios sí la traen así, otros son un párrafo único y ahí no se puede trocear sin reescribir contenido). Es mejora de calidad, no de seguridad — puede esperar más que el punto 1.

@@ -32,7 +32,7 @@ export function exerciseReducer(state: ExerciseState, action: ExerciseAction): E
       return { status: "fallo_2", intentos: state.intentos + 1 };
     }
     case "REINTENTAR":
-      return idleExerciseState;
+      return { ...idleExerciseState };
     default:
       return state;
   }

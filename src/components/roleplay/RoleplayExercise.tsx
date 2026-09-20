@@ -127,10 +127,12 @@ export default function RoleplayExercise({
             </div>
           ) : !scenesDone ? (
             <div>
-              <p className={prod.beat}>
-                La otra persona está hablando. Turno {Math.min(turnIndex + 1, turns.length)} de {turns.length}.
-                El texto de su tarjeta no se muestra.
-              </p>
+              <div className={prod.beat}>
+                <p className={prod.meta}>
+                  {current?.speaker ?? "Interlocutor"} · turno {Math.min(turnIndex + 1, turns.length)} de {turns.length}
+                </p>
+                <p className={prod.cardText}>{current?.text}</p>
+              </div>
               <div className={prod.actions}>
                 <button type="button" className={styles.checkBtn} onClick={() => speakCurrent()}>
                   Escuchar este turno
@@ -207,6 +209,21 @@ export default function RoleplayExercise({
           )}
 
           {done && <p className={prod.saved}>Guardado. Tú marcas la rúbrica; no hay corrección automática.</p>}
+          {(scenesDone || done) && (
+            <div className={prod.modelo}>
+              <p className={prod.meta}>Transcripción del interlocutor</p>
+              {content.escenas.map((item, scenePos) => (
+                <div key={`${item.titulo ?? "escena"}-${scenePos}`}>
+                  {item.titulo && <p className={prod.meta}>{item.titulo}</p>}
+                  {sceneTurns(item).map((turn, turnPos) => (
+                    <p key={`${scenePos}-${turnPos}`} className={prod.cardText}>
+                      <strong>{turn.speaker}:</strong> {turn.text}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
           {done && (
             <div className={prod.modelo}>
               <p className={prod.meta}>Tarjeta que no veías</p>

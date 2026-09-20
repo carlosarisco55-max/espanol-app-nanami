@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { idleExerciseState, type ExerciseState } from "@/lib/exercise-engine";
 import { useOptionalSessionProgress } from "@/components/SessionProgressProvider";
 import type { JCode } from "../../tools/parse-curriculo/exercise-types";
@@ -13,6 +13,8 @@ export function usePersistedAnswers(exerciseId: string, jCodes: JCode[] = []): {
   ready: boolean;
 } {
   const progress = useOptionalSessionProgress();
+  const progressRef = useRef(progress);
+  progressRef.current = progress;
   const record = progress?.getRecord(exerciseId);
   const [respuestas, setRespuestas] = useState<Record<string, string>>(() => record?.answers ?? {});
 
@@ -20,13 +22,31 @@ export function usePersistedAnswers(exerciseId: string, jCodes: JCode[] = []): {
     ? { status: record.status, intentos: record.intentos }
     : idleExerciseState;
 
+  function persistLater(state: ExerciseState, answers: Record<string, string>) {
+    queueMicrotask(() => {
+      void progressRef.current?.saveRecord(exerciseId, state, answers, jCodes);
+    });
+  }
+
+  function setAndSave(update: SetStateAction<Record<string, string>>) {
+    setRespuestas((previous) => {
+      const next = typeof update === "function" ? update(previous) : update;
+      const current = progressRef.current?.getRecord(exerciseId);
+      if (current?.status !== "correcto" && current?.status !== "fallo_2") {
+        persistLater(
+          { status: current?.status ?? "idle", intentos: current?.intentos ?? 0 },
+          next
+        );
+      }
+      return next;
+    });
+  }
+
   return {
     respuestas,
-    setRespuestas,
+    setRespuestas: setAndSave,
     initialState,
-    persist: (state, answers) => {
-      void progress?.saveRecord(exerciseId, state, answers, jCodes);
-    },
+    persist: persistLater,
     ready: progress ? progress.ready : true
   };
 }

@@ -4,6 +4,7 @@ import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
 import type { JCode, OpcionMultipleContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { idleExerciseState } from "@/lib/exercise-engine";
 import { validarOpcionMultiple } from "@/lib/validators";
 import { useExamMode } from "@/components/dele/ExamModeContext";
 
@@ -18,8 +19,9 @@ export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { i
       pista={content.pista}
       explicacion={content.explicacion ?? content.porQue}
       initialState={initialState}
+      onRetry={() => persist(idleExerciseState, respuestas)}
     >
-      {({ bloqueado, submit }) => {
+      {({ bloqueado, revelarSolucion, submit }) => {
         const completo = content.items.every((item) => respuestas[item.numero]);
 
         function comprobar() {
@@ -35,7 +37,7 @@ export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { i
                   {item.numero}. {item.enunciado}
                 </p>
                 <div className={styles.optionsRow}>
-                  {item.opciones.map((op) => {
+                  {item.opciones.map((op, optionIndex) => {
                     const selected = respuestas[item.numero] === op.letra;
                     const isCorrectAnswer = op.letra === content.solucion[item.numero];
                     let cls = styles.optionBtn;
@@ -46,7 +48,7 @@ export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { i
 
                     return (
                       <button
-                        key={op.letra}
+                        key={`${item.numero}-${op.letra}-${optionIndex}`}
                         type="button"
                         className={cls}
                         disabled={bloqueado}
@@ -57,6 +59,13 @@ export default function OpcionMultipleExercise({ id, content, jCodes = [] }: { i
                     );
                   })}
                 </div>
+                {revelarSolucion && (
+                  <p className={styles.solutionReveal}>
+                    Solución: {content.solucion[item.numero]}){" "}
+                    {item.opciones.find((op) => op.letra === content.solucion[item.numero])?.texto ??
+                      content.solucion[item.numero]}
+                  </p>
+                )}
               </div>
             ))}
             <div className={styles.actions}>

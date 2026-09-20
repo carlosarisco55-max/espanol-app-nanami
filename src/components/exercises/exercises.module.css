@@ -1,5 +1,6 @@
 .card {
   margin: 1.6rem 0;
+  scroll-margin-top: 5.75rem;
   padding: 1.4rem 1.5rem;
   border: 1px solid var(--line);
   border-radius: 0.8rem;
@@ -84,21 +85,37 @@
 
 .matchGrid {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  gap: 0.85rem;
+}
+
+.matchRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 0.6rem 1rem;
-  align-items: center;
+  align-items: start;
 }
 
 .matchLeft {
   font-family: var(--font-reading);
   font-size: 0.94rem;
+  margin: 0.35rem 0 0;
+  overflow-wrap: anywhere;
 }
 
 .matchArrow {
   color: var(--ink-faint);
+  margin-top: 0.45rem;
+}
+
+.matchChoice {
+  min-width: 0;
 }
 
 .matchSelect {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   font-family: var(--font-ui);
   font-size: 0.9rem;
   padding: 0.4rem 0.6rem;
@@ -106,6 +123,21 @@
   border: 1.5px solid var(--line);
   background: var(--bg);
   color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .matchRow {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .matchArrow {
+    display: none;
+  }
+
+  .matchLeft {
+    margin: 0;
+  }
 }
 
 .matchSelectCorrect {
@@ -150,7 +182,7 @@
 
 .columns {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   gap: 1rem;
 }
 
@@ -214,6 +246,30 @@
 
 .checkBtn:not(:disabled):hover {
   background: var(--accent-ink);
+}
+
+.retryBtn {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--accent);
+  background: var(--bg-raised);
+  color: var(--accent-ink);
+  cursor: pointer;
+}
+
+.retryBtn:hover {
+  background: var(--accent-soft);
+}
+
+.solutionReveal {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--accent-ink);
 }
 
 .feedback {

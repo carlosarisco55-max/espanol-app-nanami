@@ -4,6 +4,7 @@ import styles from "./exercises.module.css";
 import ExerciseShell from "./ExerciseShell";
 import type { ClasificarContent, JCode } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { idleExerciseState } from "@/lib/exercise-engine";
 import { validarClasificar } from "@/lib/validators";
 
 export default function ClasificarExercise({ id, content, jCodes = [] }: { id: string; content: ClasificarContent; jCodes?: JCode[] }) {
@@ -16,8 +17,9 @@ export default function ClasificarExercise({ id, content, jCodes = [] }: { id: s
       pista={content.pista}
       explicacion={content.explicacion ?? content.porQue}
       initialState={initialState}
+      onRetry={() => persist(idleExerciseState, asignadas)}
     >
-      {({ bloqueado, submit }) => {
+      {({ bloqueado, revelarSolucion, submit }) => {
         const completo = content.banco.every((w) => asignadas[w]);
         const pendientes = content.banco.filter((w) => !asignadas[w]);
 
@@ -97,6 +99,16 @@ export default function ClasificarExercise({ id, content, jCodes = [] }: { id: s
                 );
               })}
             </div>
+
+            {revelarSolucion && (
+              <div className={styles.solutionReveal}>
+                {content.columnas.map((col) => (
+                  <p key={col}>
+                    Solución · {col}: {(content.solucion[col] ?? []).join(" · ")}
+                  </p>
+                ))}
+              </div>
+            )}
 
             <div className={styles.actions}>
               <button type="button" className={styles.checkBtn} disabled={!completo || bloqueado} onClick={comprobar}>

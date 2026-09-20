@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { DiscriminacionFoneticaContent, JCode } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { idleExerciseState } from "@/lib/exercise-engine";
 import { validarDiscriminacion } from "@/lib/validators";
 import { speakText } from "@/lib/tts";
 import ExerciseShell from "./ExerciseShell";
@@ -28,8 +29,9 @@ export default function DiscriminacionFoneticaExercise({
       pista={content.pista}
       explicacion={content.explicacion ?? content.porQue}
       initialState={initialState}
+      onRetry={() => persist(idleExerciseState, respuestas)}
     >
-      {({ bloqueado, submit }) => (
+      {({ bloqueado, revelarSolucion, submit }) => (
         <>
           {audioUnavailable && (
             <p className={styles.inlineNotice}>Tu navegador no permite reproducir esta voz.</p>
@@ -48,9 +50,9 @@ export default function DiscriminacionFoneticaExercise({
                   ▶ Escuchar {item.numero}
                 </button>
                 <div className={styles.optionsRow}>
-                  {item.opciones.map((option) => (
+                  {item.opciones.map((option, optionIndex) => (
                     <button
-                      key={option.letra}
+                      key={`${item.numero}-${option.letra}-${optionIndex}`}
                       type="button"
                       className={`${styles.optionBtn} ${
                         respuestas[item.numero] === option.letra ? styles.optionBtnSelected : ""
@@ -80,6 +82,14 @@ export default function DiscriminacionFoneticaExercise({
                     </button>
                   )}
                 </div>
+                {revelarSolucion && (
+                  <p className={styles.solutionReveal}>
+                    Solución:{" "}
+                    {item.respuesta
+                      ? `${item.respuesta}: ${item.opciones.find((option) => option.letra === item.respuesta)?.texto ?? ""}`
+                      : "No hay contraste"}
+                  </p>
+                )}
               </div>
             );
           })}

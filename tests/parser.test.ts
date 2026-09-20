@@ -143,6 +143,37 @@ test("Fase 2 — E03 (clasificar) tiene el banco completo y las dos columnas res
   }
 });
 
+test("E13 clasifica exponentes en tres columnas y E20 segmenta pausas", () => {
+  const units = parseCurriculum(content);
+  const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));
+
+  const e13 = exercises.find((exercise) => exercise.id === "B1-B2-U01-E13")?.content;
+  assert.equal(e13?.kind, "clasificar");
+  if (e13?.kind === "clasificar") {
+    assert.equal(e13.columnas.length, 3);
+    assert.equal(e13.banco.length, 12);
+    assert.ok(e13.solucion[e13.columnas[0]].includes("Me cae fenomenal"));
+    assert.ok(e13.solucion[e13.columnas[1]].includes("Totalmente de acuerdo"));
+    assert.ok(e13.solucion[e13.columnas[2]].includes("Ya, pero…"));
+  }
+
+  const e20 = exercises.find((exercise) => exercise.id === "B1-B2-U04-E20")?.content;
+  assert.equal(e20?.kind, "respuesta_corta");
+  if (e20?.kind === "respuesta_corta") {
+    assert.equal(e20.items.length, 5);
+    assert.match(e20.items[3].respuesta, /\|\|/);
+  }
+
+  const quiz = exercises.find((exercise) => exercise.id === "B1-B2-U04-E22")?.content;
+  assert.equal(quiz?.kind, "opcion_multiple");
+  if (quiz?.kind === "opcion_multiple") {
+    const optionNine = quiz.items.find((item) => item.numero === "9");
+    assert.ok(optionNine);
+    assert.ok(optionNine?.opciones.every((option) => !/\(U\d+/.test(option.texto)));
+    assert.ok(optionNine?.opciones.some((option) => /habían cenado/.test(option.texto)));
+  }
+});
+
 test("el outline de sesión sale del título, no de un mapa fijo por número", () => {
   const u1 = parseCurriculum(content, { unitFilter: "B1-B2-U01" })[0];
   assert.deepEqual(

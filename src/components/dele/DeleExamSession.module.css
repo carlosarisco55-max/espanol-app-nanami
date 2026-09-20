@@ -80,8 +80,9 @@
 
 .timerBar {
   position: sticky;
-  top: 0.75rem;
+  top: 0;
   z-index: 5;
+  margin-bottom: 1.75rem;
   padding: 0.8rem 1rem;
   display: flex;
   justify-content: space-between;
@@ -89,7 +90,7 @@
   gap: 1rem;
   border: 1px solid var(--warm);
   border-radius: 0.75rem;
-  background: color-mix(in srgb, var(--bg-raised) 92%, var(--warm) 8%);
+  background: var(--bg-raised);
   box-shadow: 0 0.4rem 1.5rem rgb(0 0 0 / 12%);
 }
 
@@ -115,6 +116,31 @@
 .content {
   max-width: 40rem;
   margin: 0 auto;
+  padding-top: 0.35rem;
+}
+
+.content :global(h1),
+.content :global(h2),
+.content :global(h3),
+.content :global(h4),
+.content :global(p),
+.content :global(table) {
+  scroll-margin-top: 5.75rem;
+}
+
+.resultCard {
+  max-width: 40rem;
+  margin: 0 auto 1.25rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--sage);
+  border-radius: 0.75rem;
+  background: var(--sage-soft);
+  font-family: var(--font-ui);
+}
+
+.scoreLine {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 1.15rem;
 }
 
 .audioPanel p {

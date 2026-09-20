@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Components } from "react-markdown";
 import { readProfile } from "@/lib/profile";
+import { stripAuthorDirections } from "@/lib/strip-author-notes";
 import styles from "@/app/unidades/[unitId]/[session]/page.module.css";
 
 // Los componentes de render viven AQUÍ (dentro del Client Component), no en la página
@@ -33,10 +34,12 @@ const markdownComponents: Components = {
 // explícitos, nunca a la lógica de corrección de ejercicios (esa vive en los validadores).
 function applyProfile(markdown: string): string {
   const profile = readProfile();
-  return markdown
-    .replace(/\{\{nombre\}\}/g, profile?.nombre?.trim() || "tú")
-    .replace(/\{\{profesion\}\}/g, profile?.profesion?.trim() || "tu trabajo")
-    .replace(/\{\{intereses\}\}/g, profile?.gustos?.trim() || "lo que te gusta");
+  return stripAuthorDirections(
+    markdown
+      .replace(/\{\{nombre\}\}/g, profile?.nombre?.trim() || "tú")
+      .replace(/\{\{profesion\}\}/g, profile?.profesion?.trim() || "tu trabajo")
+      .replace(/\{\{intereses\}\}/g, profile?.gustos?.trim() || "lo que te gusta")
+  );
 }
 
 function plainText(markdown: string): string {
@@ -50,7 +53,7 @@ export default function PersonalizedMarkdown({
   content: string;
   unitId?: string;
 }) {
-  const [resolved, setResolved] = useState(content);
+  const [resolved, setResolved] = useState(() => stripAuthorDirections(content));
 
   useEffect(() => {
     setResolved(applyProfile(content));

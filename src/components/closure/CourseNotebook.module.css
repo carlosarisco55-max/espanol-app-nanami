@@ -59,6 +59,19 @@
   font: 1.1rem/1.7 var(--font-reading);
 }
 
+.emptyLead {
+  max-width: 36rem;
+  color: var(--ink-soft);
+  font: 1.05rem/1.6 var(--font-reading);
+}
+
+.emptyLead a {
+  color: var(--accent-ink);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .section {
   margin-bottom: 4rem;
 }

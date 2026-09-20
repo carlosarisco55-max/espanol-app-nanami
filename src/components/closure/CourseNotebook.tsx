@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { readProfile, greetingName, type Profile } from "@/lib/profile";
+import { closingQuoteFor, notebookStatus } from "@/lib/course-notebook";
 import { storage, type ExerciseProgress } from "@/lib/storage";
 import type { JCode, SrsState } from "@/lib/srs-engine";
 import styles from "./CourseNotebook.module.css";
@@ -49,7 +50,13 @@ function jStatus(state: SrsState, code: JCode) {
   return card.dueAt <= Date.now() ? "Repaso pendiente" : "Repaso programado";
 }
 
-export default function CourseNotebook({ closingMessage }: { closingMessage: string }) {
+export default function CourseNotebook({
+  fullQuote,
+  shortQuote
+}: {
+  fullQuote: string;
+  shortQuote: string;
+}) {
   const [progress, setProgress] = useState<ExerciseProgress[]>([]);
   const [srs, setSrs] = useState<SrsState>({ jCards: {}, unitCards: {} });
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -66,6 +73,11 @@ export default function CourseNotebook({ closingMessage }: { closingMessage: str
   }, []);
 
   const entries = useMemo(() => collectEntries([...progress]), [progress]);
+  const status = useMemo(() => notebookStatus(progress), [progress]);
+  const quote = useMemo(
+    () => closingQuoteFor(status, { full: fullQuote, short: shortQuote }),
+    [fullQuote, shortQuote, status]
+  );
   const firstText = progress.find((record) => record.exerciseId === "B1-B2-U01-E15")?.answers.texto;
   const lastText = progress.find((record) => record.exerciseId === "B1-B2-U16-s4-exam")?.answers["written-2"]
     ?? progress.find((record) => record.exerciseId === "B1-B2-U16-s4-exam")?.answers["written-1"];
@@ -79,12 +91,30 @@ export default function CourseNotebook({ closingMessage }: { closingMessage: str
 
       <header className={styles.hero}>
         <p className={styles.eyebrow}>Tu cuaderno final · B1 → B2</p>
-        <h1>{profile ? `El español de ${greetingName(profile)}` : "Mi español, al terminar el tramo"}</h1>
-        <blockquote>«{closingMessage}»</blockquote>
+        <h1>
+          {!ready
+            ? "Tu cuaderno"
+            : !status.hasAnyWork
+              ? "Todavía no hay un cuaderno que cerrar"
+              : profile
+                ? `El español de ${greetingName(profile)}`
+                : "Mi español, al terminar el tramo"}
+        </h1>
+        {quote ? <blockquote>«{quote}»</blockquote> : null}
+        {ready && !status.hasAnyWork ? (
+          <p className={styles.emptyLead}>
+            Esta página reúne el trabajo que ya hayas guardado en este navegador.
+            Si aún no has hecho ninguna sesión, empieza por el camino.
+          </p>
+        ) : null}
       </header>
 
       {!ready ? (
         <p className={styles.loading}>Reuniendo tu trabajo…</p>
+      ) : !status.hasAnyWork ? (
+        <p className={styles.emptyLead}>
+          <Link href="/camino">Ir al camino →</Link>
+        </p>
       ) : (
         <>
           <section className={styles.section}>

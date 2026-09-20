@@ -34,6 +34,10 @@ function simplifyInline(value: string): string {
     .trim();
 }
 
+function stripItemSourceTag(text: string): string {
+  return text.replace(/\s*\((?:U\d+(?:\s*,\s*J\d+)*)\)\s*$/i, "").trim();
+}
+
 function extractYamlField(raw: string, field: string): string | undefined {
   const yaml = raw.match(YAML_FENCE_RE)?.[1] ?? "";
   const line = yaml.split("\n").find((l) => l.trim().startsWith(`${field}:`));
@@ -63,7 +67,7 @@ export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
 
   if (tipo === "emparejar") content = parseEmparejar(authoredBlock);
   else if (tipo === "opcion_multiple") content = parseOpcionMultiple(authoredBlock);
-  else if (tipo === "clasificar") content = parseClasificar(authoredBlock);
+  else if (tipo === "clasificar") content = parseClasificar(authoredBlock) ?? parseSegmentar(authoredBlock);
   else if (tipo === "huecos") content = parseHuecos(authoredBlock);
   else if (tipo === "verdadero_falso") content = parseVerdaderoFalso(authoredBlock);
   else if (tipo === "respuesta_corta") {
@@ -370,14 +374,33 @@ function finalizeOpcionMultipleItem(current: {
   for (const match of optionsRaw.matchAll(/([a-z])\)\s*([\s\S]*?)(?=(?:\s*·\s*|\s+)[a-z]\)\s*|$)/gi)) {
     const rawText = match[2].trim();
     if (/\*\*[^*]+\*\*/.test(rawText)) inferred = match[1].toLowerCase();
-    opciones.push({ letra: match[1].toLowerCase(), texto: simplifyInline(rawText) });
+    opciones.push({
+      letra: match[1].toLowerCase(),
+      texto: stripItemSourceTag(simplifyInline(rawText))
+    });
   }
   return {
     numero: current.numero,
-    enunciado: simplifyInline(prompt),
+    enunciado: stripItemSourceTag(simplifyInline(prompt)),
     opciones,
     inferred
   };
+}
+
+function matchClasificarColumn(name: string, columnas: string[]): string | undefined {
+  const needle = simplifyInline(name).toLowerCase();
+  const scored = columnas.map((column) => {
+    const haystack = column.toLowerCase();
+    if (haystack === needle) return { column, score: 100 };
+    if (haystack.startsWith(needle) || needle.startsWith(haystack)) return { column, score: 80 };
+    const words = needle.split(/\s+/).filter((word) => word.length > 3);
+    if (words.length > 0 && words.every((word) => new RegExp(`(?:^|\\s)${escapeRegExp(word)}`).test(haystack))) {
+      return { column, score: words.join(" ").length };
+    }
+    return { column, score: 0 };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0]?.score ? scored[0].column : undefined;
 }
 
 function parseClasificar(raw: string): ClasificarContent | null {
@@ -388,21 +411,33 @@ function parseClasificar(raw: string): ClasificarContent | null {
     .map((w) => w.trim())
     .filter(Boolean);
 
-  const headerMatch = raw.match(/^\|\s*\*\*([^*|]+)\*\*[^|]*\|\s*\*\*([^*|]+)\*\*[^|]*\|$/m);
-  if (!headerMatch) return null;
-  const columnas = [simplifyInline(headerMatch[1]), simplifyInline(headerMatch[2])];
+  const headerLine = raw.split("\n").find((line) => {
+    if (!line.trim().startsWith("|")) return false;
+    const cells = parseTableCells(line);
+    return cells.length >= 2 && !isTableSeparator(cells) && cells.every((cell) => !/^\d+$/.test(cell));
+  });
+  if (!headerLine) return null;
+  const columnas = headerLine
+    .split("|")
+    .slice(1, -1)
+    .map((cell) => {
+      const bold = cell.match(/\*\*([^*]+)\*\*/);
+      return simplifyInline(bold?.[1] ?? cell);
+    })
+    .filter(Boolean);
+  if (columnas.length < 2) return null;
 
   const solucionBlock = raw.split(/\*\*Soluci[oó]n:?\*\*/)[1] ?? "";
-  const solucion: Record<string, string[]> = { [columnas[0]]: [], [columnas[1]]: [] };
+  const solucion: Record<string, string[]> = Object.fromEntries(columnas.map((column) => [column, []]));
   const solLines = [...solucionBlock.matchAll(/\*\*([^*:]+):\*\*\s*([^\n]+)/g)];
   for (const [, colName, wordsRaw] of solLines) {
-    const col = columnas.find((c) => c.toUpperCase().startsWith(simplifyInline(colName).toUpperCase().slice(0, 3)));
+    const col = matchClasificarColumn(colName, columnas);
     if (!col) continue;
-    solucion[col] = wordsRaw
-      .split(",")
-      .map((w) => simplifyInline(w).replace(/\.$/, ""))
-      .filter(Boolean);
+    const parts = wordsRaw.includes("·") ? wordsRaw.split("·") : wordsRaw.split(",");
+    solucion[col] = parts.map((w) => simplifyInline(w).replace(/\.$/, "")).filter(Boolean);
   }
+
+  if (columnas.some((column) => solucion[column].length === 0)) return null;
 
   const { pista, explicacion } = extractPistaExplicacion(raw);
   const enunciado = raw.match(/\*\*(Clasifica[^*]+)\*\*/i)?.[1] ?? "Clasifica cada elemento en la columna correcta.";
@@ -416,6 +451,31 @@ function parseClasificar(raw: string): ClasificarContent | null {
     solucion,
     pista,
     explicacion
+  };
+}
+
+function parseSegmentar(raw: string): RespuestaCortaContent | null {
+  const body = exerciseBody(raw);
+  const solution = solutionBody(raw);
+  if (!/\|/.test(solution)) return null;
+  const prompts = numberedPrompts(body);
+  const answers = numberedPrompts(solution);
+  if (prompts.length < 2 || answers.length !== prompts.length) return null;
+  if (!answers.every((item) => item.text.includes("|"))) return null;
+
+  const enunciado =
+    body.match(/\*\*([^*]*pausas[^*]*)\*\*/i)?.[1] ?? "Marca con | dónde harías las pausas.";
+
+  return {
+    kind: "respuesta_corta",
+    enunciado: simplifyInline(enunciado),
+    items: prompts.map((prompt) => ({
+      numero: prompt.numero,
+      pregunta: prompt.text,
+      respuesta: answers.find((item) => item.numero === prompt.numero)?.text ?? "",
+      alternativas: []
+    })),
+    ...feedback(raw)
   };
 }
 

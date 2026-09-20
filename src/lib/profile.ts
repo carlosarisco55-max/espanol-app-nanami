@@ -29,6 +29,30 @@ export function saveProfile(profile: Profile): void {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
 }
 
+const LAST_BACKUP_KEY = "nanami:lastBackupAt";
+
+export function markBackupExported(date = new Date()): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(LAST_BACKUP_KEY, date.toISOString());
+}
+
+export function readLastBackupAt(): string | null {
+  if (typeof window === "undefined") return null;
+  return window.localStorage.getItem(LAST_BACKUP_KEY);
+}
+
+export function formatBackupDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return date.toLocaleString("es-ES", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
 export function clearProfile(): void {
   if (typeof window === "undefined") return;
   window.localStorage.removeItem(STORAGE_KEY);

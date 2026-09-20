@@ -1,4 +1,4 @@
-export { validarEmparejar } from "./emparejar";
+export { assignEmparejarAnswer, isEmparejarLetterTaken, validarEmparejar } from "./emparejar";
 export { validarOpcionMultiple } from "./opcion-multiple";
 export { validarClasificar } from "./clasificar";
 export { matchesAcceptedAnswer, normalizeAnswer } from "./text";

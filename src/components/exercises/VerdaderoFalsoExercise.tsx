@@ -2,6 +2,7 @@
 
 import type { JCode, VerdaderoFalsoContent } from "../../../tools/parse-curriculo/exercise-types";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
+import { idleExerciseState } from "@/lib/exercise-engine";
 import { validarVerdaderoFalso } from "@/lib/validators";
 import ExerciseShell from "./ExerciseShell";
 import styles from "./exercises.module.css";
@@ -17,8 +18,9 @@ export default function VerdaderoFalsoExercise({ id, content, jCodes = [] }: { i
       pista={content.pista}
       explicacion={content.explicacion ?? content.porQue}
       initialState={initialState}
+      onRetry={() => persist(idleExerciseState, respuestas)}
     >
-      {({ bloqueado, submit }) => (
+      {({ bloqueado, revelarSolucion, submit }) => (
         <>
           {content.items.map((item) => (
             <div key={item.numero} className={styles.itemRow}>
@@ -36,6 +38,12 @@ export default function VerdaderoFalsoExercise({ id, content, jCodes = [] }: { i
                   </button>
                 ))}
               </div>
+              {revelarSolucion && (
+                <p className={styles.solutionReveal}>
+                  Solución: {item.respuesta === "V" ? "Verdadero" : "Falso"}
+                  {item.justificacion ? ` — ${item.justificacion}` : ""}
+                </p>
+              )}
             </div>
           ))}
           <div className={styles.actions}>

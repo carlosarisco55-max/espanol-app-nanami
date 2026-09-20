@@ -25,3 +25,12 @@ test("REINTENTAR vuelve a idle", () => {
   const reset = exerciseReducer(failed, { type: "REINTENTAR" });
   assert.deepEqual(reset, idleExerciseState);
 });
+
+test("REINTENTAR desde fallo_2 desbloquea el ejercicio", () => {
+  const first = exerciseReducer(idleExerciseState, { type: "SUBMIT", correcto: false });
+  const closed = exerciseReducer(first, { type: "SUBMIT", correcto: false });
+  assert.equal(closed.status, "fallo_2");
+  const reset = exerciseReducer(closed, { type: "REINTENTAR" });
+  assert.equal(reset.status, "idle");
+  assert.equal(reset.intentos, 0);
+});

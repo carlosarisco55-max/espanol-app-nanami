@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import type {
   CorregirErrorContent,
   DictadoContent,
@@ -7,6 +8,7 @@ import type {
   RespuestaCortaContent,
   TransformarContent
 } from "../../../tools/parse-curriculo/exercise-types";
+import { idleExerciseState } from "@/lib/exercise-engine";
 import { usePersistedAnswers } from "@/lib/use-persisted-answers";
 import {
   validarCorregirError,
@@ -35,6 +37,19 @@ function rowsFor(content: TextContent) {
   }
 }
 
+function solutionFor(content: TextContent, numero: string): string {
+  switch (content.kind) {
+    case "respuesta_corta":
+      return content.items.find((item) => item.numero === numero)?.respuesta ?? "";
+    case "transformar":
+      return content.items.find((item) => item.numero === numero)?.respuesta ?? "";
+    case "corregir_error":
+      return content.items.find((item) => item.numero === numero)?.correccion ?? "";
+    case "dictado":
+      return content.items.find((item) => item.numero === numero)?.frase ?? "";
+  }
+}
+
 function validate(content: TextContent, answers: Record<string, string>): boolean {
   switch (content.kind) {
     case "respuesta_corta": return validarRespuestaCorta(answers, content.items);
@@ -49,6 +64,22 @@ export default function TextAnswerExercise({ id, content, jCodes = [] }: { id: s
   const rows = rowsFor(content);
   const completo = rows.every((item) => respuestas[item.numero]?.trim());
 
+  useEffect(() => {
+    if (content.kind !== "respuesta_corta") return;
+    setRespuestas((current) => {
+      if (Object.values(current).some((value) => value?.trim())) return current;
+      const next = { ...current };
+      let changed = false;
+      for (const item of content.items) {
+        if (item.respuesta.includes("|") && !next[item.numero]) {
+          next[item.numero] = item.pregunta;
+          changed = true;
+        }
+      }
+      return changed ? next : current;
+    });
+  }, [content, setRespuestas]);
+
   return (
     <ExerciseShell
       id={id}
@@ -56,8 +87,9 @@ export default function TextAnswerExercise({ id, content, jCodes = [] }: { id: s
       pista={content.pista}
       explicacion={content.explicacion ?? content.porQue}
       initialState={initialState}
+      onRetry={() => persist(idleExerciseState, respuestas)}
     >
-      {({ bloqueado, submit }) => (
+      {({ bloqueado, revelarSolucion, submit }) => (
         <>
           {rows.map((item) => (
             <label key={item.numero} className={styles.textAnswerRow}>
@@ -71,6 +103,9 @@ export default function TextAnswerExercise({ id, content, jCodes = [] }: { id: s
                   setRespuestas((current) => ({ ...current, [item.numero]: event.target.value }))
                 }
               />
+              {revelarSolucion && (
+                <span className={styles.solutionReveal}>Solución: {solutionFor(content, item.numero)}</span>
+              )}
             </label>
           ))}
           <div className={styles.actions}>

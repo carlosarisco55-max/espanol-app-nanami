@@ -2,12 +2,14 @@
 
 import type { ReactNode } from "react";
 import styles from "./exercises.module.css";
-import { useExerciseEngine, type ExerciseState, idleExerciseState } from "@/lib/exercise-engine";
+import { idleExerciseState, useExerciseEngine, type ExerciseState } from "@/lib/exercise-engine";
 
 export interface ExerciseShellRenderProps {
   state: ExerciseState;
   bloqueado: boolean;
+  revelarSolucion: boolean;
   submit: (correcto: boolean) => ExerciseState;
+  reintentar: () => void;
 }
 
 export default function ExerciseShell({
@@ -17,6 +19,7 @@ export default function ExerciseShell({
   explicacion,
   initialState,
   feedback = "engine",
+  onRetry,
   children
 }: {
   id: string;
@@ -25,17 +28,23 @@ export default function ExerciseShell({
   explicacion?: string;
   initialState?: ExerciseState;
   feedback?: "engine" | "none";
+  onRetry?: () => void;
   children: (props: ExerciseShellRenderProps) => ReactNode;
 }) {
-  const { state, submit, bloqueado } = useExerciseEngine(initialState ?? idleExerciseState);
+  const { state, submit, reintentar, bloqueado } = useExerciseEngine(initialState ?? idleExerciseState);
   const showEngineFeedback = feedback === "engine";
+  const revelarSolucion = showEngineFeedback && state.status === "fallo_2";
+
+  function handleRetry() {
+    reintentar();
+    onRetry?.();
+  }
 
   return (
-    <div className={styles.card}>
-      <span className={styles.idPill}>{id}</span>
+    <div className={styles.card} data-exercise-id={id}>
       <p className={styles.enunciado}>{enunciado}</p>
 
-      {children({ state, bloqueado, submit })}
+      {children({ state, bloqueado, revelarSolucion, submit, reintentar: handleRetry })}
 
       {showEngineFeedback && state.status === "correcto" && (
         <p className={`${styles.feedback} ${styles.feedbackCorrecto}`}>
@@ -50,10 +59,17 @@ export default function ExerciseShell({
         </p>
       )}
       {showEngineFeedback && state.status === "fallo_2" && (
-        <p className={`${styles.feedback} ${styles.feedbackExplicacion}`}>
-          <span className={styles.feedbackLabel}>📖 Por qué.</span>
-          {explicacion ?? "No es correcto. Revisa el material de la sesión y vuelve más tarde."}
-        </p>
+        <>
+          <p className={`${styles.feedback} ${styles.feedbackExplicacion}`}>
+            <span className={styles.feedbackLabel}>📖 Por qué.</span>
+            {explicacion ?? "No es correcto. Revisa el material de la sesión y vuelve más tarde."}
+          </p>
+          <div className={styles.actions}>
+            <button type="button" className={styles.retryBtn} onClick={handleRetry}>
+              Reintentar
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

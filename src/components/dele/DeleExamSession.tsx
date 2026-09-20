@@ -14,6 +14,7 @@ import {
   hideDeleReview,
   parseReadingSupplementalTasks
 } from "@/lib/dele-exam";
+import { scoreDeleSession } from "@/lib/score-exercise";
 import { ExamModeProvider } from "./ExamModeContext";
 import styles from "./DeleExamSession.module.css";
 
@@ -138,6 +139,20 @@ export default function DeleExamSession({
   }
 
   const review = finished;
+  const usedSeconds = startedAt
+    ? Math.max(0, Math.floor(((Number(answers.finishedAt) || now) - startedAt) / 1000))
+    : 0;
+  const records: Record<string, Record<string, string>> = {};
+  for (const exercise of session.exercises) {
+    records[exercise.id] = progress.getRecord(exercise.id)?.answers ?? {};
+  }
+  const score = scoreDeleSession({
+    exercises: session.exercises,
+    records,
+    supplemental,
+    examAnswers: answers
+  });
+  const writtenDelivered = [answers["written-1"], answers["written-2"]].filter((value) => value?.trim()).length;
   const segments = splitSessionIntoSegments(
     session.rawMarkdown,
     session.exercises.filter((exercise) => exercise.id !== "B1-B2-U16-E14"),
@@ -151,7 +166,13 @@ export default function DeleExamSession({
           <span className={styles.eyebrow}>
             {review ? "Prueba finalizada" : inPreparation ? "Preparación" : "Tiempo de prueba"}
           </span>
-          <strong>{review ? "Corrección y autoevaluación" : formatClock(phaseRemaining)}</strong>
+          <strong>
+            {review
+              ? score.total > 0
+                ? `${score.correct}/${score.total} aciertos · ${formatClock(usedSeconds)}`
+                : `Tiempo: ${formatClock(usedSeconds)}`
+              : formatClock(phaseRemaining)}
+          </strong>
         </div>
         {!review && (
           <button type="button" className={styles.finish} onClick={finish}>
@@ -206,6 +227,33 @@ export default function DeleExamSession({
 
       {review && (
         <>
+          <section className={styles.resultCard}>
+            <p className={styles.eyebrow}>Resultado</p>
+            {score.total > 0 ? (
+              <p className={styles.scoreLine}>
+                <strong>{score.correct}/{score.total}</strong> aciertos
+              </p>
+            ) : (
+              <p className={styles.scoreLine}>Esta prueba no tiene ítems autocorregibles.</p>
+            )}
+            <p>Tiempo empleado: {formatClock(usedSeconds)} de {exam.timeLabel}</p>
+            {session.number === 4 && (
+              <p>
+                {writtenDelivered > 0
+                  ? `Producción escrita: ${writtenDelivered} tarea${writtenDelivered === 1 ? "" : "s"} entregada${writtenDelivered === 1 ? "" : "s"}.`
+                  : "No hay texto guardado en la hoja de respuestas."}
+              </p>
+            )}
+            {session.number === 5 && (
+              <p>
+                {answers.oralRecorded === "1"
+                  ? "Grabación oral guardada en esta sesión."
+                  : answers.oralNotes?.trim()
+                    ? "Hay notas de la prueba oral."
+                    : "No hay grabación ni notas orales guardadas."}
+              </p>
+            )}
+          </section>
           <p className={styles.reviewNotice}>
             La prueba está cerrada. Ya puedes comprobar las respuestas y consultar los
             modelos, estrategias y rúbricas del currículo.
@@ -301,8 +349,10 @@ function SupplementalAnswers({
                       onChange={(event) => update({ [key]: event.target.value })}
                     >
                       <option value="">—</option>
-                      {item.options.map((option) => (
-                        <option key={option.value} value={option.value}>{option.label}</option>
+                      {item.options.map((option, optionIndex) => (
+                        <option key={`${item.number}-${option.value}-${optionIndex}`} value={option.value}>
+                          {option.label}
+                        </option>
                       ))}
                     </select>
                     {review && (

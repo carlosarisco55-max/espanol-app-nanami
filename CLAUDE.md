@@ -82,17 +82,42 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
   cuaderno de cierre en `/cierre`, y las 15 fotos de calentamiento como JPEG en
   `public/images/warmups/` (U1–U15, sesión 1). Verificado en localhost: las fotos
   se ven; el fallo anterior era Next Image pidiendo PNG vacíos.
+- ✅ **Pulido del MVP (2026-09-20, `609d627`):** puntuación por ítem del simulacro DELE,
+  fecha de la última copia y confirmación antes de importar en `/perfil`, el cuaderno de
+  cierre no felicita por una carta no guardada, y limpieza de notas de autoría y HTML crudo
+  en el texto que ve la alumna. 62/62 tests en verde. También se añadió el vídeo de
+  lanzamiento del MVP en `docs/brag/2026-09-20-mvp/` (hecho con la skill `brag`).
 - ⏸️ `ARCHITECTURE.md`: sigue pendiente — ahora sí tiene sentido escribirlo, porque
-  el MVP B1→B2 ya no va a cambiar de forma enseguida.
+  el MVP B1→B2 ya no va a cambiar de forma enseguida. Se hace DESPUÉS de la auditoría.
 
-## Plan concreto para la próxima sesión
+## Plan concreto — semana del 21 al 27 de septiembre de 2026 (objetivo: MVP terminado)
 
-1. **Auditoría del MVP cerrado** (producto, no contenido): huecos reales de UX,
-   persistencia, y el simulacro DELE en una pasada humana (Puente → U16 → cuaderno).
-2. **`ARCHITECTURE.md`:** describir lo construido (Fases 0–5), no un plan futuro.
-3. **Mejoras post-MVP** que estaban aparcadas a propósito (abajo): primero el
-   feedback bilingüe de los ejercicios.
-4. Despliegue cuando el usuario lo pida. V1 sigue sin backend obligatorio.
+Decidido el 2026-09-20. Este es el orden; no renegociarlo sin motivo:
+
+1. **Auditoría del MVP** (producto, no contenido). Pasada real en navegador de
+   Puente → U16 (simulacro DELE) → cuaderno de cierre: UX, persistencia
+   (guardar, exportar, importar) y accesibilidad (solo 8 archivos de componentes usan
+   `aria-*`, revisarlo). Base: los 62 tests actuales + QA con navegador (Playwright).
+   Salida: lista de hallazgos priorizados y sus arreglos.
+2. **`ARCHITECTURE.md`** sobre lo ya auditado y corregido (Fases 0–5, no un plan
+   futuro). Registrar también en `docs/decisions/` las decisiones de las Fases 3–5:
+   hoy solo hay un registro (2026-08-25).
+3. **Feedback bilingüe de los ejercicios** (prioridad alta post-MVP, ver abajo).
+4. **Despliegue** cuando la auditoría esté cerrada. V1 sin backend obligatorio;
+   encaja el plan gratuito de Replit.
+5. **Comunicación:** publicar el post de LinkedIn del MVP (borrador en Notion,
+   base "Contenido LinkedIn") una vez hecha la auditoría, porque el propio post dice
+   "siguiente paso: auditar el MVP".
+
+**Pendientes de limpieza (no bloquean):**
+
+- Worktree `../espanol-app-wt-phase3` (rama `phase3-parser-exercises`, ya fusionada en
+  `master`) con trabajo **sin commitear del 2026-09-06**: `tests/parser-exercises.test.ts`
+  (513 líneas, no existe en `master`) y versiones muy distintas de
+  `tools/parse-curriculo/exercises.ts` y `exercise-types.ts`. Revisar qué está superado y
+  qué hay que rescatar ANTES de borrar el worktree o la rama.
+- Vídeo del MVP: si se reutiliza, sustituir el ejercicio de relleno ("Ayer ___ al
+  mercado") por uno real del currículo. La música exige atribución (CC BY 4.0).
 
 ## Qué falta por hacer
 

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1280, height=720" />
+    <title>Nanami — brag</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg: #eeece2;
+        --raised: #f8f6ee;
+        --sunken: #e2ddcc;
+        --ink: #1c1a1f;
+        --soft: #514d52;
+        --line: #d8d2bf;
+        --accent: #223059;
+        --accent-soft: #dfe2ee;
+        --warm: #c1531f;
+        --sage: #47654a;
+        --sage-soft: #dde8dc;
+        --display: Georgia, "Times New Roman", serif;
+        --ui: "Segoe UI", system-ui, sans-serif;
+      }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--ui); }
+      #root { position: relative; width: 1280px; height: 720px; overflow: hidden; background: var(--bg); }
+      .clip { position: absolute; inset: 0; }
+      #mark, #wordmark, #headline, #s2-form, #t1, #t2, #t3, #camino, #blk1, #blk2, #blk3, #blk4,
+      #ex, #srs, #l1, #l2, #l3, #end-row { opacity: 0; }
+      .bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 20%, #f4f2e8 0%, var(--bg) 60%, #e6e2d2 100%); }
+      .stage { position: absolute; inset: 0; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+      /* Scene 1 */
+      #mark { font-family: var(--display); font-size: 220px; line-height: 1; color: var(--warm); display: block; }
+      #wordmark { font-family: var(--ui); font-size: 26px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--accent); margin-top: 8px; display: block; }
+      #headline { font-family: var(--display); font-size: 84px; line-height: 1.05; color: var(--ink); margin-top: 22px; display: block; text-align: center; }
+
+      /* Scene 2 */
+      .card { background: var(--raised); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 2px 4px rgba(28,26,31,.06), 0 24px 48px -20px rgba(28,26,31,.3); box-sizing: border-box; }
+      #form { width: 700px; padding: 44px 52px; }
+      .eyebrow { font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; color: #9c3f16; display: block; }
+      .title { font-family: var(--display); font-size: 54px; line-height: 1.1; color: var(--ink); margin-top: 10px; display: block; }
+      .label { font-size: 22px; color: var(--soft); margin-top: 26px; display: block; }
+      #input { height: 62px; border: 2px solid var(--accent); border-radius: 12px; background: #fff; margin-top: 10px; padding: 0 20px; display: flex; align-items: center; font-size: 30px; color: var(--ink); box-sizing: border-box; }
+      .ch { display: inline-block; }
+      #chips { display: flex; gap: 12px; margin-top: 26px; }
+      .chip { width: 76px; height: 52px; border: 1px solid var(--line); border-radius: 12px; background: var(--raised); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--soft); box-sizing: border-box; }
+      #chip-b1 { background: var(--accent); color: #fff; border-color: var(--accent); }
+      #camino { position: absolute; inset: 0; box-sizing: border-box; padding: 70px 120px; }
+      #camino .title { font-size: 66px; }
+      .sub { font-size: 28px; color: var(--soft); margin-top: 12px; display: block; }
+      #blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 40px; }
+      .block { height: 118px; padding: 0 30px; display: flex; align-items: center; font-family: var(--display); font-size: 36px; color: var(--ink); }
+      #blk1 { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+      /* Scene 3 */
+      #ex { width: 760px; padding: 40px 52px; }
+      .stem { font-family: var(--display); font-size: 52px; color: var(--ink); margin-top: 12px; display: block; }
+      #opts { display: flex; gap: 16px; margin-top: 28px; }
+      .opt { flex: 1; height: 70px; border: 2px solid var(--line); border-radius: 14px; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--ink); box-sizing: border-box; }
+      #btn { margin-top: 28px; height: 62px; width: 240px; border-radius: 14px; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 600; }
+      #srs { position: absolute; right: 90px; bottom: 70px; width: 470px; padding: 28px 34px; border-left: 8px solid var(--warm); }
+      #srs .title { font-size: 42px; }
+
+      /* Scene 4 */
+      .line { font-family: var(--display); font-size: 92px; line-height: 1.08; color: var(--ink); display: block; text-align: center; }
+      #end-mark { font-family: var(--display); font-size: 64px; color: var(--warm); display: inline-block; }
+      #end-word { font-size: 28px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--accent); display: inline-block; margin-left: 18px; }
+      #end-row { margin-top: 34px; display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-width="1280" data-height="720" data-duration="16">
+
+      <!-- Scene 1: hook -->
+      <section id="s1" class="clip" data-start="0" data-duration="3.5" data-track-index="1">
+        <div class="bg"></div>
+        <div class="stage">
+          <span id="mark">始</span>
+          <span id="wordmark">Nanami</span>
+          <span id="headline">Empieza tu español hoy.</span>
+        </div>
+      </section>
+
+      <!-- Scene 2: onboarding -> camino -->
+      <section id="s2" class="clip" data-start="3.5" data-duration="5" data-track-index="1">
+        <div class="bg"></div>
+        <div id="s2-form" class="stage">
+          <div id="form" class="card">
+            <span class="eyebrow">Antes de empezar</span>
+            <span class="title">Cuéntame quién eres</span>
+            <span class="label">¿Cómo te llamas?</span>
+            <div id="input"><span id="t1" class="ch">A</span><span id="t2" class="ch">n</span><span id="t3" class="ch">a</span></div>
+            <div id="chips">
+              <div class="chip">A1</div><div class="chip">A2</div><div id="chip-b1" class="chip">B1</div>
+              <div class="chip">B2</div><div class="chip">C1</div><div class="chip">C2</div>
+            </div>
+          </div>
+        </div>
+        <div id="camino">
+          <span class="eyebrow" id="cam-eye">Tu camino</span>
+          <span class="title" id="cam-title">Hola, Ana</span>
+          <span class="sub" id="cam-sub">16 unidades, de B1 a B2.</span>
+          <div id="blocks">
+            <div id="blk1" class="card block">Unidades 1 a 4</div>
+            <div id="blk2" class="card block">Unidades 5 a 8</div>
+            <div id="blk3" class="card block">Unidades 9 a 12</div>
+            <div id="blk4" class="card block">Unidades 13 a 16</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scene 3: exercise -> spaced review -->
+      <section id="s3" class="clip" data-start="8.5" data-duration="4" data-track-index="1">
+        <div class="bg"></div>
+        <div class="stage" style="justify-content:flex-start;padding:80px 0 0 90px;align-items:flex-start;">
+          <div id="ex" class="card">
+            <span class="eyebrow">Ejercicio</span>
+            <span class="stem">Ayer ___ al mercado.</span>
+            <div id="opts">
+              <div id="o1" class="opt">voy</div>
+              <div id="o2" class="opt">fui</div>
+              <div id="o3" class="opt">iba</div>
+            </div>
+            <div id="btn">Comprobar</div>
+          </div>
+        </div>
+        <div id="srs" class="card">
+          <span class="eyebrow">Repaso espaciado</span>
+          <span class="title">Vuelve al punto que te costó</span>
+        </div>
+      </section>
+
+      <!-- Scene 4: outro -->
+      <section id="s4" class="clip" data-start="12.5" data-duration="3.5" data-track-index="1">
+        <div class="bg"></div>
+        <div class="stage">
+          <span id="l1" class="line">16 unidades.</span>
+          <span id="l2" class="line">De B1 a B2.</span>
+          <span id="l3" class="line">A tu ritmo.</span>
+          <span id="end-row"><span id="end-mark">始</span><span id="end-word">Nanami</span></span>
+        </div>
+      </section>
+
+      <!-- Audio: direct children of the root -->
+      <audio id="bgm" src="assets/music/happy-beats-business-moves-vol-10-by-ende-dot-app.mp3" data-start="0" data-duration="16" data-track-index="10" data-volume="1"></audio>
+      <audio id="sfx-hit1" src="assets/sfx/impactSoft_medium_001.ogg" data-start="0.3" data-duration="0.6" data-track-index="11" data-volume="0.5"></audio>
+      <audio id="sfx-k1" src="assets/sfx/keypress-003.wav" data-start="4.0" data-duration="0.5" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-k2" src="assets/sfx/keypress-007.wav" data-start="4.2" data-duration="0.5" data-track-index="13" data-volume="0.5"></audio>
+      <audio id="sfx-k3" src="assets/sfx/keypress-012.wav" data-start="4.4" data-duration="0.5" data-track-index="14" data-volume="0.5"></audio>
+      <audio id="sfx-chip" src="assets/sfx/click_003.ogg" data-start="4.85" data-duration="0.3" data-track-index="15" data-volume="0.6"></audio>
+      <audio id="sfx-b1" src="assets/sfx/rollover2.ogg" data-start="5.74" data-duration="0.3" data-track-index="16" data-volume="0.45"></audio>
+      <audio id="sfx-b2" src="assets/sfx/rollover2.ogg" data-start="6.28" data-duration="0.3" data-track-index="17" data-volume="0.45"></audio>
+      <audio id="sfx-b3" src="assets/sfx/rollover2.ogg" data-start="6.82" data-duration="0.3" data-track-index="18" data-volume="0.45"></audio>
+      <audio id="sfx-b4" src="assets/sfx/rollover2.ogg" data-start="7.35" data-duration="0.3" data-track-index="19" data-volume="0.45"></audio>
+      <audio id="sfx-opt" src="assets/sfx/click_003.ogg" data-start="10.2" data-duration="0.3" data-track-index="20" data-volume="0.6"></audio>
+      <audio id="sfx-check" src="assets/sfx/click_003.ogg" data-start="10.9" data-duration="0.3" data-track-index="21" data-volume="0.6"></audio>
+      <audio id="sfx-srs" src="assets/sfx/bong_001.ogg" data-start="11.6" data-duration="0.4" data-track-index="22" data-volume="0.5"></audio>
+      <audio id="sfx-hit2" src="assets/sfx/impactSoft_medium_001.ogg" data-start="14.7" data-duration="0.6" data-track-index="23" data-volume="0.5"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      const ease = "power2.out";
+      const F = { immediateRender: false };
+
+      // music bed: quick fade-in, fade-out over the last 2s
+      tl.fromTo("#bgm", { volume: 0 }, { volume: 0.35, duration: 0.8, ...F }, 0);
+      tl.to("#bgm", { volume: 0, duration: 2, ease: "none" }, 14);
+
+      // Scene 1 (0-3.5): beat-grid 0.27 / 0.82 / 1.37
+      tl.fromTo("#mark", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.7, ease, ...F }, 0.27);
+      tl.fromTo("#wordmark", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease, ...F }, 0.82);
+      tl.fromTo("#headline", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease, ...F }, 1.37);
+      tl.to("#s1 .stage", { opacity: 0, duration: 0.35, ease: "power1.in" }, 3.15);
+
+      // Scene 2 (3.5-8.5): form 3.5-5.4, camino 5.4-8.5
+      tl.fromTo("#s2-form", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease, ...F }, 3.5);
+      tl.fromTo("#t1", { opacity: 0 }, { opacity: 1, duration: 0.05, ...F }, 4.0);
+      tl.fromTo("#t2", { opacity: 0 }, { opacity: 1, duration: 0.05, ...F }, 4.2);
+      tl.fromTo("#t3", { opacity: 0 }, { opacity: 1, duration: 0.05, ...F }, 4.4);
+      tl.to("#chip-b1", { scale: 1.12, duration: 0.15, ease: "power2.out" }, 4.85);
+      tl.to("#chip-b1", { scale: 1, duration: 0.15, ease: "power2.inOut" }, 5.0);
+      tl.to("#s2-form", { opacity: 0, y: -16, duration: 0.35, ease: "power1.in" }, 5.05);
+      tl.fromTo("#camino", { opacity: 0 }, { opacity: 1, duration: 0.4, ease, ...F }, 5.4);
+      tl.fromTo("#blk1", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.4, ease, ...F }, 5.74);
+      tl.fromTo("#blk2", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.4, ease, ...F }, 6.28);
+      tl.fromTo("#blk3", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.4, ease, ...F }, 6.82);
+      tl.fromTo("#blk4", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.4, ease, ...F }, 7.35);
+      tl.to("#camino", { opacity: 0, duration: 0.35, ease: "power1.in" }, 8.15);
+
+      // Scene 3 (8.5-12.5)
+      tl.fromTo("#ex", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease, ...F }, 8.6);
+      tl.to("#o2", { backgroundColor: "#dfe2ee", borderColor: "#223059", duration: 0.15 }, 10.2);
+      tl.to("#btn", { scale: 0.94, duration: 0.1 }, 10.9);
+      tl.to("#btn", { scale: 1, duration: 0.15 }, 11.0);
+      tl.to("#o2", { backgroundColor: "#dde8dc", borderColor: "#47654a", duration: 0.25 }, 11.05);
+      tl.to("#o1,#o3", { opacity: 0.4, duration: 0.25 }, 11.05);
+      tl.fromTo("#srs", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, ease, ...F }, 11.6);
+      tl.to("#s3 .stage, #srs", { opacity: 0, duration: 0.35, ease: "power1.in" }, 12.15);
+
+      // Scene 4 (12.5-16)
+      tl.fromTo("#l1", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease, ...F }, 12.9);
+      tl.fromTo("#l2", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease, ...F }, 13.45);
+      tl.fromTo("#l3", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease, ...F }, 14.0);
+      tl.fromTo("#end-row", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease, ...F }, 14.7);
+      tl.to("#s4 .stage", { opacity: 0, duration: 0.5, ease: "power1.in" }, 15.5);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

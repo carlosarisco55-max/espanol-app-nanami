@@ -129,6 +129,10 @@ Decidido el 2026-09-20. Este es el orden; no renegociarlo sin motivo:
 - Vídeo del MVP: si se reutiliza, sustituir el ejercicio de relleno ("Ayer ___ al
   mercado") por uno real del currículo. La música exige atribución (CC BY 4.0).
 
+## Pendiente inmediato (2026-09-26) — LÉELO AL EMPEZAR
+
+Cursor se quedó sin créditos con dos prompts sin enviar. Están completos, listos para pegar y con el orden en **`docs/pending/2026-09-26-pendientes-cursor.md`**: (1) bug del parser que pierde 73 explicaciones, (2) feedback bilingüe de los ejercicios. Entre ambos, Claude Code escribe `content/feedback-en.md` (~250 ejercicios; piloto de U1 hecho). Decisión abierta del usuario: qué hacer con las pistas del primer fallo (solo 4 de 356 existen).
+
 ## Qué falta por hacer
 
 - Auditoría / `ARCHITECTURE.md` / despliegue — pulido y documentación, no más fases del MVP.

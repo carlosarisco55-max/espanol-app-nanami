@@ -87,8 +87,19 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
   cierre no felicita por una carta no guardada, y limpieza de notas de autoría y HTML crudo
   en el texto que ve la alumna. 62/62 tests en verde. También se añadió el vídeo de
   lanzamiento del MVP en `docs/brag/2026-09-20-mvp/` (hecho con la skill `brag`).
-- ⏸️ `ARCHITECTURE.md`: sigue pendiente — ahora sí tiene sentido escribirlo, porque
-  el MVP B1→B2 ya no va a cambiar de forma enseguida. Se hace DESPUÉS de la auditoría.
+- ✅ **Cobertura del motor (2026-09-26, `d228f72`):** 47 de los 52 ejercicios que se pintaban
+  como markdown (algunos con la Solución a la vista) ya pasan por el motor; el parser leía
+  un solo molde por tipo y no los formatos reales del currículo. Red de seguridad
+  `hideStaticSolution` + test que recorre los 356 ejercicios. Quedan 5 en markdown, todos
+  en U16 y sin clave que ocultar (E08/E13 hojas de corrección DELE, E15 informe de nivel,
+  E16 proyecto final, E17 plan hacia C1). 69/69 tests y `next build` limpio.
+- ✅ `ARCHITECTURE.md` y `docs/decisions/2026-09-26-decisiones-fases-3-a-5.md` escritos
+  (22b0215): describen lo construido, con la deuda conocida.
+- 🔊 **Audio (idea, no decidida):** se probó el diálogo de U15 con voces neuronales es-ES
+  (Elvira, Ximena, Álvaro vía `edge-tts`): se entienden y se diferencian, no del todo
+  naturales. Bloqueo: la licencia de Azure Speech para redistribuir MP3 generados **no
+  está confirmada** (Product Terms sin leer); exige además avisar de que la voz es
+  sintética. Alternativa de licencia abierta: Piper (MIT, suena peor). Va después del MVP.
 
 ## Plan concreto — semana del 21 al 27 de septiembre de 2026 (objetivo: MVP terminado)
 

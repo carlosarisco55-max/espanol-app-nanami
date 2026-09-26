@@ -94,11 +94,11 @@ Acordado con TRAE para el modelo de interacción/ritmo de la app (evitar que se 
 
 Decidido el 2026-09-20. Este es el orden; no renegociarlo sin motivo:
 
-1. **Auditoría del MVP** (producto, no contenido). Pasada real en navegador de
-   Puente → U16 (simulacro DELE) → cuaderno de cierre: UX, persistencia
-   (guardar, exportar, importar) y accesibilidad (solo 8 archivos de componentes usan
-   `aria-*`, revisarlo). Base: los 62 tests actuales + QA con navegador (Playwright).
-   Salida: lista de hallazgos priorizados y sus arreglos.
+1. ✅ **Auditoría del MVP — hecha (2026-09-26).** Pasada real con Playwright (subagente
+   Opus, 34 capturas): bloqueantes de Emparejar (deadlock), `fallo_2` sin solución ni
+   Reintentar, móvil 390px, markdown/notas de autoría en crudo, DELE sin nota, `/cierre`,
+   role-play y `/perfil`. Todo arreglado y en `609d627`; verificado: 62/62 tests y
+   `next build` limpio. Queda abierta solo la accesibilidad (`aria-*` en 8 archivos).
 2. **`ARCHITECTURE.md`** sobre lo ya auditado y corregido (Fases 0–5, no un plan
    futuro). Registrar también en `docs/decisions/` las decisiones de las Fases 3–5:
    hoy solo hay un registro (2026-08-25).
@@ -111,11 +111,10 @@ Decidido el 2026-09-20. Este es el orden; no renegociarlo sin motivo:
 
 **Pendientes de limpieza (no bloquean):**
 
-- Worktree `../espanol-app-wt-phase3` (rama `phase3-parser-exercises`, ya fusionada en
-  `master`) con trabajo **sin commitear del 2026-09-06**: `tests/parser-exercises.test.ts`
-  (513 líneas, no existe en `master`) y versiones muy distintas de
-  `tools/parse-curriculo/exercises.ts` y `exercise-types.ts`. Revisar qué está superado y
-  qué hay que rescatar ANTES de borrar el worktree o la rama.
+- Worktree `espanol-app-wt-phase3`: **borrado el 2026-09-26** (era un worktree, no una
+  copia). Su trabajo sin commitear sigue en la rama `backup/phase3-wip-2026-09-06`
+  (local y GitHub). Pendiente: decidir si `tests/parser-exercises.test.ts` (513 líneas,
+  no está en `master`) se rescata; después se puede borrar esa rama.
 - Vídeo del MVP: si se reutiliza, sustituir el ejercicio de relleno ("Ayer ___ al
   mercado") por uno real del currículo. La música exige atribución (CC BY 4.0).
 

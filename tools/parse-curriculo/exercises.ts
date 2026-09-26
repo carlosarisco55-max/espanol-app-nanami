@@ -67,7 +67,15 @@ export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
 
   if (tipo === "emparejar") content = parseEmparejar(authoredBlock);
   else if (tipo === "opcion_multiple") content = parseOpcionMultiple(authoredBlock);
-  else if (tipo === "clasificar") content = parseClasificar(authoredBlock) ?? parseSegmentar(authoredBlock);
+  else if (tipo === "clasificar") {
+    content =
+      parseClasificar(authoredBlock) ??
+      parseSegmentar(authoredBlock) ??
+      parseClasificarPorNumeros(authoredBlock) ??
+      parseClasificarSilabas(authoredBlock) ??
+      parseClasificarTablaSolucion(authoredBlock) ??
+      parseClasificarOrden(authoredBlock);
+  }
   else if (tipo === "huecos") content = parseHuecos(authoredBlock);
   else if (tipo === "verdadero_falso") content = parseVerdaderoFalso(authoredBlock);
   else if (tipo === "respuesta_corta") {
@@ -83,7 +91,13 @@ export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
   else if (tipo === "roleplay") content = parseRoleplay(authoredBlock);
   else if (tipo === "produccion_escrita") content = parseProduccionEscrita(authoredBlock);
   else if (tipo === "produccion_oral") content = parseProduccionOral(authoredBlock);
-  else if (/Autoevaluaci[oó]n MCER/i.test(authoredBlock)) content = parseAutoevaluacion(authoredBlock);
+  else if (
+    tipo !== "produccion_oral" &&
+    tipo !== "produccion_escrita" &&
+    /Autoevaluaci[oó]n/i.test(authoredBlock)
+  ) {
+    content = parseAutoevaluacion(authoredBlock);
+  }
 
   const foco = extractYamlField(authoredBlock, "foco");
   const title = authoredBlock.match(/^####\s+`[^`]+`(?:\s+—\s+(.+))?$/m)?.[1]?.trim();
@@ -307,7 +321,7 @@ function isTableSeparator(cells: string[]): boolean {
 }
 
 function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return (value ?? "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 // Opciones compartidas por cabecera de tabla (DELE V/F/ND, grado de certeza, etc.).
@@ -479,6 +493,147 @@ function parseSegmentar(raw: string): RespuestaCortaContent | null {
   };
 }
 
+function parseClasificarPorNumeros(raw: string): ClasificarContent | null {
+  const body = exerciseBody(raw);
+  const prompts = numberedPrompts(body);
+  if (prompts.length < 2) return null;
+  const banco = prompts.map((prompt) => `${prompt.numero}. ${prompt.text}`);
+  const byNumber = new Map(prompts.map((prompt) => [prompt.numero, `${prompt.numero}. ${prompt.text}`]));
+  const solution = solutionBody(raw);
+  const { pista, explicacion, porQue } = feedback(raw);
+  const enunciado =
+    simplifyInline(body.match(/\*\*([^*]+)\*\*/)?.[1] ?? "") ||
+    "Clasifica cada elemento en la columna correcta.";
+
+  const colLines = [...solution.matchAll(/^[-\s]*\*\*([^*:]+):\*\*\s*(.+)$/gm)];
+  if (colLines.length >= 2) {
+    const columnas = colLines.map(([, name]) => simplifyInline(name));
+    const solucion: Record<string, string[]> = Object.fromEntries(columnas.map((column) => [column, []]));
+    for (const [, name, numbersRaw] of colLines) {
+      const column = simplifyInline(name);
+      for (const numero of extractItemNumbers(numbersRaw)) {
+        const item = byNumber.get(numero);
+        if (item) solucion[column].push(item);
+      }
+    }
+    if (banco.every((item) => columnas.some((column) => solucion[column].includes(item)))) {
+      return { kind: "clasificar", layout: "items", enunciado, banco, columnas, solucion, pista, explicacion, porQue };
+    }
+  }
+
+  const entries = numberedEntries(solution);
+  if (entries.length === prompts.length && entries.every((entry) => !entry.value.includes("|"))) {
+    const bankCats = backtickBank(body);
+    const columnas: string[] = [];
+    const solucion: Record<string, string[]> = {};
+    for (const entry of entries) {
+      const item = byNumber.get(entry.numero);
+      if (!item) return null;
+      const column =
+        (bankCats.length > 0 ? matchClasificarColumn(entry.value, bankCats) : undefined) ??
+        simplifyInline(entry.value);
+      if (column.length > 80) return null;
+      if (!solucion[column]) {
+        solucion[column] = [];
+        columnas.push(column);
+      }
+      solucion[column].push(item);
+    }
+    if (columnas.length >= 2 && banco.every((item) => columnas.some((column) => solucion[column].includes(item)))) {
+      return { kind: "clasificar", layout: "items", enunciado, banco, columnas, solucion, pista, explicacion, porQue };
+    }
+  }
+
+  return null;
+}
+
+function parseClasificarSilabas(raw: string): ClasificarContent | null {
+  const banco = backtickBank(exerciseBody(raw));
+  if (banco.length < 2) return null;
+  const tokens = solutionBody(raw).split(/\s*·\s*/);
+  const solucion: Record<string, string[]> = {};
+  for (const token of tokens) {
+    const count = token.match(/\((\d+)\)\s*$/)?.[1];
+    if (!count) continue;
+    const stem = lettersOnly(token.replace(/\(\d+\)\s*$/, ""));
+    const word = banco.find((item) => lettersOnly(item) === stem);
+    if (!word) continue;
+    const column = `${count} sílabas`;
+    solucion[column] ??= [];
+    solucion[column].push(word);
+  }
+  const columnas = Object.keys(solucion).sort((a, b) => Number(a) - Number(b));
+  if (columnas.length < 2 || banco.some((word) => !columnas.some((column) => solucion[column].includes(word)))) {
+    return null;
+  }
+  return {
+    kind: "clasificar",
+    layout: "banco",
+    enunciado: simplifyInline(exerciseBody(raw).match(/\*\*([^*]+)\*\*/)?.[1] ?? "¿Cuántas sílabas tiene cada palabra?"),
+    banco,
+    columnas,
+    solucion,
+    ...feedback(raw)
+  };
+}
+
+function parseClasificarTablaSolucion(raw: string): ClasificarContent | null {
+  const banco = backtickBank(exerciseBody(raw));
+  if (banco.length < 2) return null;
+  const tableLines = solutionBody(raw).split("\n").filter((line) => line.trim().startsWith("|"));
+  const rows = tableLines
+    .map(parseTableCells)
+    .filter((cells) => cells.length >= 2 && !isTableSeparator(cells) && !/franja|expresiones|columna/i.test(cells[0] ?? ""));
+  if (rows.length < 2) return null;
+  const columnas = rows.map((cells) => simplifyInline(cells[0]));
+  const solucion: Record<string, string[]> = {};
+  for (const cells of rows) {
+    const column = simplifyInline(cells[0]);
+    const parts = (cells[1] ?? "").includes("·") ? cells[1].split("·") : cells[1].split(",");
+    solucion[column] = parts.map((part) => simplifyInline(part).replace(/\.$/, "")).filter(Boolean);
+  }
+  const assigned = Object.values(solucion).flat();
+  if (columnas.some((column) => solucion[column].length === 0)) return null;
+  if (banco.some((word) => !assigned.some((item) => lettersOnly(item) === lettersOnly(word)))) return null;
+  return {
+    kind: "clasificar",
+    layout: "banco",
+    enunciado: simplifyInline(exerciseBody(raw).match(/\*\*([^*]+)\*\*/)?.[1] ?? "Clasifica cada expresión."),
+    banco,
+    columnas,
+    solucion,
+    ...feedback(raw)
+  };
+}
+
+function parseClasificarOrden(raw: string): ReordenarContent | null {
+  const body = exerciseBody(raw);
+  const groups = [...body.matchAll(/\*\*Grupo\s+([A-Z])[^*]*:\*\*\s*`([^`]+)`/g)];
+  if (groups.length < 2) return null;
+  const solLines = [...solutionBody(raw).matchAll(/\*\*([A-Z])\b[^*]*:\*\*\s*(.+)/g)];
+  const items = groups.flatMap(([, letter, bank]) => {
+    const fragmentos = bank.split("·").map((part) => simplifyInline(part)).filter(Boolean);
+    const ordered = (solLines.find((line) => line[1] === letter)?.[2] ?? "")
+      .split(/\s*→\s*/)
+      .map((part) => simplifyInline(part))
+      .filter(Boolean);
+    if (ordered.length !== fragmentos.length) return [];
+    return [{
+      numero: letter,
+      fragmentos,
+      respuesta: ordered.join(" "),
+      alternativas: []
+    }];
+  });
+  if (items.length !== groups.length) return null;
+  return {
+    kind: "reordenar",
+    enunciado: simplifyInline(body.match(/\*\*([^*]+)\*\*/)?.[1] ?? "Ordena los elementos."),
+    items,
+    ...feedback(raw)
+  };
+}
+
 function exerciseBody(raw: string): string {
   const yaml = raw.match(YAML_FENCE_RE);
   const start = yaml?.index === undefined ? 0 : yaml.index + yaml[0].length;
@@ -508,6 +663,36 @@ function numberedPrompts(value: string): { numero: string; text: string }[] {
     numero: match[1],
     text: simplifyInline(match[2])
   }));
+}
+
+function extractItemNumbers(value: string): string[] {
+  return [...value.matchAll(/\b(\d+)\b/g)].map((match) => match[1]);
+}
+
+function backtickBank(raw: string): string[] {
+  return [...raw.matchAll(/`([^`]+·[^`]+)`/g)]
+    .flatMap((match) => match[1].split("·"))
+    .map((word) => word.trim())
+    .filter(Boolean);
+}
+
+function numberedTableRows(body: string): { numero: string; cells: string[] }[] {
+  return body
+    .split("\n")
+    .filter((line) => line.trim().startsWith("|"))
+    .map(parseTableCells)
+    .filter((cells) => /^\d+\.?/.test(cells[0] ?? "") && !isTableSeparator(cells))
+    .map((cells) => {
+      const dotted = cells[0].match(/^(\d+)\.\s*(.*)$/);
+      if (dotted) {
+        return { numero: dotted[1], cells: [dotted[2], ...cells.slice(1)].map((cell) => cell.trim()) };
+      }
+      return { numero: cells[0], cells: cells.slice(1) };
+    });
+}
+
+function lettersOnly(value: string): string {
+  return simplifyInline(value).toLocaleLowerCase("es").replace(/[^a-záéíóúüñ]/g, "");
 }
 
 function feedback(raw: string) {
@@ -552,31 +737,43 @@ function parseHuecos(raw: string): HuecosContent | null {
 }
 
 function parseVerdaderoFalso(raw: string): VerdaderoFalsoContent | null {
-  const rows = [...exerciseBody(raw).matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|\s*\|$/gm)];
+  const body = exerciseBody(raw);
+  const tableRows = [...body.matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|\s*\|$/gm)].map((row) => ({
+    numero: row[1],
+    text: simplifyInline(row[2])
+  }));
+  const listRows = tableRows.length > 0 ? tableRows : numberedPrompts(body);
   const solutions = numberedEntries(solutionBody(raw));
-  if (rows.length === 0 || solutions.length === 0) return null;
+  if (listRows.length === 0 || solutions.length === 0) return null;
   const solutionMap = new Map(solutions.map((item) => [item.numero, item.value]));
-  const items: VerdaderoFalsoContent["items"] = rows.flatMap((row) => {
-    const authored = solutionMap.get(row[1]);
+  const items: VerdaderoFalsoContent["items"] = listRows.flatMap((row) => {
+    const authored = solutionMap.get(row.numero);
     const answer = authored?.match(/^(V|F)\b/i)?.[1]?.toUpperCase();
     if (answer !== "V" && answer !== "F") return [];
     return [{
-      numero: row[1],
-      afirmacion: simplifyInline(row[2]),
+      numero: row.numero,
+      afirmacion: row.text,
       respuesta: answer as "V" | "F",
       justificacion: simplifyInline(authored!.replace(/^(V|F)\s*[—-]?\s*/i, "")) || undefined
     }];
   });
+  if (items.length === 0) return null;
   return {
     kind: "verdadero_falso",
-    enunciado: enunciadoBefore(raw, /^\|/m) || "Marca verdadero o falso.",
+    enunciado: enunciadoBefore(raw, /(?:^\||^\d+\.\s)/m) || "Marca verdadero o falso.",
     items,
     ...feedback(raw)
   };
 }
 
 function parseRespuestaCorta(raw: string): RespuestaCortaContent | null {
-  const prompts = numberedPrompts(exerciseBody(raw));
+  const body = exerciseBody(raw);
+  const listPrompts = numberedPrompts(body);
+  const tablePrompts = numberedTableRows(body).map((row) => ({
+    numero: row.numero,
+    text: row.cells.find((cell) => cell.length > 0) ?? ""
+  })).filter((row) => row.text);
+  const prompts = listPrompts.length > 0 ? listPrompts : tablePrompts;
   const solutions = new Map(numberedEntries(solutionBody(raw)).map((item) => [item.numero, item.value]));
   const items = prompts.flatMap((prompt) => {
     const respuesta = solutions.get(prompt.numero);
@@ -587,23 +784,32 @@ function parseRespuestaCorta(raw: string): RespuestaCortaContent | null {
   if (items.length === 0) return null;
   return {
     kind: "respuesta_corta",
-    enunciado: enunciadoBefore(raw, /^\d+\.\s/m) || "Responde con pocas palabras.",
+    enunciado: enunciadoBefore(raw, /(?:^\d+\.\s|^\|)/m) || "Responde con pocas palabras.",
     items,
     ...feedback(raw)
   };
 }
 
 function parseTransformar(raw: string): TransformarContent | null {
-  const prompts = numberedPrompts(exerciseBody(raw));
+  const body = exerciseBody(raw);
+  const listPrompts = numberedPrompts(body).map((prompt) => {
+    const [origen, arranque] = prompt.text.split(/\s*→\s*/, 2);
+    return { numero: prompt.numero, origen, arranque: arranque?.replace(/_{3,}/g, "").trim() || undefined };
+  });
+  const tablePrompts = numberedTableRows(body).map((row) => ({
+    numero: row.numero,
+    origen: row.cells[0] ?? "",
+    arranque: row.cells[1]?.replace(/_{3,}/g, "").trim() || undefined
+  })).filter((row) => row.origen);
+  const prompts = listPrompts.length > 0 ? listPrompts : tablePrompts;
   const solutions = new Map(numberedEntries(solutionBody(raw)).map((item) => [item.numero, item.value]));
   const items = prompts.flatMap((prompt) => {
     const respuesta = solutions.get(prompt.numero);
     if (!respuesta) return [];
-    const [origen, arranque] = prompt.text.split(/\s*→\s*/, 2);
     return [{
       numero: prompt.numero,
-      origen,
-      arranque: arranque?.replace(/_{3,}/g, "").trim() || undefined,
+      origen: prompt.origen,
+      arranque: prompt.arranque,
       respuesta,
       alternativas: []
     }];
@@ -611,25 +817,49 @@ function parseTransformar(raw: string): TransformarContent | null {
   if (items.length === 0) return null;
   return {
     kind: "transformar",
-    enunciado: enunciadoBefore(raw, /^\d+\.\s/m) || "Transforma las frases.",
+    enunciado: enunciadoBefore(raw, /(?:^\d+\.\s|^\|)/m) || "Transforma las frases.",
     items,
     ...feedback(raw)
   };
 }
 
+function parseArrowCorrections(text: string): CorregirErrorContent["items"] {
+  return numberedEntries(text).flatMap((entry) => {
+    if (!/→/.test(entry.value)) return [];
+    const [left, right] = entry.value.split(/\s*→\s*/, 2);
+    const cleaned = simplifyInline(right ?? "").replace(/\s*\([^)]*\)\s*$/, "").trim();
+    const parts = cleaned.split(/\s+\/\s+/).map((part) => part.trim()).filter(Boolean);
+    if (!left || parts.length === 0) return [];
+    return [{
+      numero: entry.numero,
+      frase: simplifyInline(left),
+      correccion: parts[0],
+      alternativas: parts.slice(1)
+    }];
+  });
+}
+
 function parseCorregirError(raw: string): CorregirErrorContent | null {
   const prompts = numberedPrompts(exerciseBody(raw));
   const solutions = new Map(numberedEntries(solutionBody(raw)).map((item) => [item.numero, item.value]));
-  const items = prompts.flatMap((prompt) => {
+  const fromPrompts = prompts.flatMap((prompt) => {
     const correccion = solutions.get(prompt.numero);
     return correccion
       ? [{ numero: prompt.numero, frase: prompt.text, correccion, alternativas: [] }]
       : [];
   });
+  const fallos = raw.match(/\*\*Los \w+ fallos:\*\*\s*([\s\S]+?)(?=\n>\s*💡|\n---|$)/i)?.[1] ?? "";
+  const items = fromPrompts.length > 0
+    ? fromPrompts
+    : parseArrowCorrections(solutionBody(raw)).concat(parseArrowCorrections(fallos));
   if (items.length === 0) return null;
+  const quote = exerciseBody(raw).match(/^>[\s\S]+/m)?.[0];
+  const base = enunciadoBefore(raw, /(?:^\d+\.\s|^>)/m) || "Corrige el error.";
   return {
     kind: "corregir_error",
-    enunciado: enunciadoBefore(raw, /^\d+\.\s/m) || "Corrige el error.",
+    enunciado: quote
+      ? `${base}\n\n${quote.replace(/^>\s?/gm, "").trim()}`
+      : base,
     items,
     ...feedback(raw)
   };
@@ -678,36 +908,71 @@ function parseReordenar(raw: string): ReordenarContent | null {
 function parseDiscriminacionFonetica(raw: string): DiscriminacionFoneticaContent | null {
   const body = exerciseBody(raw);
   const tableLines = body.split("\n").filter((line) => line.trim().startsWith("|"));
-  const header = tableLines.find((line) => /Opci[oó]n A/i.test(line));
-  if (!header) return null;
-  const headerCells = header.split("|").map((cell) => simplifyInline(cell)).filter(Boolean);
-  const rows = [...body.matchAll(/^\|\s*(\d+)\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm)];
+  const headerLine = tableLines.find((line) => {
+    const cells = parseTableCells(line);
+    return cells.some((cell) => /^(?:[a-d]\)|opci[oó]n\s*[a-d]\b|[a-d]\b)/i.test(cell))
+      || (cells.some((cell) => /^frase$/i.test(cell)) && cells.filter(Boolean).length >= 3);
+  });
+  if (!headerLine) return null;
+  const headers = parseTableCells(headerLine);
+  const optionIndexes = headers
+    .map((cell, index) => ({ cell, index }))
+    .filter(({ cell }) => /^(?:[a-d]\)|opci[oó]n\s*[a-d]\b|[a-d]\b)/i.test(cell));
+  const namedOptions = optionIndexes.length >= 2
+    ? optionIndexes
+    : headers
+      .map((cell, index) => ({ cell, index }))
+      .filter(({ cell, index }) => Boolean(cell) && index > 0 && !/^frase$/i.test(cell));
+  if (namedOptions.length < 2) return null;
+  const optionStart = namedOptions[0].index;
+  const letras = namedOptions.map(({ cell }, index) => {
+    const letter = cell.match(/^(?:opci[oó]n\s*)?([a-d])\b/i)?.[1]?.toUpperCase();
+    const etiqueta = simplifyInline(cell.replace(/^[a-d]\)\s*/i, "").replace(/^opci[oó]n\s*[a-d]\s*/i, "")).replace(/^\(|\)$/g, "") || cell;
+    return { letra: letter ?? (etiqueta || String.fromCharCode(65 + index)), etiqueta: etiqueta || cell };
+  });
+
   const authoredSolution = solutionBody(raw);
   const solutionMap = new Map(numberedEntries(authoredSolution).map((item) => [item.numero, item.value]));
-  for (const match of authoredSolution.matchAll(/(\d+)\s*[-–]\s*([AB])\b/gi)) {
+  for (const match of authoredSolution.matchAll(/(\d+)\s*[-–]\s*\**([a-d])\**/gi)) {
     solutionMap.set(match[1], match[2].toUpperCase());
   }
-  const items = rows.map((row) => {
-    const authored = solutionMap.get(row[1]) ?? "";
-    const response = authored.match(/^(?:-|–)?\s*([AB])\b/i)?.[1]?.toUpperCase() ?? null;
-    return {
-      numero: row[1],
-      opciones: [
-        { letra: "A", texto: simplifyInline(row[2]) },
-        { letra: "B", texto: simplifyInline(row[3]) }
-      ],
-      respuesta: response,
-      nota: response ? undefined : authored || undefined
-    };
-  });
+  for (const match of authoredSolution.matchAll(/(\d+)\s*[-–]\s*\**igual\**/gi)) {
+    solutionMap.set(match[1], "IGUAL");
+  }
+
+  const items = tableLines
+    .map(parseTableCells)
+    .filter((cells) => /^\d+$/.test(cells[0] ?? "") && cells.length > optionStart)
+    .map((cells) => {
+      const authored = solutionMap.get(cells[0]) ?? "";
+      const opciones = letras.map((col, index) => ({
+        letra: col.letra,
+        texto: simplifyInline(cells[optionStart + index] ?? "")
+      }));
+      const letterMatch = authored.match(/^(?:-|–)?\s*([A-D])\b/i)?.[1]?.toUpperCase();
+      const igualOption = opciones.find((option) => /igual/i.test(option.texto));
+      const labelMatch = opciones.find((option) => {
+        if (!authored || (!option.letra && !option.texto)) return false;
+        return (option.letra && new RegExp(`^${escapeRegExp(option.letra)}(?:\\s|$)`, "i").test(authored))
+          || (option.texto && new RegExp(`^${escapeRegExp(option.texto)}(?:\\s|$)`, "i").test(authored));
+      })?.letra;
+      const respuesta = letterMatch
+        ?? labelMatch
+        ?? (authored === "IGUAL" || /igual|no se distinguen|truco/i.test(authored) ? igualOption?.letra ?? null : null);
+      const estimulo = optionStart > 1 ? simplifyInline(cells[1]) : undefined;
+      return {
+        numero: cells[0],
+        estimulo: estimulo || undefined,
+        opciones,
+        respuesta,
+        nota: respuesta ? undefined : authored || undefined
+      };
+    });
   if (items.length === 0) return null;
   return {
     kind: "discriminacion_fonetica",
     enunciado: enunciadoBefore(raw, /^\|/m) || "Escucha y elige.",
-    columnas: [
-      { letra: "A", etiqueta: headerCells[0] ?? "Opción A" },
-      { letra: "B", etiqueta: headerCells[1] ?? "Opción B" }
-    ],
+    columnas: letras,
     items,
     ...feedback(raw)
   };
@@ -918,19 +1183,24 @@ function parseAutoevaluacion(raw: string): AutoevaluacionContent | null {
       .slice(1, -1)
       .map((cell) => simplifyInline(cell))
   );
-  const header = rows.find((cells) => /^Puedo/i.test(cells[0] ?? ""));
+  const isScaleHeader = (cells: string[]) => {
+    const blob = cells.join(" ");
+    return /s[ií]/i.test(blob) && /esfuerzo/i.test(blob) && /todav/i.test(blob);
+  };
+  const header = rows.find((cells) => isScaleHeader(cells) && !isTableSeparator(cells));
   if (!header) return null;
 
   const criterios = rows
     .filter((cells) => {
       const first = cells[0] ?? "";
-      return Boolean(first) && !/^Puedo/i.test(first) && !/^:?-+:?$/.test(first);
+      return Boolean(first) && !isScaleHeader(cells) && !isTableSeparator(cells);
     })
     .map((cells) => cells[0]);
   if (criterios.length === 0) return null;
 
+  const firstScale = header.findIndex((cell) => /^[✅⚠️❌]?\s*s[ií]\b/i.test(cell));
   const escala = header
-    .slice(1)
+    .slice(firstScale === -1 ? 1 : firstScale)
     .filter(Boolean)
     .map((label, index) => ({
       value: ["si", "esfuerzo", "todavia"][index] ?? `nivel-${index + 1}`,

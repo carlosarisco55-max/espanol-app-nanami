@@ -1,5 +1,6 @@
 import type { ExerciseBlock } from "../../tools/parse-curriculo/exercise-types";
 import type { AudioScript } from "../../tools/parse-curriculo/types";
+import { hideStaticSolution } from "./hide-static-solution";
 
 export type SessionSegment =
   | { kind: "markdown"; text: string }
@@ -10,15 +11,15 @@ const EXERCISE_HEADER_RE = /^####\s+`(B1-B2-U\d{2}-E\d{2})`.*$/gm;
 const AUDIO_HEADER_RE = /^###\s+🎧\s+AUDIO\s+`([^`]+)`.*$/gm;
 
 // Reconstruye el orden real de la sesión: texto de lectura, luego cada ejercicio
-// interactivo exactamente donde aparecía en el markdown original, sin reordenar nada.
-// Solo separa los ejercicios que ya tienen motor interactivo (content !== null) — el
-// resto de ejercicios de la sesión (si los hay) se queda dentro del texto, como en Fase 1.
+// exactamente donde aparecía en el markdown original, sin reordenar nada.
+// Con motor (content !== null) → segmento interactivo. Sin motor y autocorregible
+// → markdown con **Solución**/explicación ocultas. El resto se queda como lectura.
 export function splitSessionIntoSegments(
   rawMarkdown: string,
   exercises: ExerciseBlock[],
   audios: AudioScript[] = []
 ): SessionSegment[] {
-  const byId = new Map(exercises.filter((e) => e.content !== null).map((e) => [e.id, e]));
+  const byId = new Map(exercises.map((e) => [e.id, e]));
   const audioById = new Map(audios.map((audio) => [audio.id, audio]));
   if (byId.size === 0 && audioById.size === 0) return [{ kind: "markdown", text: rawMarkdown }];
 
@@ -55,7 +56,16 @@ export function splitSessionIntoSegments(
       segments.push({ kind: "markdown", text: rawMarkdown.slice(cursor, item.start) });
     }
     if (item.kind === "exercise") {
-      segments.push({ kind: "exercise", block: byId.get(item.id)! });
+      const block = byId.get(item.id)!;
+      if (block.content !== null) {
+        segments.push({ kind: "exercise", block });
+      } else {
+        const slice = rawMarkdown.slice(item.start, item.end);
+        segments.push({
+          kind: "markdown",
+          text: block.autocorregible === true ? hideStaticSolution(slice) : slice
+        });
+      }
     } else {
       segments.push({ kind: "audio", audio: audioById.get(item.id)! });
     }

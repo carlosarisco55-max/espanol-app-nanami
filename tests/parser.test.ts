@@ -480,3 +480,114 @@ test("Fase 3 — conserva foco, códigos J y autocorrección por ejercicio", () 
   assert.match(exercise.foco ?? "", /J4/);
   assert.deepEqual(exercise.jCodes, ["J4"]);
 });
+
+test("clasificar cubre frases numeradas, sílabas, franjas y ranking", () => {
+  const units = parseCurriculum(content);
+  const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));
+  const byId = Object.fromEntries(exercises.map((exercise) => [exercise.id, exercise.content]));
+
+  const e10 = byId["B1-B2-U01-E10"];
+  assert.equal(e10?.kind, "clasificar");
+  if (e10?.kind === "clasificar") {
+    assert.equal(e10.banco.length, 10);
+    assert.ok(e10.columnas.some((column) => /identidad/i.test(column)));
+    assert.ok(e10.solucion[e10.columnas.find((column) => /identidad/i.test(column))!].some((item) => item.startsWith("1.")));
+  }
+
+  const silabeo = byId["B1-B2-U02-E17"];
+  assert.equal(silabeo?.kind, "clasificar");
+  if (silabeo?.kind === "clasificar") {
+    assert.ok(silabeo.banco.includes("plancha"));
+    assert.ok(silabeo.solucion["2 sílabas"]?.includes("plancha"));
+    assert.ok(silabeo.solucion["7 sílabas"]?.includes("electrodoméstico"));
+  }
+
+  const ranking = byId["B1-B2-U07-E03"];
+  assert.equal(ranking?.kind, "reordenar");
+  if (ranking?.kind === "reordenar") {
+    assert.equal(ranking.items.length, 3);
+    assert.match(ranking.items[0].respuesta, /no lo llevo muy bien/);
+  }
+
+  const franjas = byId["B1-B2-U09-E02"];
+  assert.equal(franjas?.kind, "clasificar");
+  if (franjas?.kind === "clasificar") {
+    assert.ok(franjas.columnas.some((column) => /certeza máxima/i.test(column)));
+    assert.ok(franjas.banco.includes("supongo que"));
+  }
+
+  const falacias = byId["B1-B2-U13-E02"];
+  assert.equal(falacias?.kind, "clasificar");
+  if (falacias?.kind === "clasificar") {
+    assert.ok(falacias.columnas.includes("falsa dicotomía"));
+  }
+});
+
+test("VF, transformar, fonética, respuesta corta y corregir cubren el formato de tabla o lista", () => {
+  const units = parseCurriculum(content);
+  const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));
+  const byId = Object.fromEntries(exercises.map((exercise) => [exercise.id, exercise.content]));
+
+  const vf = byId["B1-B2-U02-E07"];
+  assert.equal(vf?.kind, "verdadero_falso");
+  if (vf?.kind === "verdadero_falso") {
+    assert.equal(vf.items.length, 5);
+    assert.equal(vf.items[0].respuesta, "F");
+    assert.equal(vf.items[1].respuesta, "V");
+  }
+
+  const transformar = byId["B1-B2-U05-E14"];
+  assert.equal(transformar?.kind, "transformar");
+  if (transformar?.kind === "transformar") {
+    assert.equal(transformar.items.length, 14);
+    assert.match(transformar.items[0].respuesta, /Levántate/i);
+  }
+
+  const fonetica = byId["B1-B2-U05-E21"];
+  assert.equal(fonetica?.kind, "discriminacion_fonetica");
+  if (fonetica?.kind === "discriminacion_fonetica") {
+    assert.equal(fonetica.items[0].opciones.length, 3);
+    assert.equal(fonetica.items[0].respuesta, "C");
+  }
+
+  const foco = byId["B1-B2-U07-E19"];
+  assert.equal(foco?.kind, "discriminacion_fonetica");
+  if (foco?.kind === "discriminacion_fonetica") {
+    assert.equal(foco.items[0].respuesta, "C");
+    assert.match(foco.items[0].estimulo ?? "", /Yo no he dicho eso/);
+  }
+
+  const corta = byId["B1-B2-U06-E07"];
+  assert.equal(corta?.kind, "respuesta_corta");
+  if (corta?.kind === "respuesta_corta") {
+    assert.equal(corta.items.length, 8);
+    assert.match(corta.items[0].respuesta, /apostilla/i);
+  }
+
+  const correo = byId["B1-B2-U06-E14"];
+  assert.equal(correo?.kind, "corregir_error");
+  if (correo?.kind === "corregir_error") {
+    assert.equal(correo.items.length, 10);
+    assert.match(correo.items[0].correccion, /Le escribo/);
+  }
+
+  const cv = byId["B1-B2-U08-E15"];
+  assert.equal(cv?.kind, "corregir_error");
+  if (cv?.kind === "corregir_error") {
+    assert.equal(cv.items.length, 12);
+    assert.match(cv.items[0].correccion, /permita/);
+  }
+});
+
+test("las autoevaluaciones de fin de unidad tienen motor aunque el título no diga MCER", () => {
+  const units = parseCurriculum(content);
+  const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));
+  const e20 = exercises.find((exercise) => exercise.id === "B1-B2-U02-E20")?.content;
+  assert.equal(e20?.kind, "autoevaluacion");
+  if (e20?.kind === "autoevaluacion") {
+    assert.ok(e20.criterios.length >= 8);
+    assert.equal(e20.escala.length, 3);
+  }
+  const e24 = exercises.find((exercise) => exercise.id === "B1-B2-U05-E24")?.content;
+  assert.equal(e24?.kind, "autoevaluacion");
+});

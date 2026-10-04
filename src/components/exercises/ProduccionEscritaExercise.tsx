@@ -48,6 +48,15 @@ export default function ProduccionEscritaExercise({
     persist({ status: terminal ? "correcto" : "idle", intentos: terminal ? 1 : 0 }, next);
   }
 
+  function commitAnswers(recipe: (prev: Record<string, string>) => Record<string, string>) {
+    let next = respuestas;
+    setRespuestas((prev) => {
+      next = recipe(prev);
+      return next;
+    });
+    save(next);
+  }
+
   return (
     <ExerciseShell id={id} enunciado={applyProfile(content.enunciado)} initialState={initialState} feedback="none">
       {() => (
@@ -67,11 +76,7 @@ export default function ProduccionEscritaExercise({
             disabled={submitted}
             onChange={(event) => {
               const textoValue = event.target.value;
-              setRespuestas((prev) => {
-                const next = { ...prev, texto: textoValue };
-                save(next);
-                return next;
-              });
+              commitAnswers((prev) => ({ ...prev, texto: textoValue }));
             }}
             placeholder="Escribe aquí. El modelo aparece después de entregar."
           />
@@ -82,11 +87,7 @@ export default function ProduccionEscritaExercise({
               className={styles.checkBtn}
               disabled={words < 1}
               onClick={() => {
-                setRespuestas((prev) => {
-                  const next = { ...prev, submitted: "1" };
-                  save(next);
-                  return next;
-                });
+                commitAnswers((prev) => ({ ...prev, submitted: "1" }));
               }}
             >
               Entregar
@@ -107,10 +108,9 @@ export default function ProduccionEscritaExercise({
                 )}
                 values={rubricValues()}
                 onChange={(index, value) => {
-                  setRespuestas((prev) => {
+                  commitAnswers((prev) => {
                     const next = { ...prev, [`r${index}`]: value };
                     if (content.rubrica.every((_, item) => next[`r${item}`])) next.done = "1";
-                    save(next);
                     return next;
                   });
                 }}
@@ -122,11 +122,7 @@ export default function ProduccionEscritaExercise({
               type="button"
               className={styles.checkBtn}
               onClick={() => {
-                setRespuestas((prev) => {
-                  const next = { ...prev, done: "1" };
-                  save(next);
-                  return next;
-                });
+                commitAnswers((prev) => ({ ...prev, done: "1" }));
               }}
             >
               He terminado

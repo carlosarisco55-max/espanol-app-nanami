@@ -9,7 +9,11 @@ export default function AudioScript({ audio }: { audio: AudioScriptData }) {
   const [playing, setPlaying] = useState(false);
   const [activeLine, setActiveLine] = useState(-1);
   const [stop, setStop] = useState<(() => void) | null>(null);
-  const available = speechAvailable();
+  const [available, setAvailable] = useState(false);
+
+  useEffect(() => {
+    setAvailable(speechAvailable());
+  }, []);
 
   useEffect(() => () => stop?.(), [stop]);
 

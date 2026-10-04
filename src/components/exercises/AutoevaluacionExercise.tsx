@@ -19,15 +19,16 @@ export default function AutoevaluacionExercise({
   const done = content.criterios.every((_, index) => Boolean(respuestas[`r${index}`]));
 
   function choose(index: number, value: string) {
+    let next: Record<string, string> = respuestas;
     setRespuestas((previous) => {
-      const next = { ...previous, [`r${index}`]: value };
-      const complete = content.criterios.every((_, itemIndex) => Boolean(next[`r${itemIndex}`]));
-      persist(
-        { status: complete ? "correcto" : "idle", intentos: complete ? 1 : 0 },
-        next
-      );
+      next = { ...previous, [`r${index}`]: value };
       return next;
     });
+    const complete = content.criterios.every((_, itemIndex) => Boolean(next[`r${itemIndex}`]));
+    persist(
+      { status: complete ? "correcto" : "idle", intentos: complete ? 1 : 0 },
+      next
+    );
   }
 
   return (

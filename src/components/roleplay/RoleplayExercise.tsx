@@ -51,13 +51,15 @@ export default function RoleplayExercise({
   }
 
   function markDone(patch: Record<string, string>) {
+    let next: Record<string, string> = respuestas;
     setRespuestas((prev) => {
-      const next = { ...prev, ...patch };
+      next = { ...prev, ...patch };
       const filled = content.rubrica.length === 0 || content.rubrica.every((_, index) => next[`r${index}`]);
       if (filled) next.done = "1";
-      save(next, filled);
       return next;
     });
+    const filled = content.rubrica.length === 0 || content.rubrica.every((_, index) => next[`r${index}`]);
+    save(next, filled);
   }
 
   function speakCurrent(turn = current) {
@@ -66,16 +68,17 @@ export default function RoleplayExercise({
   }
 
   function persistPlay(nextScene: number, nextTurn: number, extra: Record<string, string> = {}) {
+    let next: Record<string, string> = respuestas;
     setRespuestas((prev) => {
-      const next = {
+      next = {
         ...prev,
         ...extra,
         scene: String(nextScene),
         turn: String(nextTurn)
       };
-      save(next);
       return next;
     });
+    save(next);
   }
 
   return (
@@ -172,11 +175,12 @@ export default function RoleplayExercise({
                     type="button"
                     className={styles.checkBtn}
                     onClick={() => {
+                      let next: Record<string, string> = respuestas;
                       setRespuestas((prev) => {
-                        const next = { ...prev, scenesDone: "1" };
-                        save(next);
+                        next = { ...prev, scenesDone: "1" };
                         return next;
                       });
+                      save(next);
                     }}
                   >
                     Terminar e ir a la rúbrica

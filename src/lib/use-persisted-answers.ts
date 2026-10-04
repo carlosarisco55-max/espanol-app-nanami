@@ -29,17 +29,18 @@ export function usePersistedAnswers(exerciseId: string, jCodes: JCode[] = []): {
   }
 
   function setAndSave(update: SetStateAction<Record<string, string>>) {
+    let next: Record<string, string> = {};
     setRespuestas((previous) => {
-      const next = typeof update === "function" ? update(previous) : update;
-      const current = progressRef.current?.getRecord(exerciseId);
-      if (current?.status !== "correcto" && current?.status !== "fallo_2") {
-        persistLater(
-          { status: current?.status ?? "idle", intentos: current?.intentos ?? 0 },
-          next
-        );
-      }
+      next = typeof update === "function" ? update(previous) : update;
       return next;
     });
+    const current = progressRef.current?.getRecord(exerciseId);
+    if (current?.status !== "correcto" && current?.status !== "fallo_2") {
+      persistLater(
+        { status: current?.status ?? "idle", intentos: current?.intentos ?? 0 },
+        next
+      );
+    }
   }
 
   return {

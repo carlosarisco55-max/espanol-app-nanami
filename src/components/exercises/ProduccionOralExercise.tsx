@@ -40,12 +40,17 @@ export default function ProduccionOralExercise({
     persist({ status: terminal ? "correcto" : "idle", intentos: terminal ? 1 : 0 }, next);
   }
 
-  function markAttempted(extra: Record<string, string> = {}) {
+  function commitAnswers(recipe: (prev: Record<string, string>) => Record<string, string>) {
+    let next = respuestas;
     setRespuestas((prev) => {
-      const next = { ...prev, ...extra, recorded: "1" };
-      save(next);
+      next = recipe(prev);
       return next;
     });
+    save(next);
+  }
+
+  function markAttempted(extra: Record<string, string> = {}) {
+    commitAnswers((prev) => ({ ...prev, ...extra, recorded: "1" }));
   }
 
   async function toggleRecord() {
@@ -103,11 +108,7 @@ export default function ProduccionOralExercise({
             value={respuestas.notas ?? ""}
             onChange={(event) => {
               const notas = event.target.value;
-              setRespuestas((prev) => {
-                const next = { ...prev, notas };
-                save(next);
-                return next;
-              });
+              commitAnswers((prev) => ({ ...prev, notas }));
             }}
           />
           <div className={prod.actions}>
@@ -133,10 +134,9 @@ export default function ProduccionOralExercise({
                 criteria={content.autoevaluacion}
                 values={rubricValues()}
                 onChange={(index, value) => {
-                  setRespuestas((prev) => {
+                  commitAnswers((prev) => {
                     const next = { ...prev, [`r${index}`]: value };
                     if (content.autoevaluacion.every((_, item) => next[`r${item}`])) next.done = "1";
-                    save(next);
                     return next;
                   });
                 }}
@@ -148,11 +148,7 @@ export default function ProduccionOralExercise({
               type="button"
               className={styles.checkBtn}
               onClick={() => {
-                setRespuestas((prev) => {
-                  const next = { ...prev, recorded: "1", done: "1" };
-                  save(next);
-                  return next;
-                });
+                commitAnswers((prev) => ({ ...prev, recorded: "1", done: "1" }));
               }}
             >
               He terminado

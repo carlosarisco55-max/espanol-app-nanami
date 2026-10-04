@@ -6,7 +6,12 @@ Orden: **1 → (contenido inglés, Claude Code) → 2 → resto**.
 
 ---
 
-## 1. Bug del parser: 73 explicaciones perdidas (PRODUCTO, primero)
+## 1. Bug del parser: 73 explicaciones perdidas (PRODUCTO, primero) — ✅ HECHO (2026-10-04, `d3af973`)
+
+Verificado: 71/71 tests, build limpio, recuento independiente en 0 perdidos reales (los 8
+que mi script marcó en U16 son notas de estrategia general, no explicaciones de un ítem,
+y no les corresponde el campo). `ExerciseShell` ahora renderiza con `ReactMarkdown` para
+no aplastar negritas/viñetas.
 
 ```
 Bug del parser, a arreglar ANTES del feedback bilingüe. 73 ejercicios interactivos tienen una

@@ -579,6 +579,34 @@ test("VF, transformar, fonética, respuesta corta y corregir cubren el formato d
   }
 });
 
+test("Por qué se captura en emparejar, clasificar multilínea y encabezado variante", () => {
+  const units = parseCurriculum(content);
+  const byId = Object.fromEntries(
+    units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises)).map((exercise) => [exercise.id, exercise])
+  );
+
+  const emparejar = byId["B1-B2-U02-E01"];
+  const emparejarText = emparejar?.content?.explicacion ?? emparejar?.content?.porQue ?? "";
+  assert.match(emparejarText, /\*\*casero \/ inquilino\*\*/);
+  assert.match(emparejarText, /\*su\* piso/);
+
+  const clasificar = byId["B1-B2-U04-E03"];
+  const clasificarText = clasificar?.content?.explicacion ?? clasificar?.content?.porQue ?? "";
+  assert.match(clasificarText, /\*\*el verbo que eliges cambia lo que el oyente entiende\*\*/);
+  assert.match(clasificarText, /^- \*«\*\*Dijo\*\*/m);
+  assert.match(clasificarText, /^- \*«\*\*Reconoció\*\*/m);
+
+  const variante = byId["B1-B2-U03-E14"];
+  const varianteText = variante?.content?.explicacion ?? variante?.content?.porQue ?? "";
+  assert.match(varianteText, /\*\*contar una historia es una actividad de dos\*\*/);
+  assert.match(varianteText, /🇯🇵/);
+
+  const parentesis = byId["B1-B2-U04-E22"];
+  const parentesisText = parentesis?.content?.explicacion ?? parentesis?.content?.porQue ?? "";
+  assert.match(parentesisText, /\*\*por código J\*\*/);
+  assert.match(parentesisText, /^- Fallos en \*\*1, 3\*\*/m);
+});
+
 test("las autoevaluaciones de fin de unidad tienen motor aunque el título no diga MCER", () => {
   const units = parseCurriculum(content);
   const exercises = units.flatMap((unit) => unit.sessions.flatMap((session) => session.exercises));

@@ -99,6 +99,16 @@ export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
     content = parseAutoevaluacion(authoredBlock);
   }
 
+  if (content) {
+    const extra = feedback(raw);
+    content = {
+      ...content,
+      pista: content.pista ?? extra.pista,
+      explicacion: content.explicacion ?? extra.explicacion,
+      porQue: extra.porQue ?? content.porQue
+    };
+  }
+
   const foco = extractYamlField(authoredBlock, "foco");
   const title = authoredBlock.match(/^####\s+`[^`]+`(?:\s+—\s+(.+))?$/m)?.[1]?.trim();
   const jCodes = [...new Set(foco?.match(/\bJ[1-8]\b/g) ?? [])] as ExerciseBlock["jCodes"];
@@ -114,6 +124,38 @@ export function parseExerciseBlock(id: string, raw: string): ExerciseBlock {
     autocorregible,
     sinSoporte: content ? undefined : `Formato ${tipo} todavía no estructurado`
   };
+}
+
+function extractPorQue(raw: string): string | undefined {
+  const lines = raw.replace(/\r/g, "").split("\n");
+  const start = lines.findIndex((line) => /^\s*>\s*💡\s*\*\*Por qu[eé]/i.test(line));
+  if (start === -1) return undefined;
+
+  const block: string[] = [];
+  for (let i = start; i < lines.length; i++) {
+    const line = lines[i];
+    if (i > start && (/^\s*---\s*$/.test(line) || /^\s*#{1,6}\s/.test(line) || /^\s*```/.test(line))) {
+      break;
+    }
+    if (/^\s*>/.test(line)) {
+      block.push(line.replace(/^\s*>\s?/, ""));
+      continue;
+    }
+    if (line.trim() === "") {
+      const next = lines[i + 1];
+      if (next && /^\s*>/.test(next)) {
+        block.push("");
+        continue;
+      }
+      break;
+    }
+    break;
+  }
+
+  if (block.length === 0) return undefined;
+  block[0] = block[0].replace(/^\s*💡\s*\*\*Por qu[eé][^*]*\*\*\s*/i, "");
+  const text = block.join("\n").replace(/^\s*\n/, "").trim();
+  return text || undefined;
 }
 
 function extractPistaExplicacion(raw: string): { pista?: string; explicacion?: string } {
@@ -158,7 +200,7 @@ function parseEmparejar(raw: string): EmparejarContent | null {
     if (key) solucion[key] = "__unused__";
   }
 
-  const { pista, explicacion } = extractPistaExplicacion(raw);
+  const { pista, explicacion, porQue } = feedback(raw);
   const pairedRows = [
     ...raw.matchAll(/^\|\s*([\p{L}\d]+)\s*\|\s*(.+?)\s*\|\s*([a-z])\s*\|\s*(.+?)\s*\|$/gimu)
   ];
@@ -182,7 +224,8 @@ function parseEmparejar(raw: string): EmparejarContent | null {
       solucion: normalizedSolution,
       allowRepeat: new Set(Object.values(normalizedSolution)).size < izquierda.length,
       pista,
-      explicacion
+      explicacion,
+      porQue
     };
   }
 
@@ -211,7 +254,8 @@ function parseEmparejar(raw: string): EmparejarContent | null {
     solucion,
     allowRepeat: new Set(Object.values(solucion)).size < izquierda.length,
     pista,
-    explicacion
+    explicacion,
+    porQue
   };
 }
 
@@ -453,7 +497,7 @@ function parseClasificar(raw: string): ClasificarContent | null {
 
   if (columnas.some((column) => solucion[column].length === 0)) return null;
 
-  const { pista, explicacion } = extractPistaExplicacion(raw);
+  const { pista, explicacion, porQue } = feedback(raw);
   const enunciado = raw.match(/\*\*(Clasifica[^*]+)\*\*/i)?.[1] ?? "Clasifica cada elemento en la columna correcta.";
 
   return {
@@ -464,7 +508,8 @@ function parseClasificar(raw: string): ClasificarContent | null {
     columnas,
     solucion,
     pista,
-    explicacion
+    explicacion,
+    porQue
   };
 }
 
@@ -697,10 +742,9 @@ function lettersOnly(value: string): string {
 
 function feedback(raw: string) {
   const base = extractPistaExplicacion(raw);
-  const porQue = raw.match(/>\s*💡\s*\*\*Por qu[eé]\.\*\*\s*([\s\S]+?)(?=\n---|$)/i)?.[1];
   return {
     ...base,
-    porQue: porQue ? simplifyInline(porQue.replace(/^>\s?/gm, " ")) : undefined
+    porQue: extractPorQue(raw)
   };
 }
 

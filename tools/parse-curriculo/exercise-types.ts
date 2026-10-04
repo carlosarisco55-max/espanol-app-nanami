@@ -196,7 +196,7 @@ export interface ProduccionOralContent extends ExerciseFeedback {
   duracion?: string;
 }
 
-export interface AutoevaluacionContent {
+export interface AutoevaluacionContent extends ExerciseFeedback {
   kind: "autoevaluacion";
   enunciado: string;
   criterios: string[];

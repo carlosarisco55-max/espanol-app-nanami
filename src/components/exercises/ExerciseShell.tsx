@@ -1,6 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import styles from "./exercises.module.css";
 import { idleExerciseState, useExerciseEngine, type ExerciseState } from "@/lib/exercise-engine";
 
@@ -60,10 +62,18 @@ export default function ExerciseShell({
       )}
       {showEngineFeedback && state.status === "fallo_2" && (
         <>
-          <p className={`${styles.feedback} ${styles.feedbackExplicacion}`}>
-            <span className={styles.feedbackLabel}>📖 Por qué.</span>
-            {explicacion ?? "No es correcto. Revisa el material de la sesión y vuelve más tarde."}
-          </p>
+          <div className={`${styles.feedback} ${styles.feedbackExplicacion}`}>
+            <p className={styles.feedbackLabel}>📖 Por qué.</p>
+            {explicacion ? (
+              <div className={styles.feedbackBody}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{explicacion}</ReactMarkdown>
+              </div>
+            ) : (
+              <p className={styles.feedbackFallback}>
+                No es correcto. Revisa el material de la sesión y vuelve más tarde.
+              </p>
+            )}
+          </div>
           <div className={styles.actions}>
             <button type="button" className={styles.retryBtn} onClick={handleRetry}>
               Reintentar

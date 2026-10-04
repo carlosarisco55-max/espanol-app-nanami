@@ -301,6 +301,47 @@
   margin-right: 0.3rem;
 }
 
+.feedbackExplicacion .feedbackLabel {
+  display: block;
+  margin: 0 0 0.35rem;
+}
+
+.feedbackBody {
+  margin: 0;
+}
+
+.feedbackBody :global(p) {
+  margin: 0 0 0.45rem;
+}
+
+.feedbackBody :global(p:last-child),
+.feedbackBody :global(ul:last-child),
+.feedbackBody :global(ol:last-child) {
+  margin-bottom: 0;
+}
+
+.feedbackBody :global(ul),
+.feedbackBody :global(ol) {
+  margin: 0.35rem 0 0.45rem;
+  padding-left: 1.2rem;
+}
+
+.feedbackBody :global(li) {
+  margin: 0.15rem 0;
+}
+
+.feedbackBody :global(strong) {
+  font-weight: 700;
+}
+
+.feedbackBody :global(em) {
+  font-style: italic;
+}
+
+.feedbackFallback {
+  margin: 0;
+}
+
 .sourceText {
   white-space: pre-line;
   font-family: var(--font-reading);

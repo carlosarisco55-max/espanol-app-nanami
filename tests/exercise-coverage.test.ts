@@ -79,6 +79,19 @@ test("los autocorregibles que quedan sin motor son cero, o solo U16 de revisión
   );
 });
 
+test("todo ejercicio interactivo con bloque 💡 Por qué tiene explicación parseada", () => {
+  const lost = exercises.filter((exercise) => {
+    if (exercise.content === null) return false;
+    if (!/>\s*💡\s*\*\*Por qu[eé]/i.test(exercise.raw)) return false;
+    const text = exercise.content.explicacion ?? exercise.content.porQue;
+    return !text?.trim();
+  });
+  assert.deepEqual(
+    lost.map((exercise) => `${exercise.id} (${exercise.tipo})`),
+    []
+  );
+});
+
 test("las autoevaluaciones y el proyecto U16-E16 no imprimen un modelo de solución", () => {
   const reading = exercises.filter((exercise) =>
     exercise.content === null && exercise.autocorregible !== true

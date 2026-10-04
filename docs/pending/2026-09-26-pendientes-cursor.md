@@ -82,11 +82,13 @@ en content/feedback-en.md que borrarás después (no commitees contenido inventa
 Actualiza solo ARCHITECTURE.md (§ del parser y §7) y no hagas commit hasta que yo lo revise.
 ```
 
-## 3. Contenido en inglés (CLAUDE CODE, tras el 1)
+## 3. Contenido en inglés (CLAUDE CODE) — ✅ HECHO (2026-10-04, `c583bbc`)
 
-- Piloto de la U1 hecho y revisado: 12 ejercicios con explicación y 2 pistas, fiel al original (borrador en el scratchpad de la sesión del 2026-09-26; se puede regenerar).
-- Método definitivo: traducir **desde el texto que entrega el parser** (`content.explicacion ?? content.porQue`), no desde el markdown crudo, para que el inglés coincida 1 a 1 con el español mostrado. Por eso va **después** del punto 1.
-- Alcance: unos 250 ejercicios en las 16 unidades. Reglas: fiel, sin añadir ni quitar, ejemplos y japonés verbatim, no inventar pistas.
+`content/feedback-en.md` escrito: 261 de 356 ejercicios, traducidos desde el JSON ya
+parseado (no desde el markdown), verificados por lotes sin huecos ni duplicados. No existe
+campo `pista` en ningún ejercicio del modelo de datos actual (solo `explicacion`/`porQue`) —
+el prompt 2 de abajo debe tratar `pista` como opcional y probablemente siempre ausente por
+ahora. El archivo todavía no lo lee ningún parser.
 
 ## 4. Decisiones que esperan respuesta
 

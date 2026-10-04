@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { buildIndex, parseCurriculum, readCurriculumFile } from "./parser";
+import { loadFeedbackEnTranslations, unknownFeedbackIds } from "./feedback-i18n";
 import type { ParseOptions } from "./types";
 
 function parseArgs(argv: string[]): ParseOptions {
@@ -52,6 +53,16 @@ function main() {
     writeFileSync(indexPath, JSON.stringify(merged, null, 2), "utf8");
   } else {
     writeFileSync(indexPath, JSON.stringify(index, null, 2), "utf8");
+  }
+
+  if (!options.unitFilter) {
+    const knownIds = units.flatMap((unit) =>
+      unit.sessions.flatMap((session) => session.exercises.map((exercise) => exercise.id))
+    );
+    const unknown = unknownFeedbackIds(loadFeedbackEnTranslations(), knownIds);
+    if (unknown.length > 0) {
+      console.warn(`feedback-en.md: ${unknown.length} ID(s) que no están en el currículo: ${unknown.join(", ")}`);
+    }
   }
 
   console.log(`Parseadas ${units.length} unidad(es): ${units.map((u) => u.unitId).join(", ")}`);

@@ -4,7 +4,11 @@ import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import styles from "./exercises.module.css";
+import { useIsDeleExam } from "@/components/dele/ExamModeContext";
+import { englishFeedbackText } from "@/lib/feedback-en";
 import { idleExerciseState, useExerciseEngine, type ExerciseState } from "@/lib/exercise-engine";
+import { useExerciseI18n } from "./ExerciseI18nContext";
+import FeedbackEnSupport from "./FeedbackEnSupport";
 
 export interface ExerciseShellRenderProps {
   state: ExerciseState;
@@ -36,6 +40,12 @@ export default function ExerciseShell({
   const { state, submit, reintentar, bloqueado } = useExerciseEngine(initialState ?? idleExerciseState);
   const showEngineFeedback = feedback === "engine";
   const revelarSolucion = showEngineFeedback && state.status === "fallo_2";
+  const i18n = useExerciseI18n();
+  const examMode = useIsDeleExam();
+  const englishText = englishFeedbackText(state.status, i18n, {
+    examMode,
+    engineFeedback: showEngineFeedback
+  });
 
   function handleRetry() {
     reintentar();
@@ -55,10 +65,13 @@ export default function ExerciseShell({
         </p>
       )}
       {showEngineFeedback && state.status === "fallo_1" && (
-        <p className={`${styles.feedback} ${styles.feedbackPista}`}>
-          <span className={styles.feedbackLabel}>💡 {pista ? "Pista." : "Casi."}</span>
-          {pista ?? "No es correcto todavía — vuelve a intentarlo."}
-        </p>
+        <div className={`${styles.feedback} ${styles.feedbackPista}`}>
+          <p>
+            <span className={styles.feedbackLabel}>💡 {pista ? "Pista." : "Casi."}</span>
+            {pista ?? "No es correcto todavía — vuelve a intentarlo."}
+          </p>
+          {englishText && <FeedbackEnSupport text={englishText} />}
+        </div>
       )}
       {showEngineFeedback && state.status === "fallo_2" && (
         <>
@@ -73,6 +86,7 @@ export default function ExerciseShell({
                 No es correcto. Revisa el material de la sesión y vuelve más tarde.
               </p>
             )}
+            {englishText && <FeedbackEnSupport text={englishText} />}
           </div>
           <div className={styles.actions}>
             <button type="button" className={styles.retryBtn} onClick={handleRetry}>

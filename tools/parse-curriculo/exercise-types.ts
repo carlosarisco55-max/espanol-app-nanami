@@ -4,6 +4,10 @@ export interface ExerciseFeedback {
   pista?: string;
   explicacion?: string;
   porQue?: string;
+  pistaEn?: string;
+  explicacionEn?: string;
+  pistaJa?: string;
+  explicacionJa?: string;
 }
 
 export interface EmparejarContent extends ExerciseFeedback {
@@ -231,4 +235,8 @@ export interface ExerciseBlock {
   jCodes: JCode[];
   autocorregible: boolean | null;
   sinSoporte?: string;
+  pistaEn?: string;
+  explicacionEn?: string;
+  pistaJa?: string;
+  explicacionJa?: string;
 }

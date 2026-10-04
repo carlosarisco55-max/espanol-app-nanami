@@ -342,6 +342,67 @@
   margin: 0;
 }
 
+.feedbackPista > p,
+.feedbackExplicacion > p.feedbackLabel {
+  margin: 0;
+}
+
+.feedbackEn {
+  margin-top: 0.65rem;
+}
+
+.feedbackEnToggle {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.2rem 0;
+  border: none;
+  background: none;
+  color: var(--accent-ink);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.feedbackPista .feedbackEnToggle {
+  color: var(--warm-strong);
+}
+
+.feedbackEnToggle:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 0.2rem;
+}
+
+.feedbackEnBody {
+  margin-top: 0.45rem;
+  color: var(--accent-ink);
+}
+
+.feedbackPista .feedbackEnBody {
+  color: var(--warm-strong);
+}
+
+.feedbackEnBody :global(p) {
+  margin: 0 0 0.45rem;
+}
+
+.feedbackEnBody :global(p:last-child),
+.feedbackEnBody :global(ul:last-child),
+.feedbackEnBody :global(ol:last-child) {
+  margin-bottom: 0;
+}
+
+.feedbackEnBody :global(ul),
+.feedbackEnBody :global(ol) {
+  margin: 0.35rem 0 0.45rem;
+  padding-left: 1.2rem;
+}
+
+.feedbackEnBody :global(li) {
+  margin: 0.15rem 0;
+}
+
 .sourceText {
   white-space: pre-line;
   font-family: var(--font-reading);

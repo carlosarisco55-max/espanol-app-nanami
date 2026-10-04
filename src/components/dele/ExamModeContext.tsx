@@ -23,3 +23,7 @@ export function ExamModeProvider({
 export function useExamMode() {
   return useContext(ExamModeContext) ?? { phase: "review" as const, canCheck: true };
 }
+
+export function useIsDeleExam(): boolean {
+  return useContext(ExamModeContext) !== null;
+}

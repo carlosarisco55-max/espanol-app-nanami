@@ -14,6 +14,7 @@ import type {
 } from "./types";
 import { splitExerciseBlocks, parseExerciseBlock } from "./exercises";
 import { parseAudioScripts } from "./audio";
+import { attachFeedbackI18n, loadFeedbackEnTranslations, type FeedbackEnFields } from "./feedback-i18n";
 
 const UNIT_HEADER_REGEX = /^#\s+\d+(?:\.\d+)?\.?\s+UNIDAD\s+\d+\s+—\s+.+$/gm;
 const SESSION_HEADER_REGEX = /^##\s+.*SESIÓN\s+([1-5])\s+—\s+(.+)$/gm;
@@ -37,7 +38,8 @@ export function parseCurriculum(content: string, options: ParseOptions = {}): Cu
     ? unitBlocks.filter((block) => block.includes(`unidad_id: ${options.unitFilter}`))
     : unitBlocks;
 
-  return targetBlocks.map((block) => parseUnitBlock(block));
+  const translations = loadFeedbackEnTranslations();
+  return targetBlocks.map((block) => parseUnitBlock(block, translations));
 }
 
 export function buildIndex(units: CurriculumUnit[]): CurriculumIndexEntry[] {
@@ -49,7 +51,7 @@ export function buildIndex(units: CurriculumUnit[]): CurriculumIndexEntry[] {
   }));
 }
 
-function parseUnitBlock(block: string): CurriculumUnit {
+function parseUnitBlock(block: string, translations: Map<string, FeedbackEnFields>): CurriculumUnit {
   const nextDocumentSection = [...block.matchAll(/^#\s+.+$/gm)].find(
     (match) => match.index !== undefined && match.index > 0 && !/\bUNIDAD\b/.test(match[0])
   );
@@ -71,7 +73,8 @@ function parseUnitBlock(block: string): CurriculumUnit {
     frontmatter.unidad_id,
     openingsManual,
     orientations,
-    canDos
+    canDos,
+    translations
   );
   const exerciseCount = sessions.reduce((sum, session) => sum + session.exerciseIds.length, 0);
 
@@ -102,7 +105,8 @@ function parseSessions(
   unitId: string,
   openingsManual: Partial<Record<SessionNumber, string>>,
   orientations: Partial<Record<SessionNumber, { en?: string; ja?: string }>>,
-  canDos: CanDoItem[]
+  canDos: CanDoItem[],
+  translations: Map<string, FeedbackEnFields>
 ): SessionData[] {
   const matches = [...block.matchAll(new RegExp(SESSION_HEADER_REGEX))];
 
@@ -113,7 +117,10 @@ function parseSessions(
     const contentEnd = index + 1 < matches.length ? matches[index + 1].index! : block.length;
     const rawMarkdown = block.slice(contentStart, contentEnd).trim();
     const exerciseIds = [...rawMarkdown.matchAll(new RegExp(EXERCISE_REGEX))].map((exerciseMatch) => exerciseMatch[1]);
-    const exercises = splitExerciseBlocks(rawMarkdown).map(({ id, raw }) => parseExerciseBlock(id, raw));
+    const exercises = attachFeedbackI18n(
+      splitExerciseBlocks(rawMarkdown).map(({ id, raw }) => parseExerciseBlock(id, raw)),
+      translations
+    );
     const audios = parseAudioScripts(rawMarkdown);
 
     return {

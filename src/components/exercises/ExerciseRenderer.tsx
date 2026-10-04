@@ -14,6 +14,7 @@ import ProduccionOralExercise from "./ProduccionOralExercise";
 import AutoevaluacionExercise from "./AutoevaluacionExercise";
 import RoleplayExercise from "@/components/roleplay/RoleplayExercise";
 import { useOptionalSessionProgress } from "@/components/SessionProgressProvider";
+import { ExerciseI18nProvider } from "./ExerciseI18nContext";
 import styles from "./exercises.module.css";
 
 export default function ExerciseRenderer({ block }: { block: ExerciseBlock }) {
@@ -23,6 +24,19 @@ export default function ExerciseRenderer({ block }: { block: ExerciseBlock }) {
     return <div className={styles.card} aria-busy="true" />;
   }
 
+  const inner = renderExercise(block);
+  return (
+    <ExerciseI18nProvider
+      pistaEn={block.pistaEn ?? block.content.pistaEn}
+      explicacionEn={block.explicacionEn ?? block.content.explicacionEn}
+    >
+      {inner}
+    </ExerciseI18nProvider>
+  );
+}
+
+function renderExercise(block: ExerciseBlock) {
+  if (!block.content) return null;
   switch (block.content.kind) {
     case "opcion_multiple":
       return <OpcionMultipleExercise id={block.id} content={block.content} jCodes={block.jCodes} />;

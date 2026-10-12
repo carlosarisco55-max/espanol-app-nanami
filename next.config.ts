@@ -9,6 +9,24 @@ const nextConfig: NextConfig = {
   // App Router only: NFT still looks at Pages internals. Pin the root so
   // Windows paths do not drift outside the project during Collecting build traces.
   outputFileTracingRoot: path.join(__dirname),
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          // Sin backend ni datos de terceros que cargar: una CSP estricta no rompe nada aquí.
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+          },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" }
+        ]
+      }
+    ];
+  },
   webpack(config, { isServer, dev }) {
     if (isServer && !dev) {
       config.plugins.push({

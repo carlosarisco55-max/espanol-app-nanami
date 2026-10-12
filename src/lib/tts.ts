@@ -16,6 +16,13 @@ function speakerIndex(speaker: string): number {
 }
 
 const SPEAKER_PITCHES = [0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15] as const;
+const SPEECH_TIMEOUT_MIN_MS = 10_000;
+const SPEECH_TIMEOUT_MAX_MS = 180_000;
+const ESTIMATED_MS_PER_CHARACTER = 65;
+const SPEECH_TIMEOUT_MULTIPLIER = 2;
+const SPEECH_TIMEOUT_GRACE_MS = 3_000;
+
+let activeSpeechTimeout: { id: number; owner: symbol } | undefined;
 
 export function pitchFromSpeaker(speaker: string): number {
   if (!speaker) return 1;
@@ -25,6 +32,30 @@ export function pitchFromSpeaker(speaker: string): number {
 export function voiceIndexForSpeaker(speaker: string, voiceCount: number): number | null {
   if (voiceCount <= 0) return null;
   return speaker ? speakerIndex(speaker) % voiceCount : 0;
+}
+
+export function speechTimeoutMs(text: string, rate = 1): number {
+  const safeRate = Math.max(rate, 0.1);
+  const estimatedDuration = (text.trim().length * ESTIMATED_MS_PER_CHARACTER) / safeRate;
+  const timeout = Math.ceil(estimatedDuration * SPEECH_TIMEOUT_MULTIPLIER + SPEECH_TIMEOUT_GRACE_MS);
+  return Math.min(SPEECH_TIMEOUT_MAX_MS, Math.max(SPEECH_TIMEOUT_MIN_MS, timeout));
+}
+
+function clearSpeechTimeout(owner?: symbol): void {
+  if (activeSpeechTimeout === undefined) return;
+  if (owner !== undefined && activeSpeechTimeout.owner !== owner) return;
+  window.clearTimeout(activeSpeechTimeout.id);
+  activeSpeechTimeout = undefined;
+}
+
+function armSpeechTimeout(text: string, rate: number, owner: symbol, onTimeout: () => void): void {
+  clearSpeechTimeout();
+  const timeoutId = window.setTimeout(() => {
+    if (activeSpeechTimeout?.owner !== owner) return;
+    activeSpeechTimeout = undefined;
+    onTimeout();
+  }, speechTimeoutMs(text, rate));
+  activeSpeechTimeout = { id: timeoutId, owner };
 }
 
 function applySpeakerVariant(
@@ -55,8 +86,26 @@ export function speakAsSpeaker(speaker: string, text: string): boolean {
   utterance.lang = "es-ES";
   utterance.rate = 0.88;
   applySpeakerVariant(utterance, speaker, voices);
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
+  const synth = window.speechSynthesis;
+  const timeoutOwner = Symbol("speakAsSpeaker");
+  let settled = false;
+  const settle = () => {
+    if (settled) return;
+    settled = true;
+    clearSpeechTimeout(timeoutOwner);
+  };
+  utterance.onend = settle;
+  utterance.onerror = settle;
+  clearSpeechTimeout();
+  synth.cancel();
+  synth.speak(utterance);
+  if (!settled) {
+    armSpeechTimeout(text, utterance.rate, timeoutOwner, () => {
+      if (settled) return;
+      settled = true;
+      synth.cancel();
+    });
+  }
   return true;
 }
 
@@ -87,22 +136,39 @@ export function speakLines(
     utterance.lang = "es-ES";
     utterance.rate = rateFromDescription(speed);
     applySpeakerVariant(utterance, line.speaker ?? "", voices);
-    utterance.onend = () => {
+    const timeoutOwner = Symbol(`speakLine:${index}`);
+    let settled = false;
+    const advance = (delay: number) => {
+      if (settled) return;
+      settled = true;
+      clearSpeechTimeout(timeoutOwner);
       index += 1;
-      window.setTimeout(speakNext, line.stageDirections.includes("pausa") ? 550 : 100);
+      if (delay > 0) {
+        window.setTimeout(speakNext, delay);
+      } else {
+        speakNext();
+      }
     };
-    utterance.onerror = () => {
-      index += 1;
-      speakNext();
-    };
+    const endDelay = line.stageDirections.includes("pausa") ? 550 : 100;
+    utterance.onend = () => advance(endDelay);
+    utterance.onerror = () => advance(0);
     synth.speak(utterance);
+    if (!settled) {
+      armSpeechTimeout(line.text, utterance.rate, timeoutOwner, () => {
+        if (settled) return;
+        synth.cancel();
+        advance(endDelay);
+      });
+    }
   };
 
+  clearSpeechTimeout();
   synth.cancel();
   speakNext();
 
   return () => {
     cancelled = true;
+    clearSpeechTimeout();
     synth.cancel();
   };
 }

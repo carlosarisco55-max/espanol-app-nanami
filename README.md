@@ -10,7 +10,7 @@
   <a href="https://espanol-app-five.vercel.app"><strong>🚀 Ver la app en vivo</strong></a>
 </p>
 
-[▶ Ver el vídeo del MVP](docs/brag/2026-10-12-canvas-explainer/brag.mp4)
+[▶ Ver el vídeo del MVP](docs/brag/2026-10-12-canvas-explainer/brag.mp4) · explicado con un Canvas interactivo construido en Cursor ([fuente](docs/brag/2026-10-12-canvas-explainer/nanami-product.canvas.tsx))
 
 Aplicación de aprendizaje de español para hablantes de japonés. Primera usuaria: adulta japonesa en España, nivel B1 → objetivo B2. **MVP en revisión**: funcional de extremo a extremo, quedan ajustes y validación humana antes de darlo por cerrado del todo.
 

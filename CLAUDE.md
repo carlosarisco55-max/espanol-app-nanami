@@ -122,10 +122,11 @@ Decidido el 2026-09-20. Este es el orden; no renegociarlo sin motivo:
 
 **Pendientes de limpieza (no bloquean):**
 
-- Worktree `espanol-app-wt-phase3`: **borrado el 2026-09-26** (era un worktree, no una
-  copia). Su trabajo sin commitear sigue en la rama `backup/phase3-wip-2026-09-06`
-  (local y GitHub). Pendiente: decidir si `tests/parser-exercises.test.ts` (513 líneas,
-  no está en `master`) se rescata; después se puede borrar esa rama.
+- ✅ Worktree y ramas de Fase 3 — **cerrado del todo (2026-10-12)**. El worktree se
+  borró el 2026-09-26; las ramas `backup/phase3-wip-2026-09-06` y `phase3-parser-exercises`
+  se borraron ahora (local y GitHub). Se decidió NO rescatar `tests/parser-exercises.test.ts`:
+  solo 2 de sus 34 tests pasaban contra el código actual (el parser se reescribió dos veces
+  desde entonces), y el riesgo que cubría ya lo protege mejor `tests/exercise-coverage.test.ts`.
 - Vídeo del MVP: si se reutiliza, sustituir el ejercicio de relleno ("Ayer ___ al
   mercado") por uno real del currículo. La música exige atribución (CC BY 4.0).
 

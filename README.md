@@ -1,6 +1,18 @@
 # Nanami — app de español (B1→B2)
 
-Aplicación de aprendizaje de español para hablantes de japonés. Primera usuaria: adulta japonesa en España, nivel B1 → objetivo B2.
+<p align="center">
+  <a href="https://espanol-app-five.vercel.app">
+    <img src="docs/brag/2026-10-12-canvas-explainer/canvas-cover.jpg" width="320" alt="Nanami — portada">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://espanol-app-five.vercel.app"><strong>🚀 Ver la app en vivo</strong></a>
+</p>
+
+[▶ Ver el vídeo del MVP](docs/brag/2026-10-12-canvas-explainer/brag.mp4)
+
+Aplicación de aprendizaje de español para hablantes de japonés. Primera usuaria: adulta japonesa en España, nivel B1 → objetivo B2. **MVP en revisión**: funcional de extremo a extremo, quedan ajustes y validación humana antes de darlo por cerrado del todo.
 
 **Para el contexto operativo completo (reglas, fuentes de verdad, estado, decisiones ya cerradas), lee [`CLAUDE.md`](./CLAUDE.md) antes de tocar nada.**
 

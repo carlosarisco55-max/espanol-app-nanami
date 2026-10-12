@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1080">
+    <title>Nanami — acompañar después del error</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="assets/music/audio-data.js"></script>
+    <style>
+      :root {
+        --bg: #eeece2;
+        --raised: #f8f6ee;
+        --sunken: #e2ddcc;
+        --ink: #1c1a1f;
+        --soft: #514d52;
+        --line: #d8d2bf;
+        --line-soft: #e5e0cf;
+        --accent: #223059;
+        --accent-soft: #dfe2ee;
+        --accent-strong: #16204a;
+        --warm: #c1531f;
+        --warm-strong: #9c3f16;
+        --warm-soft: #f4ddc9;
+        --sage: #47654a;
+        --sage-soft: #dde8dc;
+        --clay: #8c3228;
+        --clay-soft: #f3d4cc;
+        --display: Georgia, "Times New Roman", serif;
+        --ui: "Segoe UI", system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--ui);
+      }
+
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        isolation: isolate;
+        background: var(--bg);
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+      }
+
+      #paper-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        opacity: 0.34;
+        background-image:
+          linear-gradient(var(--line-soft) 2px, transparent 2px),
+          linear-gradient(90deg, var(--line-soft) 2px, transparent 2px);
+        background-size: 84px 84px;
+      }
+
+      #paper-grain {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        opacity: 0.055;
+        mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitchTiles'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+      }
+
+      #audio-presence {
+        position: absolute;
+        right: -150px;
+        top: -140px;
+        z-index: 2;
+        width: 520px;
+        height: 520px;
+        border-radius: 50%;
+        background: var(--warm-soft);
+        opacity: 0.28;
+        will-change: transform, opacity;
+      }
+
+      .top-rule {
+        position: absolute;
+        top: 42px;
+        left: 54px;
+        right: 54px;
+        height: 3px;
+        background: var(--accent);
+        transform-origin: left center;
+      }
+
+      .scene-index {
+        position: absolute;
+        top: 56px;
+        right: 58px;
+        color: var(--warm-strong);
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      .eyebrow {
+        color: var(--warm-strong);
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: 0.17em;
+        text-transform: uppercase;
+      }
+
+      .brand-lockup {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 76px;
+        height: 76px;
+        place-items: center;
+        border-radius: 16px;
+        background: var(--warm);
+        color: var(--raised);
+        font-family: var(--display);
+        font-size: 44px;
+        line-height: 1;
+      }
+
+      .brand-name {
+        color: var(--accent);
+        font-size: 29px;
+        font-weight: 700;
+        letter-spacing: 0.26em;
+        text-transform: uppercase;
+      }
+
+      .card {
+        border: 2px solid var(--line);
+        border-radius: 24px;
+        background: var(--raised);
+        box-shadow: 0 18px 44px -26px rgba(28, 26, 31, 0.34);
+      }
+
+      /* Scene 1 */
+      #s1-inner {
+        padding: 112px 82px 76px;
+      }
+
+      #s1-brand {
+        margin-top: 84px;
+      }
+
+      #hook {
+        max-width: 870px;
+        margin: 84px 0 0;
+        font-family: var(--display);
+        font-size: 100px;
+        font-weight: 400;
+        line-height: 0.98;
+        letter-spacing: -0.045em;
+      }
+
+      #hook .hook-word {
+        display: inline-block;
+        margin-right: 20px;
+        opacity: 0;
+        will-change: transform, filter, opacity;
+      }
+
+      #hook strong {
+        color: var(--accent);
+        font-weight: 400;
+      }
+
+      #hook-note {
+        width: 670px;
+        margin-top: 54px;
+        padding-top: 18px;
+        border-top: 3px solid var(--warm);
+        color: var(--soft);
+        font-size: 30px;
+        line-height: 1.35;
+      }
+
+      /* Scene 2 */
+      #s2-inner {
+        padding: 88px 62px 48px;
+      }
+
+      #exercise-card {
+        position: relative;
+        width: 956px;
+        min-height: 930px;
+        padding: 38px 42px 34px;
+      }
+
+      #exercise-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      #exercise-id {
+        color: var(--soft);
+        font-size: 22px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #exercise-question {
+        max-width: 830px;
+        margin: 30px 0 0;
+        font-family: var(--display);
+        font-size: 50px;
+        font-weight: 400;
+        line-height: 1.15;
+      }
+
+      #options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .option {
+        position: relative;
+        display: flex;
+        min-height: 76px;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--line);
+        border-radius: 16px;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .option-letter {
+        position: absolute;
+        left: 18px;
+        color: var(--soft);
+        font-size: 21px;
+      }
+
+      #option-wrong {
+        transform-origin: center;
+      }
+
+      #option-result {
+        position: absolute;
+        right: 14px;
+        color: var(--clay);
+        font-size: 20px;
+        font-weight: 800;
+        opacity: 0;
+      }
+
+      #check-button {
+        display: flex;
+        width: 240px;
+        height: 66px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        border-radius: 15px;
+        background: var(--accent);
+        color: var(--raised);
+        font-size: 25px;
+        font-weight: 700;
+        transform-origin: center;
+      }
+
+      #feedback-wrap {
+        position: relative;
+        margin-top: 22px;
+      }
+
+      #feedback-es {
+        padding: 22px 24px;
+        border: 2px solid var(--clay);
+        border-radius: 18px;
+        background: var(--clay-soft);
+        opacity: 0;
+      }
+
+      #feedback-title {
+        color: var(--clay);
+        font-size: 25px;
+        font-weight: 800;
+      }
+
+      #feedback-es p {
+        margin: 9px 0 0;
+        color: var(--ink);
+        font-family: var(--display);
+        font-size: 29px;
+        line-height: 1.34;
+      }
+
+      #english-toggle {
+        display: flex;
+        width: 250px;
+        min-height: 58px;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 15px;
+        padding: 0 17px;
+        border: 2px solid var(--accent);
+        border-radius: 14px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 23px;
+        font-weight: 700;
+        opacity: 0;
+        transform-origin: center;
+      }
+
+      #toggle-track {
+        position: relative;
+        width: 50px;
+        height: 28px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      #toggle-knob {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--raised);
+      }
+
+      #feedback-en {
+        margin-top: 12px;
+        padding: 18px 21px;
+        border-left: 5px solid var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 25px;
+        line-height: 1.35;
+        opacity: 0;
+      }
+
+      #feedback-en strong {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 19px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      #demo-cursor {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 20;
+        width: 44px;
+        height: 54px;
+        opacity: 0;
+        pointer-events: none;
+        will-change: transform;
+      }
+
+      #demo-cursor svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 4px 3px rgba(28, 26, 31, 0.22));
+      }
+
+      .click-ring {
+        position: absolute;
+        z-index: 19;
+        width: 54px;
+        height: 54px;
+        border: 3px solid var(--warm);
+        border-radius: 50%;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #ring-option {
+        top: 300px;
+        left: 145px;
+      }
+
+      #ring-check {
+        top: 407px;
+        left: 143px;
+      }
+
+      #ring-toggle {
+        top: 695px;
+        left: 220px;
+      }
+
+      /* Scene 3 */
+      #s3-inner {
+        padding: 86px 66px 42px;
+      }
+
+      #journey-title {
+        max-width: 760px;
+        margin: 30px 0 0;
+        font-family: var(--display);
+        font-size: 64px;
+        font-weight: 400;
+        line-height: 1.04;
+        letter-spacing: -0.035em;
+      }
+
+      #stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 30px;
+      }
+
+      .stat-card {
+        min-height: 190px;
+        padding: 24px;
+        border-top: 7px solid var(--accent);
+        opacity: 0;
+        transform-origin: center bottom;
+      }
+
+      .stat-value {
+        display: block;
+        color: var(--accent);
+        font-family: var(--display);
+        font-size: 68px;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .stat-label {
+        display: block;
+        margin-top: 12px;
+        color: var(--soft);
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      #journey-line {
+        position: relative;
+        height: 94px;
+        margin: 34px 12px 0;
+      }
+
+      #journey-track,
+      #journey-fill {
+        position: absolute;
+        top: 25px;
+        left: 0;
+        right: 0;
+        height: 6px;
+        border-radius: 3px;
+      }
+
+      #journey-track {
+        background: var(--line);
+      }
+
+      #journey-fill {
+        background: var(--warm);
+        transform-origin: left center;
+      }
+
+      .journey-node {
+        position: absolute;
+        top: 7px;
+        width: 42px;
+        height: 42px;
+        border: 5px solid var(--raised);
+        border-radius: 50%;
+        background: var(--accent);
+        opacity: 0;
+      }
+
+      #node-b1 {
+        left: 0;
+      }
+
+      #node-b1p {
+        left: 47%;
+      }
+
+      #node-b2 {
+        right: 0;
+        background: var(--warm);
+      }
+
+      .node-label {
+        position: absolute;
+        top: 58px;
+        color: var(--soft);
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      #label-b1 {
+        left: 0;
+      }
+
+      #label-b1p {
+        left: 44%;
+      }
+
+      #label-b2 {
+        right: 0;
+      }
+
+      #capabilities {
+        display: flex;
+        gap: 13px;
+        margin-top: 14px;
+      }
+
+      .capability {
+        padding: 10px 18px;
+        border: 2px solid var(--line);
+        border-radius: 999px;
+        background: var(--raised);
+        color: var(--accent-strong);
+        font-size: 20px;
+        font-weight: 700;
+        opacity: 0;
+      }
+
+      /* Scene 4 */
+      #s4-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 76px;
+      }
+
+      #final-panel {
+        width: 900px;
+        text-align: center;
+      }
+
+      #final-range {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        color: var(--accent);
+        font-family: var(--display);
+        font-size: 122px;
+        line-height: 1;
+      }
+
+      #final-arrow {
+        display: block;
+        width: 180px;
+        height: 7px;
+        border-radius: 4px;
+        background: var(--warm);
+        transform-origin: left center;
+      }
+
+      #final-title {
+        margin: 40px 0 0;
+        font-family: var(--display);
+        font-size: 79px;
+        font-weight: 400;
+        line-height: 1.05;
+        letter-spacing: -0.035em;
+      }
+
+      #final-brand {
+        justify-content: center;
+        margin-top: 58px;
+      }
+
+      #final-note {
+        margin-top: 28px;
+        color: var(--soft);
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-wvl2" id="root" data-composition-id="main" data-start="0" data-width="1080" data-height="1080" data-duration="22.9">
+      <div data-hf-id="hf-sp37" id="paper-grid" data-layout-ignore=""></div>
+      <div data-hf-id="hf-7zus" id="paper-grain" data-layout-ignore=""></div>
+      <div data-hf-id="hf-l3rg" id="audio-presence" data-layout-ignore=""></div>
+
+      <section data-hf-id="hf-gugf" id="s1" class="clip" data-start="0" data-duration="3.27" data-track-index="1">
+        <div data-hf-id="hf-4o1t" id="s1-inner" class="scene">
+          <div data-hf-id="hf-n8pl" class="top-rule" id="s1-rule"></div>
+          <span data-hf-id="hf-rz2e" class="scene-index">01 / 04</span>
+          <div data-hf-id="hf-l0hg" class="brand-lockup" id="s1-brand">
+            <span data-hf-id="hf-zjtr" class="brand-mark">始</span>
+            <span data-hf-id="hf-xj0q" class="brand-name">Nanami</span>
+          </div>
+          <h1 data-hf-id="hf-sn5u" id="hook">
+            <span data-hf-id="hf-xgn4" class="hook-word">El</span>
+            <span data-hf-id="hf-4khx" class="hook-word">error</span>
+            <span data-hf-id="hf-ipme" class="hook-word">no</span>
+            <span data-hf-id="hf-j6e9" class="hook-word">debería</span>
+            <span data-hf-id="hf-a36p" class="hook-word"><strong data-hf-id="hf-hn64">dejarte sola.</strong></span>
+          </h1>
+          <p data-hf-id="hf-t4cn" id="hook-note">La ayuda importa más justo después de fallar.</p>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-7vpd" id="s2" class="clip" data-start="3.27" data-duration="7.66" data-track-index="1">
+        <div data-hf-id="hf-rsw6" id="s2-inner" class="scene">
+          <div data-hf-id="hf-17e0" class="top-rule" id="s2-rule"></div>
+          <span data-hf-id="hf-2qsl" class="scene-index">02 / 04</span>
+          <article data-hf-id="hf-9cf2" id="exercise-card" class="card">
+            <div data-hf-id="hf-zn0y" id="exercise-head">
+              <span data-hf-id="hf-h2n9" class="eyebrow">Ejercicio real</span>
+              <span data-hf-id="hf-3e8v" id="exercise-id">B1-B2-U01-E02 · 7</span>
+            </div>
+            <h2 data-hf-id="hf-efo1" id="exercise-question">¡Qué persona tan ______! No para de contar chistes.</h2>
+            <div data-hf-id="hf-sj01" id="options">
+              <div data-hf-id="hf-jk0k" class="option" id="option-wrong">
+                <span data-hf-id="hf-17ya" class="option-letter">a</span>
+                divertido
+                <span data-hf-id="hf-oh14" id="option-result">✕</span>
+              </div>
+              <div data-hf-id="hf-jik1" class="option">
+                <span data-hf-id="hf-1m9b" class="option-letter">b</span>
+                divertida
+              </div>
+              <div data-hf-id="hf-6yjq" class="option">
+                <span data-hf-id="hf-20kc" class="option-letter">c</span>
+                divertidas
+              </div>
+            </div>
+            <div data-hf-id="hf-jmwl" id="check-button">Comprobar</div>
+            <div data-hf-id="hf-8ctd" id="feedback-wrap">
+              <div data-hf-id="hf-lndt" id="feedback-es">
+                <div data-hf-id="hf-z0js" id="feedback-title">Todavía no</div>
+                <p data-hf-id="hf-c1kh"><em data-hf-id="hf-96n5">persona</em> es femenino siempre, aunque se refiera a un hombre.</p>
+              </div>
+              <div data-hf-id="hf-1vmc" id="english-toggle">
+                <span data-hf-id="hf-vgc5">🌐 English</span>
+                <span data-hf-id="hf-wzh8" id="toggle-track"><span data-hf-id="hf-49cz" id="toggle-knob"></span></span>
+              </div>
+              <div data-hf-id="hf-fdw6" id="feedback-en" lang="en">
+                <strong data-hf-id="hf-wpp9">English support</strong>
+                <em data-hf-id="hf-6pdh">persona</em> is always feminine, even when it refers to a man.
+              </div>
+            </div>
+            <div data-hf-id="hf-pkec" class="click-ring" id="ring-option" data-layout-ignore=""></div>
+            <div data-hf-id="hf-wzil" class="click-ring" id="ring-check" data-layout-ignore=""></div>
+            <div data-hf-id="hf-ewsn" class="click-ring" id="ring-toggle" data-layout-ignore=""></div>
+            <div data-hf-id="hf-7axg" id="demo-cursor" data-layout-ignore="">
+              <svg data-hf-id="hf-pdwv" viewBox="0 0 44 54" aria-hidden="true">
+                <path data-hf-id="hf-gu1x" d="M5 3 L36 32 L23 35 L30 49 L20 53 L13 38 L4 47 Z" fill="#f8f6ee" stroke="#1c1a1f" stroke-width="3" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-o0u5" id="s3" class="clip" data-start="10.93" data-duration="6.54" data-track-index="1">
+        <div data-hf-id="hf-0f0r" id="s3-inner" class="scene">
+          <div data-hf-id="hf-42p3" class="top-rule" id="s3-rule"></div>
+          <span data-hf-id="hf-cjyk" class="scene-index">03 / 04</span>
+          <span data-hf-id="hf-t03b" class="eyebrow">Un recorrido completo</span>
+          <h2 data-hf-id="hf-im53" id="journey-title">Del contexto real al objetivo B2.</h2>
+          <div data-hf-id="hf-lsyu" id="stats">
+            <div data-hf-id="hf-63oq" class="stat-card card" id="stat-card-1">
+              <span data-hf-id="hf-rccf" class="stat-value" id="stat-16">0</span>
+              <span data-hf-id="hf-7lv9" class="stat-label">unidades</span>
+            </div>
+            <div data-hf-id="hf-zxyx" class="stat-card card" id="stat-card-2">
+              <span data-hf-id="hf-gnrk" class="stat-value" id="stat-80">0</span>
+              <span data-hf-id="hf-l5kn" class="stat-label">sesiones</span>
+            </div>
+            <div data-hf-id="hf-z6b4" class="stat-card card" id="stat-card-3">
+              <span data-hf-id="hf-7b1q" class="stat-value" id="stat-356">0</span>
+              <span data-hf-id="hf-lkog" class="stat-label">ejercicios</span>
+            </div>
+          </div>
+          <div data-hf-id="hf-zwi2" id="journey-line">
+            <div data-hf-id="hf-0qdl" id="journey-track"></div>
+            <div data-hf-id="hf-zlxb" id="journey-fill"></div>
+            <span data-hf-id="hf-wyeo" class="journey-node" id="node-b1"></span>
+            <span data-hf-id="hf-zbnc" class="journey-node" id="node-b1p"></span>
+            <span data-hf-id="hf-7twb" class="journey-node" id="node-b2"></span>
+            <span data-hf-id="hf-9vm3" class="node-label" id="label-b1">B1</span>
+            <span data-hf-id="hf-ir2k" class="node-label" id="label-b1p">B1+</span>
+            <span data-hf-id="hf-q1l5" class="node-label" id="label-b2">B2</span>
+          </div>
+          <div data-hf-id="hf-dhhj" id="capabilities">
+            <span data-hf-id="hf-odoh" class="capability">Repaso SRS</span>
+            <span data-hf-id="hf-nhig" class="capability">Simulacro DELE</span>
+            <span data-hf-id="hf-gjg1" class="capability">Local-first</span>
+          </div>
+        </div>
+      </section>
+
+      <section data-hf-id="hf-h98l" id="s4" class="clip" data-start="17.47" data-duration="5.43" data-track-index="1">
+        <div data-hf-id="hf-2cvs" id="s4-inner" class="scene">
+          <div data-hf-id="hf-gddy" class="top-rule" id="s4-rule"></div>
+          <span data-hf-id="hf-b4tf" class="scene-index">04 / 04</span>
+          <div data-hf-id="hf-rfdu" id="final-panel">
+            <div data-hf-id="hf-kjyv" id="final-range">
+              <span data-hf-id="hf-6mw5" id="final-b1">B1</span>
+              <span data-hf-id="hf-rem6" id="final-arrow"></span>
+              <span data-hf-id="hf-tkbv" id="final-b2">B2</span>
+            </div>
+            <h2 data-hf-id="hf-3uya" id="final-title">A tu ritmo.</h2>
+            <div data-hf-id="hf-wyus" class="brand-lockup" id="final-brand">
+              <span data-hf-id="hf-2kkf" class="brand-mark">始</span>
+              <span data-hf-id="hf-a4pa" class="brand-name">Nanami</span>
+            </div>
+            <div data-hf-id="hf-xet0" id="final-note">Sin login obligatorio · español en movimiento</div>
+          </div>
+        </div>
+      </section>
+
+      <audio data-hf-id="hf-06nj" id="music-bed" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3" data-start="0" data-duration="22.9" data-track-index="10" data-automation="{&quot;version&quot;:1,&quot;lanes&quot;:[{&quot;target&quot;:&quot;volume&quot;,&quot;points&quot;:[{&quot;t&quot;:0,&quot;v&quot;:0.04},{&quot;t&quot;:0.8,&quot;v&quot;:0.26},{&quot;t&quot;:20.8,&quot;v&quot;:0.26},{&quot;t&quot;:22.9,&quot;v&quot;:0}]}]}"></audio>
+      <audio data-hf-id="hf-cp8p" id="sfx-option" src="assets/sfx/interface/click_003.ogg" data-start="5.3" data-duration="0.01" data-track-index="11" data-volume="0.54"></audio>
+      <audio data-hf-id="hf-slva" id="sfx-check" src="assets/sfx/interface/click_003.ogg" data-start="6.4" data-duration="0.01" data-track-index="12" data-volume="0.48"></audio>
+      <audio data-hf-id="hf-ggwj" id="sfx-toggle" src="assets/sfx/interface/switch_007.ogg" data-start="8.25" data-duration="0.35" data-track-index="13" data-volume="0.42"></audio>
+      <audio data-hf-id="hf-eapx" id="sfx-final" src="assets/sfx/impact/impactSoft_medium_001.ogg" data-start="19.66" data-duration="0.18" data-track-index="14" data-volume="0.44"></audio>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Persistent audio-reactive presence: precomputed, deterministic and deliberately subtle.
+      const ambient = document.getElementById("audio-presence");
+      const audioFrames = window.NANAMI_AUDIO_DATA.frames;
+      for (let frameIndex = 0; frameIndex < audioFrames.length; frameIndex += 1) {
+        const frame = audioFrames[frameIndex];
+        tl.call(
+          () => {
+            const bass = frame.bands[2] || 0;
+            const rms = frame.rms || 0;
+            ambient.style.opacity = String(0.22 + rms * 0.12);
+            ambient.style.transform = `scale(${0.96 + bass * 0.055})`;
+          },
+          [],
+          frameIndex / window.NANAMI_AUDIO_DATA.fps
+        );
+      }
+
+      // Scene 1 — per-word editorial crossfade, adapted from the registry primitive.
+      tl.fromTo("#s1-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.66, ease: "power3.out" }, 0.18);
+      tl.fromTo(
+        "#s1-brand",
+        { opacity: 0, x: -42 },
+        { opacity: 1, x: 0, duration: 0.62, ease: "power3.out" },
+        0.34
+      );
+      tl.fromTo(
+        "#hook .hook-word",
+        { opacity: 0, y: 30, scale: 0.94, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.42,
+          stagger: 0.11,
+          ease: "power3.out"
+        },
+        0.74
+      );
+      tl.fromTo(
+        "#hook-note",
+        { opacity: 0, x: 34 },
+        { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" },
+        1.66
+      );
+      tl.to("#s1-inner", { opacity: 0, y: -28, duration: 0.34, ease: "power2.in" }, 2.93);
+
+      // Scene 2 — working-app flow: select, check, receive feedback, open English.
+      tl.fromTo(
+        "#exercise-card",
+        { opacity: 0, y: 56, scale: 0.975 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.64, ease: "power3.out" },
+        3.31
+      );
+      tl.fromTo("#s2-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.58, ease: "power3.out" }, 3.42);
+      tl.fromTo(
+        "#demo-cursor",
+        { opacity: 0, x: 940, y: 760, scale: 1 },
+        { opacity: 1, x: 310, y: 345, duration: 0.76, ease: "power2.inOut" },
+        4.42
+      );
+      tl.to("#demo-cursor", { scale: 0.84, duration: 0.08, ease: "power2.in", yoyo: true, repeat: 1 }, 5.22);
+      tl.to("#option-wrong", { scale: 0.96, duration: 0.08, ease: "power2.in", yoyo: true, repeat: 1 }, 5.22);
+      tl.fromTo(
+        "#ring-option",
+        { opacity: 0.7, scale: 0.3 },
+        { opacity: 0, scale: 2.2, duration: 0.55, ease: "power2.out" },
+        5.28
+      );
+      tl.to("#option-wrong", { borderColor: "#223059", backgroundColor: "#dfe2ee", duration: 0.22 }, 5.34);
+      tl.to("#demo-cursor", { x: 300, y: 465, duration: 0.58, ease: "power2.inOut" }, 5.64);
+      tl.to(["#demo-cursor", "#check-button"], { scale: 0.9, duration: 0.08, ease: "power2.in", yoyo: true, repeat: 1 }, 6.28);
+      tl.fromTo(
+        "#ring-check",
+        { opacity: 0.65, scale: 0.3 },
+        { opacity: 0, scale: 2.1, duration: 0.52, ease: "power2.out" },
+        6.38
+      );
+      tl.to("#option-wrong", { borderColor: "#8c3228", backgroundColor: "#f3d4cc", duration: 0.24 }, 6.44);
+      tl.to("#option-result", { opacity: 1, duration: 0.22, ease: "power1.out" }, 6.48);
+      // Registry panel-reveal idea adapted to a fixed-height product card.
+      tl.fromTo(
+        "#feedback-es",
+        { opacity: 0, y: 20, clipPath: "inset(0 0 100% 0)" },
+        { opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)", duration: 0.58, ease: "power3.out" },
+        6.55
+      );
+      tl.fromTo(
+        "#english-toggle",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" },
+        7.28
+      );
+      tl.to("#demo-cursor", { x: 355, y: 758, duration: 0.62, ease: "power2.inOut" }, 7.52);
+      tl.to(["#demo-cursor", "#english-toggle"], { scale: 0.92, duration: 0.08, ease: "power2.in", yoyo: true, repeat: 1 }, 8.18);
+      tl.to("#toggle-knob", { x: 22, duration: 0.28, ease: "power3.out" }, 8.25);
+      tl.fromTo(
+        "#ring-toggle",
+        { opacity: 0.62, scale: 0.3 },
+        { opacity: 0, scale: 2.1, duration: 0.54, ease: "power2.out" },
+        8.25
+      );
+      // beat-locked: English support resolves on the 8.74s strong cue.
+      tl.fromTo(
+        "#feedback-en",
+        { opacity: 0, y: 18, clipPath: "inset(0 0 100% 0)" },
+        { opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)", duration: 0.49, ease: "power3.out" },
+        8.25
+      );
+      tl.to("#demo-cursor", { opacity: 0, y: 780, duration: 0.3, ease: "power2.in" }, 9.42);
+      tl.to("#s2-inner", { opacity: 0, x: -34, duration: 0.38, ease: "power2.in" }, 10.55);
+
+      // Scene 3 — verified scale, revealed on alternate beats for reading time.
+      tl.fromTo("#s3-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.58, ease: "power3.out" }, 10.97);
+      tl.fromTo(
+        ["#journey-title", "#s3-inner > .eyebrow"],
+        { opacity: 0, x: -36 },
+        { opacity: 1, x: 0, duration: 0.54, stagger: 0.1, ease: "power3.out" },
+        11.02
+      );
+
+      const count16 = { value: 0 };
+      const count80 = { value: 0 };
+      const count356 = { value: 0 };
+
+      // beat-grid: stat cards at 11.46s, 12.55s and 13.64s.
+      tl.fromTo(
+        "#stat-card-1",
+        { opacity: 0, y: 36, scale: 0.92 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.35)" },
+        11.46
+      );
+      tl.to(
+        count16,
+        {
+          value: 16,
+          duration: 0.74,
+          ease: "power2.out",
+          onUpdate: () => {
+            document.getElementById("stat-16").textContent = String(Math.round(count16.value));
+          }
+        },
+        11.46
+      );
+      tl.fromTo(
+        "#stat-card-2",
+        { opacity: 0, y: 36, scale: 0.92 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.35)" },
+        12.55
+      );
+      tl.to(
+        count80,
+        {
+          value: 80,
+          duration: 0.74,
+          ease: "power2.out",
+          onUpdate: () => {
+            document.getElementById("stat-80").textContent = String(Math.round(count80.value));
+          }
+        },
+        12.55
+      );
+      tl.fromTo(
+        "#stat-card-3",
+        { opacity: 0, y: 36, scale: 0.92 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.35)" },
+        13.64
+      );
+      tl.to(
+        count356,
+        {
+          value: 356,
+          duration: 0.74,
+          ease: "power2.out",
+          onUpdate: () => {
+            document.getElementById("stat-356").textContent = String(Math.round(count356.value));
+          }
+        },
+        13.64
+      );
+      tl.fromTo("#journey-fill", { scaleX: 0 }, { scaleX: 1, duration: 1.22, ease: "power2.inOut" }, 14.2);
+      tl.fromTo(
+        ".journey-node",
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.34, stagger: 0.42, ease: "back.out(1.6)" },
+        14.2
+      );
+      tl.fromTo(
+        ".capability",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.34, stagger: 0.27, ease: "power2.out" },
+        15.29
+      );
+      tl.to("#s3-inner", { opacity: 0, y: -24, duration: 0.34, ease: "power2.in" }, 17.13);
+
+      // Scene 4 — calm final lockup.
+      tl.fromTo("#s4-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.62, ease: "power3.out" }, 17.51);
+      tl.fromTo(
+        ["#final-b1", "#final-b2"],
+        { opacity: 0, y: 34 },
+        { opacity: 1, y: 0, duration: 0.56, stagger: 0.16, ease: "power3.out" },
+        17.72
+      );
+      tl.fromTo("#final-arrow", { scaleX: 0 }, { scaleX: 1, duration: 0.78, ease: "power3.out" }, 18.18);
+      tl.fromTo(
+        "#final-title",
+        { opacity: 0, y: 28, filter: "blur(5px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power3.out" },
+        18.56
+      );
+      // beat-locked: final brand lands on the 19.66s strong cue.
+      tl.fromTo(
+        "#final-brand",
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.56, ease: "back.out(1.3)" },
+        19.1
+      );
+      tl.fromTo(
+        "#final-note",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.46, ease: "power2.out" },
+        19.78
+      );
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

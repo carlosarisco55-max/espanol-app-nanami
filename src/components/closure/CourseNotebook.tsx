@@ -139,7 +139,14 @@ export default function CourseNotebook({
                 return (
                   <article key={code}>
                     <div><strong>{code}</strong><span>{J_LABELS[code]}</span></div>
-                    <div className={styles.track}>
+                    <div
+                      className={styles.track}
+                      role="progressbar"
+                      aria-label={`Progreso de ${code}: ${repetition} de 4 repasos`}
+                      aria-valuemin={0}
+                      aria-valuemax={4}
+                      aria-valuenow={repetition}
+                    >
                       <span style={{ width: `${Math.max(8, repetition * 25)}%` }} />
                     </div>
                     <small>{jStatus(srs, code)}</small>

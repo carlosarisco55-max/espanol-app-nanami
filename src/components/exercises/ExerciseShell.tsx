@@ -59,13 +59,13 @@ export default function ExerciseShell({
       {children({ state, bloqueado, revelarSolucion, submit, reintentar: handleRetry })}
 
       {showEngineFeedback && state.status === "correcto" && (
-        <p className={`${styles.feedback} ${styles.feedbackCorrecto}`}>
+        <p className={`${styles.feedback} ${styles.feedbackCorrecto}`} role="status">
           <span className={styles.feedbackLabel}>✓ Correcto.</span>
           Bien hecho.
         </p>
       )}
       {showEngineFeedback && state.status === "fallo_1" && (
-        <div className={`${styles.feedback} ${styles.feedbackPista}`}>
+        <div className={`${styles.feedback} ${styles.feedbackPista}`} role="status">
           <p>
             <span className={styles.feedbackLabel}>💡 {pista ? "Pista." : "Casi."}</span>
             {pista ?? "No es correcto todavía — vuelve a intentarlo."}
@@ -75,7 +75,7 @@ export default function ExerciseShell({
       )}
       {showEngineFeedback && state.status === "fallo_2" && (
         <>
-          <div className={`${styles.feedback} ${styles.feedbackExplicacion}`}>
+          <div className={`${styles.feedback} ${styles.feedbackExplicacion}`} role="status">
             <p className={styles.feedbackLabel}>📖 Por qué.</p>
             {explicacion ? (
               <div className={styles.feedbackBody}>

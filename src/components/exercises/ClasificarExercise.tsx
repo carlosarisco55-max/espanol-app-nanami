@@ -53,6 +53,7 @@ export default function ClasificarExercise({ id, content, jCodes = [] }: { id: s
                         type="button"
                         className={styles.checkBtn}
                         style={{ padding: "0.25rem 0.55rem", fontSize: "0.72rem" }}
+                        aria-label={`Colocar «${word}» en «${col}»`}
                         onClick={() => asignar(word, col)}
                       >
                         → {col}
@@ -80,6 +81,7 @@ export default function ClasificarExercise({ id, content, jCodes = [] }: { id: s
                             type="button"
                             className={styles.placedWord}
                             disabled={bloqueado}
+                            aria-label={`Quitar «${w}» de «${col}»`}
                             onClick={() => quitar(w)}
                             style={
                               bloqueado

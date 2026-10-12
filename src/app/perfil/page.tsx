@@ -160,8 +160,8 @@ export default function PerfilPage() {
           }}
         />
       </div>
-      {message && <p className={styles.ok}>{message}</p>}
-      {error && <p className={styles.err}>{error}</p>}
+      {message && <p className={styles.ok} role="status">{message}</p>}
+      {error && <p className={styles.err} role="alert">{error}</p>}
     </main>
   );
 }

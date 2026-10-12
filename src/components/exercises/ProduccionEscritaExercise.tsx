@@ -70,7 +70,9 @@ export default function ProduccionEscritaExercise({
               ))}
             </ol>
           )}
+          <label className={prod.meta} htmlFor={`${id}-texto`}>Tu texto</label>
           <textarea
+            id={`${id}-texto`}
             className={prod.textarea}
             value={texto}
             disabled={submitted}
@@ -130,7 +132,9 @@ export default function ProduccionEscritaExercise({
           )}
           {submitted &&
             (done || (content.rubrica.length > 0 && content.rubrica.every((_, index) => respuestas[`r${index}`]))) && (
-            <p className={prod.saved}>Guardado. No hay corrección automática: tú marcas la rúbrica.</p>
+            <p className={prod.saved} role="status">
+              Guardado. No hay corrección automática: tú marcas la rúbrica.
+            </p>
           )}
         </>
       )}

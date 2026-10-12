@@ -30,15 +30,16 @@ export default function RoleplayExercise({
   const done = respuestas.done === "1";
   const scenesDone = respuestas.scenesDone === "1";
   const [guionVisible, setGuionVisible] = useState(!started && content.guion.length > 0);
+  const [keepGuideVisible, setKeepGuideVisible] = useState(false);
   const scene = content.escenas[sceneIndex] ?? content.escenas[0];
   const turns = useMemo(() => (scene ? sceneTurns(scene) : []), [scene]);
   const current = turns[turnIndex] ?? turns[0];
 
   useEffect(() => {
-    if (!guionVisible || started || !content.guionSegundos) return;
+    if (!guionVisible || keepGuideVisible || started || !content.guionSegundos) return;
     const timer = window.setTimeout(() => setGuionVisible(false), content.guionSegundos * 1000);
     return () => window.clearTimeout(timer);
-  }, [content.guionSegundos, guionVisible, started]);
+  }, [content.guionSegundos, guionVisible, keepGuideVisible, started]);
 
   function rubricValues() {
     return Object.fromEntries(
@@ -107,9 +108,21 @@ export default function RoleplayExercise({
                   <li key={step}>{step}</li>
                 ))}
               </ol>
-              <button type="button" className={styles.checkBtn} onClick={() => setGuionVisible(false)}>
-                Ya lo tengo
-              </button>
+              <div className={prod.actions}>
+                <button type="button" className={styles.checkBtn} onClick={() => setGuionVisible(false)}>
+                  Ya lo tengo
+                </button>
+                {content.guionSegundos && (
+                  <button
+                    type="button"
+                    className={styles.checkBtn}
+                    aria-pressed={keepGuideVisible}
+                    onClick={() => setKeepGuideVisible((value) => !value)}
+                  >
+                    {keepGuideVisible ? "Ocultado automático desactivado" : "Mantener guion visible"}
+                  </button>
+                )}
+              </div>
             </div>
           )}
 
@@ -130,7 +143,7 @@ export default function RoleplayExercise({
             </div>
           ) : !scenesDone ? (
             <div>
-              <div className={prod.beat}>
+              <div className={prod.beat} role="status" aria-atomic="true">
                 <p className={prod.meta}>
                   {current?.speaker ?? "Interlocutor"} · turno {Math.min(turnIndex + 1, turns.length)} de {turns.length}
                 </p>
@@ -212,7 +225,11 @@ export default function RoleplayExercise({
             </>
           )}
 
-          {done && <p className={prod.saved}>Guardado. Tú marcas la rúbrica; no hay corrección automática.</p>}
+          {done && (
+            <p className={prod.saved} role="status">
+              Guardado. Tú marcas la rúbrica; no hay corrección automática.
+            </p>
+          )}
           {(scenesDone || done) && (
             <div className={prod.modelo}>
               <p className={prod.meta}>Transcripción del interlocutor</p>

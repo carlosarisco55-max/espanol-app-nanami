@@ -96,7 +96,6 @@ Las trazas no se usan (no hay `output: 'standalone'`). Si se cambia a despliegue
 
 ## 7. Deuda conocida
 
-- **Accesibilidad**: solo 10 archivos de `src/` usan `aria-*`; pendiente de revisar (ya anotado en `CLAUDE.md`).
 - **JSON pesado**: cada sesión lleva `rawMarkdown` completo además de los ejercicios parseados (`public/data` ≈ 3,3 MB en local); los segmentos se recortan luego en cliente/servidor.
 - **Google Fonts en build**: `layout.tsx` usa `next/font/google` (Instrument Serif/Sans, Literata); `next build` descarga las fuentes, así que necesita red. (verificar comportamiento offline)
 - **`sessionOutline` derivado del título** (`parseSessionOutline`, commit `5fdeeac`): heurística por texto del encabezado; un título nuevo no reconocido produciría un outline pobre.

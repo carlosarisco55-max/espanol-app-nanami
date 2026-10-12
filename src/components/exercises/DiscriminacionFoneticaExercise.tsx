@@ -34,7 +34,7 @@ export default function DiscriminacionFoneticaExercise({
       {({ bloqueado, revelarSolucion, submit }) => (
         <>
           {audioUnavailable && (
-            <p className={styles.inlineNotice}>Tu navegador no permite reproducir esta voz.</p>
+            <p className={styles.inlineNotice} role="alert">Tu navegador no permite reproducir esta voz.</p>
           )}
           {content.items.map((item) => {
             const spoken = item.respuesta
@@ -49,23 +49,25 @@ export default function DiscriminacionFoneticaExercise({
                 >
                   ▶ Escuchar {item.numero}
                 </button>
-                <div className={styles.optionsRow}>
-                  {item.opciones.map((option, optionIndex) => (
-                    <button
-                      key={`${item.numero}-${option.letra}-${optionIndex}`}
-                      type="button"
-                      className={`${styles.optionBtn} ${
-                        respuestas[item.numero] === option.letra ? styles.optionBtnSelected : ""
-                      }`}
-                      disabled={bloqueado}
-                      onClick={() => setRespuestas((current) => ({
-                        ...current,
-                        [item.numero]: option.letra
-                      }))}
-                    >
-                      {option.letra}: {option.texto}
-                    </button>
-                  ))}
+                <div className={styles.optionsRow} role="group" aria-label={`Respuesta del audio ${item.numero}`}>
+                  {item.opciones.map((option, optionIndex) => {
+                    const selected = respuestas[item.numero] === option.letra;
+                    return (
+                      <button
+                        key={`${item.numero}-${option.letra}-${optionIndex}`}
+                        type="button"
+                        className={`${styles.optionBtn} ${selected ? styles.optionBtnSelected : ""}`}
+                        disabled={bloqueado}
+                        aria-pressed={selected}
+                        onClick={() => setRespuestas((current) => ({
+                          ...current,
+                          [item.numero]: option.letra
+                        }))}
+                      >
+                        {option.letra}: {option.texto}
+                      </button>
+                    );
+                  })}
                   {!item.respuesta && (
                     <button
                       type="button"
@@ -73,6 +75,7 @@ export default function DiscriminacionFoneticaExercise({
                         respuestas[item.numero] === "__sin_contraste__" ? styles.optionBtnSelected : ""
                       }`}
                       disabled={bloqueado}
+                      aria-pressed={respuestas[item.numero] === "__sin_contraste__"}
                       onClick={() => setRespuestas((current) => ({
                         ...current,
                         [item.numero]: "__sin_contraste__"

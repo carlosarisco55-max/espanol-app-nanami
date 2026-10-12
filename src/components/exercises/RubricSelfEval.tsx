@@ -3,9 +3,9 @@
 import styles from "./production.module.css";
 
 const MARKS = [
-  { value: "ok", label: "✅" },
-  { value: "warn", label: "⚠️" },
-  { value: "fail", label: "❌" }
+  { value: "ok", label: "✅", accessibleLabel: "Conseguido" },
+  { value: "warn", label: "⚠️", accessibleLabel: "A medias" },
+  { value: "fail", label: "❌", accessibleLabel: "Necesita práctica" }
 ] as const;
 
 export default function RubricSelfEval({
@@ -33,6 +33,7 @@ export default function RubricSelfEval({
                 disabled={disabled}
                 onClick={() => onChange(index, mark.value)}
                 aria-pressed={values[String(index)] === mark.value}
+                aria-label={`${mark.accessibleLabel}: ${criterio}`}
               >
                 {mark.label}
               </button>

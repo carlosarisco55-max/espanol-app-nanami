@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import styles from "@/app/unidades/[unitId]/[session]/page.module.css";
 
 // No traduce el contenido de la sesión — solo una frase de orientación bajo demanda,
 // nunca abierta por defecto, para que la usuaria sepa qué va a aprender antes de
 // enfrentarse al español. Preparado para admitir japonés en cuanto haya `ja` revisado.
 export default function OrientationToggle({ en, ja }: { en?: string; ja?: string }) {
+  const panelId = useId();
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState<"en" | "ja">("en");
 
@@ -16,11 +17,17 @@ export default function OrientationToggle({ en, ja }: { en?: string; ja?: string
 
   return (
     <div className={styles.orientation}>
-      <button type="button" className={styles.orientationToggle} onClick={() => setOpen((v) => !v)}>
+      <button
+        type="button"
+        className={styles.orientationToggle}
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls={panelId}
+      >
         🌐 {open ? "Ocultar" : "In English"}
       </button>
       {open && (
-        <p className={styles.orientationText}>
+        <p id={panelId} className={styles.orientationText}>
           {text}
           {ja && en && (
             <>

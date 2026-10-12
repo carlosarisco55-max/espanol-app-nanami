@@ -102,9 +102,10 @@ export default function ProduccionOralExercise({
               ))}
             </ol>
           )}
-          <p className={prod.meta}>Palabras clave, no el texto entero</p>
+          <p id={`${id}-notas-label`} className={prod.meta}>Palabras clave, no el texto entero</p>
           <textarea
             className={prod.notes}
+            aria-labelledby={`${id}-notas-label`}
             value={respuestas.notas ?? ""}
             onChange={(event) => {
               const notas = event.target.value;
@@ -112,7 +113,12 @@ export default function ProduccionOralExercise({
             }}
           />
           <div className={prod.actions}>
-            <button type="button" className={styles.checkBtn} onClick={() => void toggleRecord()}>
+            <button
+              type="button"
+              className={styles.checkBtn}
+              aria-pressed={recording}
+              onClick={() => void toggleRecord()}
+            >
               {recording ? "Parar" : "Grabar"}
             </button>
             {!attempted && (
@@ -122,7 +128,7 @@ export default function ProduccionOralExercise({
             )}
           </div>
           {micError && (
-            <p className={prod.hiddenNote}>
+            <p className={prod.hiddenNote} role="alert">
               Este navegador no ha dejado grabar. Puedes hablar en voz alta y marcar «Ya lo he hecho».
             </p>
           )}
@@ -155,7 +161,9 @@ export default function ProduccionOralExercise({
             </button>
           )}
           {done && (
-            <p className={prod.saved}>Guardado. La grabación se queda en este dispositivo, no en el servidor.</p>
+            <p className={prod.saved} role="status">
+              Guardado. La grabación se queda en este dispositivo, no en el servidor.
+            </p>
           )}
         </>
       )}

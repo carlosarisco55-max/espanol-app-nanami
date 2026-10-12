@@ -28,20 +28,24 @@ export default function ReordenarExercise({ id, content, jCodes = [] }: { id: st
                 {item.numero}. {respuestas[item.numero] || "Pulsa los fragmentos en orden."}
               </p>
               <div className={styles.optionsRow}>
-                {item.fragmentos.map((fragment, index) => (
-                  <button
-                    key={`${fragment}-${index}`}
-                    type="button"
-                    className={styles.optionBtn}
-                    disabled={bloqueado || (respuestas[item.numero] ?? "").includes(fragment)}
-                    onClick={() => setRespuestas((current) => ({
-                      ...current,
-                      [item.numero]: [current[item.numero], fragment].filter(Boolean).join(" ")
-                    }))}
-                  >
-                    {fragment}
-                  </button>
-                ))}
+                {item.fragmentos.map((fragment, index) => {
+                  const used = (respuestas[item.numero] ?? "").includes(fragment);
+                  return (
+                    <button
+                      key={`${fragment}-${index}`}
+                      type="button"
+                      className={styles.optionBtn}
+                      disabled={bloqueado || used}
+                      aria-pressed={used}
+                      onClick={() => setRespuestas((current) => ({
+                        ...current,
+                        [item.numero]: [current[item.numero], fragment].filter(Boolean).join(" ")
+                      }))}
+                    >
+                      {fragment}
+                    </button>
+                  );
+                })}
                 <button
                   type="button"
                   className={styles.clearBtn}

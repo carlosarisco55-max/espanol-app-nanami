@@ -1,0 +1,11 @@
+356 ejercicios después, Nanami ya tiene un recorrido completo de B1 a B2.
+
+Construí este MVP para una adulta japonesa que vive en España. Reúne 16 unidades y 80 sesiones con lectura, audio, práctica interactiva, repaso espaciado y un simulacro DELE.
+
+La decisión que mejor resume el producto aparece justo después del error. El feedback sigue en español y, cuando existe una traducción revisada, el apoyo en inglés se despliega debajo. La ayuda llega donde ocurre el fallo sin rebajar el nivel B1→B2.
+
+El progreso se guarda en el navegador y puede exportarse en JSON. La V1 funciona sin cuenta obligatoria ni backend propio.
+
+El primer vídeo usaba un ejercicio de relleno. Este recorre la experiencia con un ejercicio real del currículo. La miniatura sale del Canvas interactivo que uso para explicar la experiencia, el sistema y el producto.
+
+Música: “Happy Beats & Business Moves Vol. 12”, Sascha Ende (CC BY 4.0).

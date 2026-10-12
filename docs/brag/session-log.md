@@ -77,6 +77,21 @@ voz distinta a cada personaje del currículo, en vez de la voz única de Web Spe
 solo 3 voces es-ES disponibles gratis, ya se distinguen los cuatro personajes de un diálogo.
 Pendiente de confirmar la licencia de redistribución antes de llevarlo a producción.
 
+## 2026-10-04 a 10-12 — El apoyo estaba 4.000 px lejos del error
+
+La app ya tenía un interruptor «In English», pero la auditoría de UX confirmó que quedaba a
+unos 4.000 px del ejercicio. En el momento de fallar ni siquiera estaba a la vista. Se cambió
+el modelo: el español sigue siendo siempre el feedback principal y el inglés aparece justo
+debajo, bajo demanda, únicamente cuando existe una traducción revisada. Hay apoyo en 261 de
+los 356 ejercicios y se desactiva por completo durante el simulacro DELE.
+
+También se convirtió este hallazgo en dos piezas reutilizables para LinkedIn: un canvas
+interactivo del producto y un vídeo cuadrado que demuestra el flujo con un ejercicio real del
+currículo, sin el contenido de relleno que había quedado en el vídeo anterior.
+
+**Gancho posible:** «El botón de ayuda existía. Estaba 4.000 px lejos del momento en que hacía
+falta.»
+
 ---
 
 ## Cómo seguir este archivo

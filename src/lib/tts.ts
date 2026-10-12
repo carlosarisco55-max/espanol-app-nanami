@@ -15,6 +15,28 @@ function speakerIndex(speaker: string): number {
   return [...speaker].reduce((total, char) => total + char.charCodeAt(0), 0);
 }
 
+const SPEAKER_PITCHES = [0.85, 0.9, 0.95, 1, 1.05, 1.1, 1.15] as const;
+
+export function pitchFromSpeaker(speaker: string): number {
+  if (!speaker) return 1;
+  return SPEAKER_PITCHES[speakerIndex(speaker) % SPEAKER_PITCHES.length];
+}
+
+export function voiceIndexForSpeaker(speaker: string, voiceCount: number): number | null {
+  if (voiceCount <= 0) return null;
+  return speaker ? speakerIndex(speaker) % voiceCount : 0;
+}
+
+function applySpeakerVariant(
+  utterance: SpeechSynthesisUtterance,
+  speaker: string,
+  voices: SpeechSynthesisVoice[]
+): void {
+  utterance.pitch = pitchFromSpeaker(speaker);
+  const voiceIndex = voiceIndexForSpeaker(speaker, voices.length);
+  if (voiceIndex !== null) utterance.voice = voices[voiceIndex];
+}
+
 export function rateFromDescription(speed?: string): number {
   const normalized = speed?.toLowerCase() ?? "";
   if (/rápid|rapíd|solapamiento/.test(normalized)) return 1.08;
@@ -32,11 +54,7 @@ export function speakAsSpeaker(speaker: string, text: string): boolean {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "es-ES";
   utterance.rate = 0.88;
-  if (voices.length > 0) {
-    utterance.voice = speaker
-      ? voices[speakerIndex(speaker) % voices.length]
-      : voices[0];
-  }
+  applySpeakerVariant(utterance, speaker, voices);
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
   return true;
@@ -68,9 +86,7 @@ export function speakLines(
     const utterance = new SpeechSynthesisUtterance(line.text);
     utterance.lang = "es-ES";
     utterance.rate = rateFromDescription(speed);
-    if (line.speaker && voices.length > 0) {
-      utterance.voice = voices[speakerIndex(line.speaker) % voices.length];
-    }
+    applySpeakerVariant(utterance, line.speaker ?? "", voices);
     utterance.onend = () => {
       index += 1;
       window.setTimeout(speakNext, line.stageDirections.includes("pausa") ? 550 : 100);
